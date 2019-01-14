@@ -1,4 +1,4 @@
-﻿namespace Data.Entities.Implementations
+﻿namespace ZakaraiMe.Data.Entities.Implementations
 {
     using Contracts;
     using System.Collections.Generic;
@@ -28,6 +28,6 @@
         [StringLength(30, ErrorMessage = "Фамилното име трябва да бъде между {2} и {1} символа дълго.", MinimumLength = 3)]
         public string LastName { get; set; }
 
-        public virtual IEnumerable<Role> Users { get; set; } = new List<Role>();
+        public virtual IEnumerable<UserRole> Roles { get; set; } = new List<UserRole>();
     }
 }

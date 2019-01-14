@@ -1,4 +1,4 @@
-﻿namespace Data.Entities.Contracts
+﻿namespace ZakaraiMe.Data.Entities.Contracts
 {
     public interface IEntity
     {
