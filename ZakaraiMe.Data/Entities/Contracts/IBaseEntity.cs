@@ -1,6 +1,6 @@
 ﻿namespace ZakaraiMe.Data.Entities.Contracts
 {
-    public interface IEntity
+    public interface IBaseEntity
     {
         int Id { get; set; }
     }
