@@ -5,13 +5,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public interface IBaseRepository<TEntity> where TEntity : class, IBaseEntity, new()
+    public interface IBaseRepository<TEntity> where TEntity : class, IBaseEntity
     {
         IEnumerable<TEntity> GetAll(Func<TEntity, bool> filter = null);
 
-        Task<TEntity> GetById(int id);
+        Task<TEntity> GetByIdAsync(int id);
 
-        Task Create(TEntity entity);
+        Task CreateAsync(TEntity entity);
 
         void Update(TEntity entity);
 

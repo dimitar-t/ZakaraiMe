@@ -8,9 +8,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public abstract class BaseRepository<TEntity>
-        : IBaseRepository<TEntity> where TEntity
-        : class, IBaseEntity, new()
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, IBaseEntity
     {
         protected readonly ZakaraiMeContext context;
         protected readonly DbSet<TEntity> dbSet;
@@ -33,12 +31,12 @@
             }
         }
 
-        public async virtual Task<TEntity> GetById(int id)
+        public async virtual Task<TEntity> GetByIdAsync(int id)
         {
             return await dbSet.FindAsync(id);
         }
 
-        public async virtual Task Create(TEntity entity)
+        public async virtual Task CreateAsync(TEntity entity)
         {
             await dbSet.AddAsync(entity);
         }
