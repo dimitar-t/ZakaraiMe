@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ZakaraiMe.Data\ZakaraiMe.Data.csproj" />
+    <ProjectReference Include="..\ZakaraiMe.Service\ZakaraiMe.Service.csproj" />
   </ItemGroup>
 
 </Project>
