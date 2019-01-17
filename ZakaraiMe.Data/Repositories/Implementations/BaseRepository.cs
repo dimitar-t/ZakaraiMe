@@ -1,8 +1,8 @@
 ﻿namespace ZakaraiMe.Data.Repositories.Implementations
 {
+    using Contracts;
     using Entities.Contracts;
     using Microsoft.EntityFrameworkCore;
-    using Repositories.Contracts;
     using System;
     using System.Collections.Generic;
     using System.Linq;

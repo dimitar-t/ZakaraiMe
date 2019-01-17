@@ -1,13 +1,12 @@
 ﻿namespace ZakaraiMe.Service.Implementations
 {
+    using Contracts;
+    using Data.Entities.Contracts;
+    using Data.Entities.Implementations;
+    using Data.Repositories.Contracts;
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
-    using ZakaraiMe.Data.Entities.Contracts;
-    using ZakaraiMe.Data.Entities.Implementations;
-    using ZakaraiMe.Data.Repositories.Contracts;
-    using ZakaraiMe.Service.Contracts;
 
     public abstract class Service<TEntity> : IBaseService<TEntity> where TEntity : class, IBaseEntity
     {
