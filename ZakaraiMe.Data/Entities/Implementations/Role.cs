@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class Role : IEntity
+    public class Role : IBaseEntity
     {
         public int Id { get; set; }
 
