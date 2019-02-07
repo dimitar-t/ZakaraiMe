@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZakaraiMe.Data;
 
 namespace ZakaraiMe.Data.Migrations
 {
     [DbContext(typeof(ZakaraiMeContext))]
-    partial class ZakaraiMeContextModelSnapshot : ModelSnapshot
+    [Migration("20190207194150_identityUserAndRoles")]
+    partial class identityUserAndRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,14 +144,6 @@ namespace ZakaraiMe.Data.Migrations
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50);
 
                     b.Property<bool>("LockoutEnabled");
 

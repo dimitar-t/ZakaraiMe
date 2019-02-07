@@ -1,6 +1,4 @@
-using System;
-
-namespace ZakaraiMe.Web.Models
+﻿namespace ZakaraiMe.Web.Models
 {
     public class ErrorViewModel
     {

@@ -2,32 +2,19 @@
 {
     using Contracts;
     using System.Collections.Generic;
+    using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
 
-    public class User : IBaseEntity
+    public class User : IdentityUser<int>, IBaseEntity
     {
-        public int Id { get; set; }
+        public override int Id { get; set; }
 
         [Required]
-        [StringLength(30, ErrorMessage = "Потребителкото име трябва да бъде между {2} и {1} символа дълго.", MinimumLength = 4)]
-        public string Username { get; set; }
-
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(100, ErrorMessage = "Паролата трябва да бъде между {2} и {1} символа дълга.", MinimumLength = 4)]
-        public string Password { get; set; }
-
-        [Required]
-        [StringLength(30, ErrorMessage = "Собственото име трябва да бъде между {2} и {1} символа дълго.", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "Името трябва да e дългo между {2} и {1} символа.", MinimumLength = 3)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(30, ErrorMessage = "Фамилното име трябва да бъде между {2} и {1} символа дълго.", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "Името трябва да e дългo между {2} и {1} символа.", MinimumLength = 3)]
         public string LastName { get; set; }
-
-        public virtual IEnumerable<UserRole> Roles { get; set; } = new List<UserRole>();
     }
 }
