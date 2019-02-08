@@ -38,7 +38,8 @@
                 options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<ZakaraiMeContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders(); // TODO: Add third party authentication (facebook, google)
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -56,7 +57,6 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDatabaseMigrations<ZakaraiMeContext>();
-            //app.UseMigrationsEndPoint();
 
             if (env.IsDevelopment())
             {
@@ -71,6 +71,8 @@
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

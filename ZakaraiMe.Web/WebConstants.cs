@@ -2,14 +2,20 @@
 {
     public class WebConstants
     {
-        public const string RegisterTitle = "Регистрация";
+        public const string RegisterPageTitle = "Регистрация";
+        public const string LoginPageTitle = "Вход";
 
         public const string TempDataSuccessMessageKey = "SuccessNotification";
         public const string TempDataErrorMessageKey = "ErrorNotification";
         public const string TempDataWarningMessageKey = "WarningNotification";
 
         public const string AlreadyRegistered = "Вече си регистриран.";
-        public const string TryAgain = "Възникна грешка. Моля опитай отново.";
+        public const string AlreadyLoggedIn = "Вече си логнат.";
+        public const string ErrorTryAgain = "Възникна грешка. Моля опитай отново.";
         public const string RequiredField = "Полето е задължително";
+        public const string UserNotExist = "Не съществува потребител с ел.поща {0}";
+
+        public const string SuccessfulRegistration = "Успешна регистрация в zakaraime.com";
+        public const string WelcomeMessage = "Добре дошъл! Приятно пътуване";
     }
 }

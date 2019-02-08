@@ -6,7 +6,7 @@
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = WebConstants.RequiredField)]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Ел. поща")]
         public string Email { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = WebConstants.RequiredField)]

@@ -34,6 +34,9 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
+                <ul class="nav navbar-right navbar-nav">
+                    <partial name="_LoginPartial" />
+                </ul>
             </div>
         </div>
     </nav>
@@ -41,6 +44,29 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
+        @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
+        {
+            //TODO: make errors beautifuller
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span>@TempData[WebConstants.TempDataSuccessMessageKey]</span>
+            </div>
+        }
+        @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
+        {
+            <div class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span>@TempData[WebConstants.TempDataErrorMessageKey]</span>
+            </div>
+        }
+        @if (TempData.ContainsKey(WebConstants.TempDataWarningMessageKey))
+        {
+            <div class="alert alert-warning alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <span>@TempData[WebConstants.TempDataWarningMessageKey]</span>
+            </div>
+        }
+
         @RenderBody()
         <hr />
         <footer>
