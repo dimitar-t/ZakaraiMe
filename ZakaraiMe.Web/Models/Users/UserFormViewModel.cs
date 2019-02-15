@@ -35,9 +35,8 @@
         [StringLength(14, ErrorMessage = "Телефонният номер трябва да е дълъг между {2} и {1} символа", MinimumLength = 10)]
         [Display(Name = "Телефонен номер")]
         public string PhoneNumber { get; set; }
-
-        public string FileName { get; set; }
         
+        [Required(ErrorMessage = WebConstants.RequiredField)]
         [Display(Name = "Профилна снимка")]
         public IFormFile ImageFile { get; set; }
     }

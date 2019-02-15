@@ -7,18 +7,21 @@
     using Microsoft.AspNetCore.Mvc;
     using Models.Users;
     using System.Threading.Tasks;
+    using Service.Contracts;
 
     public class AccountController : Controller
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private readonly IPictureService pictureService;
         private const string HomeControllerString = "Home";
         private const string IndexAction = nameof(HomeController.Index);
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.pictureService = pictureService;
         }
 
         private RedirectToActionResult RedirectToHome()
@@ -40,7 +43,7 @@
         }
 
         [HttpPost]       
-        public async Task<IActionResult> Register(UserFormViewModel model)
+        public async Task<IActionResult> Register(UserFormViewModel model) // TODO: check why the imageFile is null
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -54,23 +57,34 @@
                 return View(model);
             }
 
+            Picture profilePicture = new Picture();
+            bool imageInsertSuccess = await pictureService.InsertAsync(profilePicture, model.ImageFile); // inserts image into database and file system
+
+            if (!imageInsertSuccess) // if something with the image goes wrong return error
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return View(model);
+            }
+
             User user = new User
             {
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                UserName = model.FirstName // TODO: Extract a method for unique username in the not yet created users service.
-            };
+                UserName = model.FirstName, // TODO: Extract a method for unique username in the not yet created users service.
+                ProfilePictureFileName = profilePicture.FileName
+            };            
 
             IdentityResult result = await userManager.CreateAsync(user, model.Password);
 
-            if (!result.Succeeded)
+            if (!result.Succeeded) // If something with the insert of a user goes wrong return an error
             {
+                pictureService.Delete(profilePicture); // In that case delete the already inserted profile picture
                 AddErrors(result);
                 return View(model);
             }
 
-            await signInManager.SignInAsync(user, false);
+            await signInManager.SignInAsync(user, false); // Signs the new user
 
             TempData.AddSuccessMessage(WebConstants.SuccessfulRegistration);
             return RedirectToHome();
