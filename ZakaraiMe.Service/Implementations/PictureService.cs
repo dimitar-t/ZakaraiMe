@@ -23,8 +23,9 @@
             {
                 Bitmap resizedPicture = PictureHelpers.ResizePicture(formFile,
                                                                  ServiceConstants.ProfilePictureWidth,
-                                                                 ServiceConstants.ProfilePictureHeight); // Resizes the uploaded p itureto a specific size
-                await repo.InsertAsync(pictureEntity, resizedPicture); // send the bitmap and the entity to the repo
+                                                                 ServiceConstants.ProfilePictureHeight); // Resizes the uploaded picture to a specific size
+                await repo.InsertIntoDatabaseAsync(pictureEntity); // send the entity to the repo                
+                repo.InsertIntoFileSystem(pictureEntity, resizedPicture); // send the bitmap to the repo
 
                 return true;
             }
@@ -34,9 +35,9 @@
             }
         }
 
-        public void Delete(Picture item)
+        public async Task DeleteAsync(Picture item)
         {
-            repo.Delete(item);
+            await repo.DeleteAsync(item);
         }        
     }
 }

@@ -6,8 +6,8 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Users;
-    using System.Threading.Tasks;
     using Service.Contracts;
+    using System.Threading.Tasks;
 
     public class AccountController : Controller
     {
@@ -79,7 +79,7 @@
 
             if (!result.Succeeded) // If something with the insert of a user goes wrong return an error
             {
-                pictureService.Delete(profilePicture); // In that case delete the already inserted profile picture
+                await pictureService.DeleteAsync(profilePicture); // In that case delete the already inserted profile picture
                 AddErrors(result);
                 return View(model);
             }

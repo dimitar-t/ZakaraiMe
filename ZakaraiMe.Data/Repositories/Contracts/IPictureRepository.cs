@@ -1,14 +1,17 @@
 ﻿namespace ZakaraiMe.Data.Repositories.Contracts
 {
     using Entities.Implementations;
-    using Microsoft.AspNetCore.Http;
     using System.Drawing;
     using System.Threading.Tasks;
 
     public interface IPictureRepository
     {
-        Task InsertAsync(Picture image, /*IFormFile formFile,*/ Bitmap bmp);
+        Task InsertIntoDatabaseAsync(Picture pictureEntity);
 
-        void Delete(Picture image);
+        void InsertIntoFileSystem(Picture pictureEntity, Bitmap bmp);
+
+        Task DeleteAsync(Picture image);
+
+        Task<Picture> GetByName(string name);
     }
 }

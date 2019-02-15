@@ -8,12 +8,11 @@
     using System.Drawing.Imaging;
     using System.IO;
     using System.Threading.Tasks;
+    using ZakaraiMe.Data.Helpers;
 
     public class PictureRepository : IPictureRepository
     {
-        private readonly string wwwRootPath;
-        private const string ImagesFolder = @"\images\database\";
-        private const string FormatConstant = ".jpeg";
+        private readonly string wwwRootPath;        
         private ZakaraiMeContext context;
         private DbSet<Picture> dbSet;
 
@@ -24,30 +23,33 @@
             wwwRootPath = hostingEnvironment.WebRootPath;
         }
 
-        public async Task InsertAsync(Picture image, /*IFormFile formFile,*/ Bitmap bmp)
+        public async Task InsertIntoDatabaseAsync(Picture pictureEntity)
         {
-            await dbSet.AddAsync(image); // Adds the image to the database
-            context.SaveChanges();
+            await dbSet.AddAsync(pictureEntity); // Adds the image to the database
+            await context.SaveChangesAsync();            
+        }
 
-            string imagePath = GetPictureFilePath(image.FileName); // Gets the picture path
+        public void InsertIntoFileSystem(Picture pictureEntity, Bitmap bmp)
+        {
+            string imagePath = PictureHelpers.GetPictureFilePath(wwwRootPath, pictureEntity.FileName); // Gets the picture path
 
             bmp.Save(imagePath, ImageFormat.Jpeg);
         }
 
-        public void Delete(Picture image)
+        public async Task DeleteAsync(Picture pictureEntity)
         {
-            dbSet.Remove(image);
-            context.Entry(image).State = EntityState.Deleted;
-            context.SaveChanges(); // Deletes the image from the database
+            dbSet.Remove(pictureEntity);
+            context.Entry(pictureEntity).State = EntityState.Deleted;
+            await context.SaveChangesAsync(); // Deletes the image from the database
 
-            string imagePath = GetPictureFilePath(image.FileName); // Gets the picture path
+            string imagePath = PictureHelpers.GetPictureFilePath(wwwRootPath, pictureEntity.FileName); // Gets the picture path
 
             File.Delete(imagePath); // Deletes the image from the file system
         }
 
-        private string GetPictureFilePath(string imageName)
+        public async Task<Picture> GetByName(string name)
         {
-            return wwwRootPath + ImagesFolder + imageName + FormatConstant;
+            return await dbSet.FirstOrDefaultAsync(p => p.FileName == name);
         }
     }
 }

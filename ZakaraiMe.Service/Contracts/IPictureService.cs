@@ -8,6 +8,6 @@
     {
         Task<bool> InsertAsync(Picture image, IFormFile formFile);
 
-        void Delete(Picture item);
+        Task DeleteAsync(Picture item);
     }
 }
