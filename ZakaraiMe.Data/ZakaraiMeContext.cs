@@ -12,7 +12,9 @@
     {
         public ZakaraiMeContext(DbContextOptions<ZakaraiMeContext> options) : base(options)
         {
-        }       
+        }
+
+        public DbSet<Picture> Pictures { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +22,10 @@
                 .Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
+
+            modelBuilder
+                .Entity<User>()
+                .HasOne(u => u.ProfilePicture);
             
             base.OnModelCreating(modelBuilder);
         }

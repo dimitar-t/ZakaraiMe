@@ -44,11 +44,12 @@
                         var adminEmail = "admin@admin.com";
                         var adminUsername = "admin";
                         var adminPassword = "admin";
+                        //TODO: add profile picture to the admin
 
                         var adminUser = await userManager.FindByNameAsync(adminEmail);
 
-                        if (adminUser == null)
-                        {
+                        if (adminUser != null) //TODO: change the expression to "==" to enable the admin profile seeding
+                        {                      // for now it is disabled until the profile picture logic is implemented because the picture is required
                             var user = new User
                             {
                                 Email = adminEmail,

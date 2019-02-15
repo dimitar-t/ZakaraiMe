@@ -3,19 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZakaraiMe.Data;
 
 namespace ZakaraiMe.Data.Migrations
 {
     [DbContext(typeof(ZakaraiMeContext))]
-    partial class ZakaraiMeContextModelSnapshot : ModelSnapshot
+    [Migration("20190214181747_addedImages")]
+    partial class addedImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -127,14 +129,14 @@ namespace ZakaraiMe.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ZakaraiMe.Data.Entities.Implementations.Picture", b =>
+            modelBuilder.Entity("ZakaraiMe.Data.Entities.Implementations.Image", b =>
                 {
                     b.Property<string>("FileName")
                         .ValueGeneratedOnAdd();
 
                     b.HasKey("FileName");
 
-                    b.ToTable("Pictures");
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("ZakaraiMe.Data.Entities.Implementations.User", b =>
@@ -253,7 +255,7 @@ namespace ZakaraiMe.Data.Migrations
 
             modelBuilder.Entity("ZakaraiMe.Data.Entities.Implementations.User", b =>
                 {
-                    b.HasOne("ZakaraiMe.Data.Entities.Implementations.Picture", "ProfilePicture")
+                    b.HasOne("ZakaraiMe.Data.Entities.Implementations.Image", "ProfilePicture")
                         .WithMany()
                         .HasForeignKey("ProfilePictureFileName")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -1,7 +1,6 @@
 ﻿namespace ZakaraiMe.Data.Entities.Implementations
 {
     using Contracts;
-    using System.Collections.Generic;
     using Microsoft.AspNetCore.Identity;
     using System.ComponentModel.DataAnnotations;
 
@@ -16,5 +15,10 @@
         [Required]
         [StringLength(50, ErrorMessage = "Името трябва да e дългo между {2} и {1} символа.", MinimumLength = 3)]
         public string LastName { get; set; }
+        
+        public virtual Picture ProfilePicture { get; set; }
+
+        [Required]
+        public string ProfilePictureFileName { get; set; }
     }
 }

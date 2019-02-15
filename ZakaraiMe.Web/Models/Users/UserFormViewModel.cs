@@ -1,5 +1,6 @@
 ﻿namespace ZakaraiMe.Web.Models.Users
 {
+    using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
 
     public class UserFormViewModel
@@ -34,5 +35,10 @@
         [StringLength(14, ErrorMessage = "Телефонният номер трябва да е дълъг между {2} и {1} символа", MinimumLength = 10)]
         [Display(Name = "Телефонен номер")]
         public string PhoneNumber { get; set; }
+
+        public string FileName { get; set; }
+        
+        [Display(Name = "Профилна снимка")]
+        public IFormFile ImageFile { get; set; }
     }
 }
