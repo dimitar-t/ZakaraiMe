@@ -42,8 +42,8 @@
             return View();
         }
 
-        [HttpPost]       
-        public async Task<IActionResult> Register(UserFormViewModel model) // TODO: check why the imageFile is null
+        [HttpPost]
+        public async Task<IActionResult> Register(UserFormViewModel model)
         {
             if (User.Identity.IsAuthenticated)
             {
