@@ -8,11 +8,11 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    public abstract class Service<TEntity> : IBaseService<TEntity> where TEntity : class, IBaseEntity
+    public abstract class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class, IBaseEntity
     {
         protected IBaseRepository<TEntity> repository;
 
-        public Service(IBaseRepository<TEntity> repository)
+        public BaseService(IBaseRepository<TEntity> repository)
         {
             this.repository = repository;
         }

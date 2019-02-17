@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZakaraiMe.Data;
 
 namespace ZakaraiMe.Data.Migrations
 {
     [DbContext(typeof(ZakaraiMeContext))]
-    partial class ZakaraiMeContextModelSnapshot : ModelSnapshot
+    [Migration("20190217210655_AddedCars")]
+    partial class AddedCars
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

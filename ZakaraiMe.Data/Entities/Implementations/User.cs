@@ -2,6 +2,7 @@
 {
     using Contracts;
     using Microsoft.AspNetCore.Identity;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class User : IdentityUser<int>, IBaseEntity
@@ -20,5 +21,7 @@
 
         [Required]
         public string ProfilePictureFileName { get; set; }
+
+        public virtual IEnumerable<Car> Cars { get; set; } = new List<Car>();
     }
 }
