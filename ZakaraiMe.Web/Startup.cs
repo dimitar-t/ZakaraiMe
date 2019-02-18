@@ -1,5 +1,6 @@
 ﻿namespace ZakaraiMe.Web
 {
+    using AutoMapper;
     using Data;
     using Data.Entities.Implementations;
     using Infrastructure.Extensions;
@@ -49,6 +50,8 @@
             });
 
             services.AddDomainServices();
+
+            services.AddAutoMapper();
 
             services.AddMvc(options => 
             {
