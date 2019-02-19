@@ -6,11 +6,14 @@
     using System.Drawing.Imaging;
     using System.IO;
 
-    public static class PictureHelpers
+    public static class PictureServiceHelpers
     {
-        public static Bitmap ResizePicture(IFormFile uploadedImage, int width, int height)
+        public static Bitmap ResizePicture(Image image, int width, int height)
         {
-            Image image = ConvertIFormFileToImage(uploadedImage);
+            if (image.Width <= width)
+                width = image.Width;
+            if (image.Height <= height)
+                height = image.Height;
 
             var destRect = new Rectangle(0, 0, width, height);
             var destImage = new Bitmap(width, height);
@@ -35,12 +38,12 @@
             return destImage;
         }
 
-        private static Image ConvertIFormFileToImage(IFormFile uploadedImage)
+        public static Image ConvertIFormFileToImage(IFormFile uploadedImage)
         {
             MemoryStream ms = new MemoryStream();
             uploadedImage.OpenReadStream().CopyTo(ms);
 
             return Image.FromStream(ms);
-        }
+        }        
     }
 }

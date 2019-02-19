@@ -3,6 +3,7 @@
     using Data;
     using Data.Entities.Implementations;
     using Infrastructure.Extensions;
+    using Microsoft.AspNetCore.Authentication.OAuth;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -11,6 +12,10 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+    using ZakaraiMe.Web.Infrastructure;
 
     public class Startup
     {
@@ -40,6 +45,23 @@
                 .AddEntityFrameworkStores<ZakaraiMeContext>()
                 .AddDefaultTokenProviders(); // TODO: Add third party authentication (facebook, google)
 
+            services.AddAuthentication().AddFacebook(facebookOptions =>
+            {
+                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.Fields.Add("picture");
+                facebookOptions.Events = new OAuthEvents
+                {
+                    OnCreatingTicket = context =>
+                    {
+                        var identity = (ClaimsIdentity)context.Principal.Identity;
+                        var profileImg = context.User["picture"]["data"].Value<string>("url");
+                        identity.AddClaim(new Claim(CustomClaimTypes.Picture.ToString(), profileImg));
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -50,7 +72,7 @@
 
             services.AddDomainServices();
 
-            services.AddMvc(options => 
+            services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

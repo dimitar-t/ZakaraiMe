@@ -1,12 +1,19 @@
 ﻿namespace ZakaraiMe.Web.Controllers
 {
     using Data.Entities.Implementations;
+    using Infrastructure;
     using Infrastructure.Extensions;
+    using Infrastructure.Helpers;
+    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Users;
     using Service.Contracts;
+    using Service.Helpers;
+    using System.Drawing;
+    using System.IO;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public class AccountController : Controller
@@ -15,6 +22,8 @@
         private readonly SignInManager<User> signInManager;
         private readonly IPictureService pictureService;
         private const string HomeControllerString = "Home";
+        private const string AccountControllerString = "Account";
+        private const string ExternalLoginViewString = "ExternalLogin";
         private const string IndexAction = nameof(HomeController.Index);
 
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService)
@@ -57,8 +66,9 @@
                 return View(model);
             }
 
-            Picture profilePicture = new Picture();
-            bool imageInsertSuccess = await pictureService.InsertAsync(profilePicture, model.ImageFile); // inserts image into database and file system
+            Picture profilePicture = new Picture(); // Creates instance of Picture entity
+            Image profilePictureImage = PictureServiceHelpers.ConvertIFormFileToImage(model.ImageFile); // Converts the uploaded image to System.Drawing.Image
+            bool imageInsertSuccess = await pictureService.InsertAsync(profilePicture, profilePictureImage); // inserts image into database and file system
 
             if (!imageInsertSuccess) // if something with the image goes wrong return error
             {
@@ -68,12 +78,13 @@
 
             User user = new User
             {
+                UserName = AuthenticationHelpers.GenerateUniqueUsername(model.FirstName, model.LastName),
                 Email = model.Email,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                UserName = model.FirstName, // TODO: Extract a method for unique username in the not yet created users service.
+                PhoneNumber = model.PhoneNumber,
                 ProfilePictureFileName = profilePicture.FileName
-            };            
+            };
 
             IdentityResult result = await userManager.CreateAsync(user, model.Password);
 
@@ -140,8 +151,112 @@
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            
+
             return RedirectToHome();
+        }
+
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        {
+            // Request a redirect to the external login provider.
+            string redirectUrl = Url.Action(nameof(ExternalLoginCallback), AccountControllerString, new { returnUrl });
+            AuthenticationProperties properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return RedirectToAction(nameof(Login));
+            }
+            ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+            Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            if (result.Succeeded)
+            {
+                return RedirectToLocal(returnUrl);
+            }
+
+            // If the user does not have an account, then ask the user to create an account.
+            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["LoginProvider"] = info.LoginProvider;
+
+            string email = info.Principal.FindFirstValue(ClaimTypes.Email);                             // Extracts all the needed data
+            string username = info.Principal.FindFirstValue(ClaimTypes.Name);                           // from person's facebook account
+            string profilePictureUrl = info.Principal.FindFirstValue(CustomClaimTypes.Picture);
+
+            byte[] profilePictureBytes = PictureWebHelpers.DownloadPicture(profilePictureUrl); // Downloads and converts the profile picture to bytes
+
+            return View(ExternalLoginViewString, new ExternalLoginViewModel
+            {
+                Email = email,
+                Username = username,
+                ProfilePictureBytes = profilePictureBytes
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string returnUrl = null)
+        {
+            if (ModelState.IsValid)
+            {
+                // Get the information about the user from the external login provider
+                ExternalLoginInfo info = await signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                    return RedirectToHome();
+                }
+
+                Picture profilePicture = new Picture();
+
+                Stream stream = new MemoryStream(model.ProfilePictureBytes);
+                Image pictureImage = Image.FromStream(stream);
+                bool imageInsertSuccess = await pictureService.InsertAsync(profilePicture, pictureImage); // inserts image into database and file system
+
+                if (!imageInsertSuccess) // if something with the image goes wrong return error
+                {
+                    TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                    return View(nameof(ExternalLogin), model);
+                }
+
+                string[] personalNames = AuthenticationHelpers.GetNamesFromExternalLogin(model.Username); // Extracts the first and last name of the person
+                User user = new User
+                {
+                    UserName = AuthenticationHelpers.GenerateUniqueUsername(personalNames[0], personalNames[1]),
+                    Email = model.Email,
+                    FirstName = personalNames[0],
+                    LastName = personalNames[1],
+                    PhoneNumber = model.PhoneNumber,
+                    ProfilePictureFileName = profilePicture.FileName
+                };
+
+                IdentityResult result = await userManager.CreateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    result = await userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await signInManager.SignInAsync(user, isPersistent: false);
+
+                        return RedirectToLocal(returnUrl);
+                    }
+                }
+
+                AddErrors(result);
+            }
+
+            ViewData["ReturnUrl"] = returnUrl;
+            return View(nameof(ExternalLogin), model);
         }
 
         private IActionResult RedirectToLocal(string returnUrl)

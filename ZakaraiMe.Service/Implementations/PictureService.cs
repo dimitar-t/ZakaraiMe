@@ -4,7 +4,6 @@
     using Data.Entities.Implementations;
     using Data.Repositories.Contracts;
     using Helpers;
-    using Microsoft.AspNetCore.Http;
     using System.Drawing;
     using System.Threading.Tasks;
 
@@ -17,11 +16,11 @@
             this.repo = repo;
         }
 
-        public async Task<bool> InsertAsync(Picture pictureEntity, IFormFile formFile)
+        public async Task<bool> InsertAsync(Picture pictureEntity, Image profilePicture)
         {
             try
             {
-                Bitmap resizedPicture = PictureHelpers.ResizePicture(formFile,
+                Bitmap resizedPicture = PictureServiceHelpers.ResizePicture(profilePicture,
                                                                  ServiceConstants.ProfilePictureWidth,
                                                                  ServiceConstants.ProfilePictureHeight); // Resizes the uploaded picture to a specific size
                 await repo.InsertIntoDatabaseAsync(pictureEntity); // send the entity to the repo                

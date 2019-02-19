@@ -31,7 +31,7 @@
 
         public void InsertIntoFileSystem(Picture pictureEntity, Bitmap bmp)
         {
-            string imagePath = PictureHelpers.GetPictureFilePath(wwwRootPath, pictureEntity.FileName); // Gets the picture path
+            string imagePath = PictureDataHelpers.GetPictureFilePath(wwwRootPath, pictureEntity.FileName); // Gets the picture path
 
             bmp.Save(imagePath, ImageFormat.Jpeg);
         }
@@ -42,7 +42,7 @@
             context.Entry(pictureEntity).State = EntityState.Deleted;
             await context.SaveChangesAsync(); // Deletes the image from the database
 
-            string imagePath = PictureHelpers.GetPictureFilePath(wwwRootPath, pictureEntity.FileName); // Gets the picture path
+            string imagePath = PictureDataHelpers.GetPictureFilePath(wwwRootPath, pictureEntity.FileName); // Gets the picture path
 
             File.Delete(imagePath); // Deletes the image from the file system
         }

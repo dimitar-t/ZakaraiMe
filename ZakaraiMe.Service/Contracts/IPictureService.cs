@@ -1,12 +1,12 @@
 ﻿namespace ZakaraiMe.Service.Contracts
 {
     using Data.Entities.Implementations;
-    using Microsoft.AspNetCore.Http;
+    using System.Drawing;
     using System.Threading.Tasks;
 
     public interface IPictureService
     {
-        Task<bool> InsertAsync(Picture image, IFormFile formFile);
+        Task<bool> InsertAsync(Picture image, Image profilePicture);
 
         Task DeleteAsync(Picture item);
     }
