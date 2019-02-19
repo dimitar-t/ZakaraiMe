@@ -1,5 +1,6 @@
 ﻿namespace ZakaraiMe.Web
 {
+    using AutoMapper;
     using Data;
     using Data.Entities.Implementations;
     using Infrastructure.Extensions;
@@ -72,7 +73,9 @@
 
             services.AddDomainServices();
 
-            services.AddMvc(options =>
+            services.AddAutoMapper();
+
+            services.AddMvc(options => 
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
