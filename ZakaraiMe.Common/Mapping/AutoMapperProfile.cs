@@ -12,7 +12,7 @@
             IEnumerable<Type> allTypes = AppDomain
                 .CurrentDomain
                 .GetAssemblies()
-                .Where(a => a.GetName().Name.Contains("LuxDecor"))
+                .Where(a => a.GetName().Name.Contains("ZakaraiMe"))
                 .SelectMany(a => a.GetTypes());
 
             var mappings = allTypes

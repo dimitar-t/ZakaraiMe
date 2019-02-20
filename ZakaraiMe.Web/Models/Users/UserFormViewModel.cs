@@ -1,9 +1,12 @@
 ﻿namespace ZakaraiMe.Web.Models.Users
 {
+    using AutoMapper;
+    using Common.Mapping;
+    using Data.Entities.Implementations;
     using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
 
-    public class UserFormViewModel
+    public class UserFormViewModel : IMapFrom<User>, IHaveCustomMapping
     {
         [Required(AllowEmptyStrings = false, ErrorMessage = WebConstants.RequiredField)]
         [EmailAddress]
@@ -39,5 +42,13 @@
         [Required(ErrorMessage = WebConstants.RequiredField)]
         [Display(Name = "Профилна снимка")]
         public IFormFile ImageFile { get; set; }
+
+        public void ConfigureMapping(Profile profile)
+        {
+            profile
+                .CreateMap<User, UserFormViewModel>()
+                .ForMember(u => u.Password, cfg => cfg.MapFrom(src => ""))
+                .ForMember(u => u.ConfirmPassword, cfg => cfg.MapFrom(src => ""));
+        }
     }
 }

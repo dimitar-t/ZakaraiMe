@@ -14,8 +14,11 @@
         public const string ErrorTryAgain = "Възникна грешка. Моля опитай отново.";
         public const string RequiredField = "Полето е задължително";
         public const string UserNotExist = "Не съществува потребител с ел.поща {0}";
+        public const string Unauthorized = "Нямате права върху {0}";
 
         public const string SuccessfulRegistration = "Успешна регистрация в zakaraime.com";
         public const string WelcomeMessage = "Добре дошъл! Приятно пътуване";
+        public const string SuccessfulUpdate = "Успешнo промeнихте {0}";
+        public const string SuccessfulCreate = "Успешн промяна на {0}";
     }
 }
