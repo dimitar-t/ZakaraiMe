@@ -47,8 +47,9 @@
         {
             profile
                 .CreateMap<User, UserFormViewModel>()
-                .ForMember(u => u.Password, cfg => cfg.MapFrom(src => ""))
-                .ForMember(u => u.ConfirmPassword, cfg => cfg.MapFrom(src => ""));
+                .ForMember(u => u.Password, cfg => cfg.Ignore())
+                .ForMember(u => u.ConfirmPassword, cfg => cfg.Ignore())
+                .ForMember(u => u.ImageFile, cfg => cfg.Ignore());
         }
     }
 }

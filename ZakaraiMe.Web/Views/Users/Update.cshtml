@@ -1,0 +1,19 @@
+﻿@model UserFormViewModel
+@{
+    ViewData["Title"] = WebConstants.UpdateUserTitle;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-4">
+
+        <p>За да редактирате Вашия профил, моля въведете парола Ви и я потвърдете.</p>
+
+        <form asp-controller="Users" asp-action="Update" method="post" enctype="multipart/form-data">
+            <hr />
+            <partial name="../Account/_UserForm" model="Model" />
+        </form>
+    </div>
+</div>
+

@@ -4,6 +4,8 @@
     {
         public const string RegisterPageTitle = "Регистрация";
         public const string LoginPageTitle = "Вход";
+        public const string CreateUserTitle = "Нов потребител";
+        public const string UpdateUserTitle = "Редакция на потребител";
 
         public const string TempDataSuccessMessageKey = "SuccessNotification";
         public const string TempDataErrorMessageKey = "ErrorNotification";
@@ -19,6 +21,6 @@
         public const string SuccessfulRegistration = "Успешна регистрация в zakaraime.com";
         public const string WelcomeMessage = "Добре дошъл! Приятно пътуване";
         public const string SuccessfulUpdate = "Успешнo промeнихте {0}";
-        public const string SuccessfulCreate = "Успешн промяна на {0}";
+        public const string SuccessfulCreate = "Успешно създадохте {0}";
     }
 }

@@ -1,0 +1,16 @@
+﻿@model UserFormViewModel
+@{
+    ViewData["Title"] = WebConstants.CreateUserTitle;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Users" asp-action="Create" method="post" enctype="multipart/form-data">
+            <hr />
+            <partial name="../Account/_UserForm" model="Model" />
+        </form>
+    </div>
+</div>
+

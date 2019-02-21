@@ -6,8 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Create\**" />
+    <Content Remove="Models\Create\**" />
+    <EmbeddedResource Remove="Models\Create\**" />
+    <None Remove="Models\Create\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.1.4" />
@@ -18,10 +25,6 @@
     <ProjectReference Include="..\ZakaraiMe.Common\ZakaraiMe.Common.csproj" />
     <ProjectReference Include="..\ZakaraiMe.Data\ZakaraiMe.Data.csproj" />
     <ProjectReference Include="..\ZakaraiMe.Service\ZakaraiMe.Service.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Create\" />
   </ItemGroup>
 
 </Project>

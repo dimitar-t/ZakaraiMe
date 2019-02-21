@@ -3,6 +3,7 @@
     using AutoMapper;
     using Data;
     using Data.Entities.Implementations;
+    using Infrastructure;
     using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Authentication.OAuth;
     using Microsoft.AspNetCore.Builder;
@@ -13,10 +14,10 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using ZakaraiMe.Web.Infrastructure;
+    using Infrastructure.Mapping;
+    using System.Reflection;
 
     public class Startup
     {

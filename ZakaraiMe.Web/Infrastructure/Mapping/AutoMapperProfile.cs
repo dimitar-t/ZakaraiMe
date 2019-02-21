@@ -1,6 +1,7 @@
-﻿namespace ZakaraiMe.Common.Mapping
+﻿namespace ZakaraiMe.Web.Infrastructure.Mapping
 {
     using AutoMapper;
+    using Common.Mapping;
     using System;
     using System.Collections.Generic;
     using System.Linq;
