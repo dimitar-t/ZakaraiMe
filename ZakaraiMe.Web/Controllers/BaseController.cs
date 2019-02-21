@@ -89,7 +89,7 @@
             }
 
             await service.InsertAsync(item);
-            TempData.AddSuccessMessage(string.Format(WebConstants.SuccessfulCreate, ItemName));
+            TempData.AddSuccessMessage(WebConstants.SuccessfulCreate, ItemName);
 
             return RedirectToIndex();
         }
@@ -108,7 +108,7 @@
 
             if (!service.IsUserAuthorized(item, await GetCurrentUserAsync()))
             {
-                TempData.AddWarningMessage(string.Format(WebConstants.Unauthorized, ItemName));
+                TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
                 return RedirectToIndex();
             }
 
@@ -134,7 +134,7 @@
 
             if (!service.IsUserAuthorized(item, await GetCurrentUserAsync()))
             {
-                TempData.AddWarningMessage(string.Format(WebConstants.Unauthorized, ItemName));
+                TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
                 return RedirectToIndex();
             }
 
@@ -148,7 +148,7 @@
 
             service.Update(item);
 
-            TempData.AddSuccessMessage(string.Format(WebConstants.SuccessfulUpdate, ItemName);
+            TempData.AddSuccessMessage(WebConstants.SuccessfulUpdate, ItemName);
             return RedirectToIndex();
         }
 
@@ -166,7 +166,7 @@
 
             if (!service.IsUserAuthorized(item, await GetCurrentUserAsync()))
             {
-                TempData.AddWarningMessage(string.Format(WebConstants.Unauthorized, ItemName));
+                TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
                 return RedirectToIndex();
             }
 

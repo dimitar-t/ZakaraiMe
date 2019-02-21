@@ -129,7 +129,7 @@
 
             if (userToLogin == null)
             {
-                TempData.AddErrorMessage(string.Format(WebConstants.UserNotExist, model.Email));
+                TempData.AddErrorMessage(WebConstants.UserNotExist, model.Email);
 
                 return View(model);
             }

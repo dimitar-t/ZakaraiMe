@@ -4,19 +4,19 @@
 
     public static class TempDataDictionaryExtensions
     {
-        public static void AddSuccessMessage(this ITempDataDictionary tempData, string message)
+        public static void AddSuccessMessage(this ITempDataDictionary tempData, string message, params string[] args)
         {
-            tempData[WebConstants.TempDataSuccessMessageKey] = message;
+            tempData[WebConstants.TempDataSuccessMessageKey] = string.Format(message, args);
         }
 
-        public static void AddErrorMessage(this ITempDataDictionary tempData, string message)
+        public static void AddErrorMessage(this ITempDataDictionary tempData, string message, params string[] args)
         {
-            tempData[WebConstants.TempDataErrorMessageKey] = message;
+            tempData[WebConstants.TempDataErrorMessageKey] = string.Format(message, args);
         }
 
-        public static void AddWarningMessage(this ITempDataDictionary tempData, string message)
+        public static void AddWarningMessage(this ITempDataDictionary tempData, string message, params string [] args)
         {
-            tempData[WebConstants.TempDataWarningMessageKey] = message;
+            tempData[WebConstants.TempDataWarningMessageKey] = string.Format(message, args);
         }
     }
 }
