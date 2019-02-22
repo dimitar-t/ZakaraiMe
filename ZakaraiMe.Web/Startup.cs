@@ -16,8 +16,6 @@
     using Microsoft.Extensions.DependencyInjection;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Infrastructure.Mapping;
-    using System.Reflection;
 
     public class Startup
     {
@@ -46,7 +44,7 @@
             })
                 .AddEntityFrameworkStores<ZakaraiMeContext>()
                 .AddDefaultTokenProviders();
-
+            
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
@@ -102,7 +100,7 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

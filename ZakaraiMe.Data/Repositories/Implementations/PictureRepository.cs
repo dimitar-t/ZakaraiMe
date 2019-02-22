@@ -33,7 +33,7 @@
         {
             string imagePath = PictureDataHelpers.GetPictureFilePath(wwwRootPath, pictureEntity.FileName); // Gets the picture path
 
-            bmp.Save(imagePath, ImageFormat.Jpeg);
+            bmp.Save(imagePath);
         }
 
         public async Task DeleteAsync(Picture pictureEntity)

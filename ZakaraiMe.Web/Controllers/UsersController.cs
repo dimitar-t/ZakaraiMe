@@ -114,7 +114,7 @@
 
             User currentUser = await userManager.FindByNameAsync(User.Identity.Name);
             if (currentUser.Id != id && !await userManager.IsInRoleAsync(currentUser, CommonConstants.AdministratorRole))
-            {                
+            {
                 TempData.AddErrorMessage(WebConstants.Unauthorized, userToEdit.FirstName);
                 return RedirectToHome();
             }
@@ -146,7 +146,7 @@
             {
                 TempData.AddErrorMessage(WebConstants.Unauthorized, userToUpdate.FirstName);
                 return RedirectToHome();
-            }            
+            }
 
             userToUpdate.Email = model.Email;
             userToUpdate.FirstName = model.FirstName;
@@ -187,13 +187,20 @@
                 return RedirectToAction(nameof(Index));
             }
 
+            Picture profilePictuerToDelete = userToDelete.ProfilePicture;
+
             IdentityResult result = await userManager.DeleteAsync(userToDelete);
 
             if (!result.Succeeded)
+            {
                 AddErrors(result);
+            }
             else
+            {
                 TempData.AddSuccessMessage(WebConstants.SuccessfulDelete, userToDelete.FirstName);
-            
+                await pictureService.DeleteAsync(profilePictuerToDelete);
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

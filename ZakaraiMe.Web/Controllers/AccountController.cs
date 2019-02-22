@@ -161,6 +161,7 @@
             // Request a redirect to the external login provider.
             string redirectUrl = Url.Action(nameof(ExternalLoginCallback), AccountControllerString, new { returnUrl });
             AuthenticationProperties properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
             return Challenge(properties, provider);
         }
 
