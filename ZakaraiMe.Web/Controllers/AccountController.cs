@@ -60,7 +60,7 @@
                 return RedirectToHome();
             }
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model.ImageFile == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
                 return View(model);

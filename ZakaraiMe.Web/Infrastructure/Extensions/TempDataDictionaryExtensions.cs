@@ -6,17 +6,27 @@
     {
         public static void AddSuccessMessage(this ITempDataDictionary tempData, string message, params string[] args)
         {
-            tempData[WebConstants.TempDataSuccessMessageKey] = string.Format(message, args);
+            if (args.Length > 0)
+                message = string.Format(message, args);
+
+            tempData[WebConstants.TempDataSuccessMessageKey] = message;
+
         }
 
         public static void AddErrorMessage(this ITempDataDictionary tempData, string message, params string[] args)
         {
-            tempData[WebConstants.TempDataErrorMessageKey] = string.Format(message, args);
+            if (args.Length > 0)
+                message = string.Format(message, args);
+
+            tempData[WebConstants.TempDataErrorMessageKey] = message;
         }
 
-        public static void AddWarningMessage(this ITempDataDictionary tempData, string message, params string [] args)
+        public static void AddWarningMessage(this ITempDataDictionary tempData, string message, params string[] args)
         {
-            tempData[WebConstants.TempDataWarningMessageKey] = string.Format(message, args);
+            if (args.Length > 0)
+                message = string.Format(message, args);
+
+            tempData[WebConstants.TempDataWarningMessageKey] = message;
         }
     }
 }

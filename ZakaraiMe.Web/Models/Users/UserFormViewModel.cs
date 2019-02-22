@@ -39,7 +39,6 @@
         [Display(Name = "Телефонен номер")]
         public string PhoneNumber { get; set; }
         
-        [Required(ErrorMessage = WebConstants.RequiredField)]
         [Display(Name = "Профилна снимка")]
         public IFormFile ImageFile { get; set; }
 

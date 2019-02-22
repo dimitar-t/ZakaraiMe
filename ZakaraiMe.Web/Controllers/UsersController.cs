@@ -11,7 +11,9 @@
     using Models.Users;
     using Service.Contracts;
     using Service.Helpers;
+    using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class UsersController : Controller
@@ -34,9 +36,18 @@
 
         [HttpGet]
         [Authorize(Roles = CommonConstants.AdministratorRole)]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View();
+            IList<User> userEntities = userManager.Users.ToList();
+            IList<UserListViewModel> usersViewModel = mapper.Map<List<UserListViewModel>>(userEntities);
+
+            for (int i = 0; i < userEntities.Count(); i++)
+            {
+                IList<string> userRoles = userManager.GetRolesAsync(userEntities[i]).Result;
+                usersViewModel[i].Roles = userRoles;
+            }
+
+            return View(usersViewModel);
         }
 
         [HttpGet]
@@ -50,7 +61,7 @@
         [Authorize(Roles = CommonConstants.AdministratorRole)]
         public async Task<IActionResult> Create(UserFormViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || model.ImageFile == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
                 return View(model);
@@ -111,6 +122,93 @@
             UserFormViewModel userFormViewModel = mapper.Map<User, UserFormViewModel>(userToEdit);
 
             return View(userFormViewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Update(UserFormViewModel model, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return View(model);
+            }
+
+            User userToUpdate = await userManager.FindByIdAsync(id.ToString());
+            if (userToUpdate == null)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return RedirectToHome();
+            }
+
+            User currentUser = await userManager.FindByNameAsync(User.Identity.Name);
+            if (currentUser.Id != id && !await userManager.IsInRoleAsync(currentUser, CommonConstants.AdministratorRole))
+            {
+                TempData.AddErrorMessage(WebConstants.Unauthorized, userToUpdate.FirstName);
+                return RedirectToHome();
+            }            
+
+            userToUpdate.Email = model.Email;
+            userToUpdate.FirstName = model.FirstName;
+            userToUpdate.LastName = model.LastName;
+            userToUpdate.PhoneNumber = model.PhoneNumber;
+
+            IdentityResult updateUserResult = await userManager.UpdateAsync(userToUpdate);
+            if (!updateUserResult.Succeeded)
+            {
+                AddErrors(updateUserResult);
+                return View(model);
+            }
+
+            string token = await userManager.GeneratePasswordResetTokenAsync(userToUpdate);
+            IdentityResult resetPasswordResult = await userManager.ResetPasswordAsync(userToUpdate, token, model.Password);
+            if (!resetPasswordResult.Succeeded)
+            {
+                AddErrors(resetPasswordResult);
+                return RedirectToHome();
+            }
+
+            if (currentUser.Id == id)
+                await signInManager.SignInAsync(userToUpdate, false);
+
+
+            TempData.AddSuccessMessage(WebConstants.SuccessfulUpdate);
+            return RedirectToHome();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = CommonConstants.AdministratorRole)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            User userToDelete = await userManager.FindByIdAsync(id.ToString());
+            if (userToDelete == null)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return RedirectToAction(nameof(Index));
+            }
+
+            IdentityResult result = await userManager.DeleteAsync(userToDelete);
+
+            if (!result.Succeeded)
+                AddErrors(result);
+            else
+                TempData.AddSuccessMessage(WebConstants.SuccessfulDelete, userToDelete.FirstName);
+            
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Details(int id)
+        {
+            User userToDisplay = await userManager.FindByIdAsync(id.ToString()); // TODO: add proper viewModel with journeys and cars
+            if (userToDisplay == null)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return RedirectToHome();
+            }
+
+            return View(userToDisplay);
         }
 
         private void AddErrors(IdentityResult result)

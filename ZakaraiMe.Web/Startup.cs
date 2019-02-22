@@ -45,7 +45,7 @@
                 options.User.RequireUniqueEmail = true;
             })
                 .AddEntityFrameworkStores<ZakaraiMeContext>()
-                .AddDefaultTokenProviders(); // TODO: Add third party authentication (facebook, google)
+                .AddDefaultTokenProviders();
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {

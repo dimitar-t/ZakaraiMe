@@ -8,11 +8,13 @@
 <div class="row">
     <div class="col-md-4">
 
-        <p>За да редактирате Вашия профил, моля въведете парола Ви и я потвърдете.</p>
+        <p>За да смените Вашата парола, моля въведете нова и я потвърдете. Ако не желаете да я сменяте, въведете сегашната.</p>
 
         <form asp-controller="Users" asp-action="Update" method="post" enctype="multipart/form-data">
             <hr />
             <partial name="../Account/_UserForm" model="Model" />
+
+            <input type="submit" class="btn btn-default" value="Редактирай" />
         </form>
     </div>
 </div>
