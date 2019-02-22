@@ -7,12 +7,14 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+    using System.Data.SqlClient;
     using System.Threading.Tasks;
 
     public static class ApplicationBuilderExtension
     {
         public static IApplicationBuilder UseDatabaseMigrations<T>(this IApplicationBuilder app) where T : DbContext
         {
+            // Seed roles and admin user
             using (IServiceScope serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 serviceScope.ServiceProvider.GetService<T>().Database.Migrate();
@@ -20,10 +22,13 @@
                 RoleManager<IdentityRole<int>> roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole<int>>>();
                 UserManager<User> userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
                 IPictureRepository pictureRepo = serviceScope.ServiceProvider.GetService<IPictureRepository>();
+                ICarRepository carRepo = serviceScope.ServiceProvider.GetService<ICarRepository>();
 
                 Task
                     .Run(async () =>
                     {
+                        carRepo.SeedMakesAndModels();
+
                         string[] roles = new[]
                         {
                             CommonConstants.AdministratorRole,
@@ -79,7 +84,7 @@
                         }
                     })
                     .Wait();
-            }
+            }            
             return app;
         }
     }

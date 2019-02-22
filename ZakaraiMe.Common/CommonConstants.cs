@@ -3,6 +3,6 @@
     public class CommonConstants
     {
         public const string AdministratorRole = "Администратор";
-        public const string DriverRole = "Шофьор";        
+        public const string DriverRole = "Шофьор";
     }
 }

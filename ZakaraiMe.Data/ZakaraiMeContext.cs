@@ -13,6 +13,8 @@
 
         public DbSet<Picture> Pictures { get; set; }
         public DbSet<Car> Cars { get; set; }
+        public DbSet<Make> Makes { get; set; }
+        public DbSet<Model> Models { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +36,18 @@
             modelBuilder
                 .Entity<Car>()
                 .HasOne(c => c.Picture);
+
+            modelBuilder
+                .Entity<Model>()
+                .HasOne(m => m.Make)
+                .WithMany(make => make.Models)
+                .HasForeignKey(model => model.MakeId);
+
+            modelBuilder
+                .Entity<Car>()
+                .HasOne(c => c.Model)
+                .WithMany(model => model.Cars)
+                .HasForeignKey(c => c.ModelId);
             
             base.OnModelCreating(modelBuilder);
         }

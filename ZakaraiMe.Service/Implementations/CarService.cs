@@ -1,10 +1,10 @@
 ﻿namespace ZakaraiMe.Service.Implementations
 {
+    using Contracts;
+    using Data.Entities.Implementations;
+    using Data.Repositories.Contracts;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using ZakaraiMe.Data.Entities.Implementations;
-    using ZakaraiMe.Data.Repositories.Contracts;
-    using ZakaraiMe.Service.Contracts;
 
     public class CarService : BaseService<Car>, ICarService
     {
@@ -30,6 +30,6 @@
         public override bool IsUserAuthorized(Car item, User currentUser)
         {
             throw new System.NotImplementedException();
-        }
+        }        
     }
 }
