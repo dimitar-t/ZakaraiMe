@@ -1,6 +1,6 @@
 ﻿@model UserFormViewModel
 @{
-    ViewData["Title"] = WebConstants.CreateUserTitle;
+    ViewData["Title"] = WebConstants.CreateUserPageTitle;
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -11,13 +11,13 @@
             <hr />
             <partial name="../Account/_UserForm" model="Model" />
 
-            <input type="submit" class="btn btn-default" value="Създай" />
-
             <div class="form-group">
                 <label asp-for="ImageFile" class="control-label"></label>
                 <input asp-for="ImageFile" required class="form-control" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
+
+            <input type="submit" class="btn btn-default" value="Създай" />
         </form>
     </div>
 </div>

@@ -95,12 +95,15 @@
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithRedirects("/Home/Error");
+            //app.UseExceptionHandler("/Home/Error"); //TODO: in production use this in order to handle exceptions or check whether the if on 94 line works
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

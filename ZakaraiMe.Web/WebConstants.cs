@@ -4,9 +4,11 @@
     {
         public const string RegisterPageTitle = "Регистрация";
         public const string LoginPageTitle = "Вход";
-        public const string CreateUserTitle = "Нов потребител";
-        public const string UpdateUserTitle = "Редакция на потребител";
-        public const string UserIndexTitle = "Потребители";
+        public const string CreateUserPageTitle = "Нов потребител";
+        public const string UpdateUserPageTitle = "Редакция на потребител";
+        public const string UserIndexPageTitle = "Потребители";
+        public const string AccessDeniedPageTitle = "Без достъп";
+        public const string ErrorPageTitle = "Грешка";
 
         public const string TempDataSuccessMessageKey = "SuccessNotification";
         public const string TempDataErrorMessageKey = "ErrorNotification";
