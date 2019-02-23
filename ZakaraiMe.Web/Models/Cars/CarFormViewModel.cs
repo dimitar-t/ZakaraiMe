@@ -22,7 +22,8 @@
 
         public void ConfigureMapping(Profile profile)
         {
-            profile.CreateMap<Car, CarFormViewModel>();
+            profile.CreateMap<Car, CarFormViewModel>(); // TODO: тва е ненужно, щото IMapFrom-а точно това прави. тоя метод ConfigureMapping
+                                                        // е за някви случай когато нещо тряя се ignore-не примерно.
         }
     }
 }

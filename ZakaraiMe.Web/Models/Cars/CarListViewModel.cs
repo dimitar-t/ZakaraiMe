@@ -16,7 +16,7 @@
 
         public void ConfigureMapping(Profile profile)
         {
-            profile.CreateMap<Car, CarListViewModel>();
+            profile.CreateMap<Car, CarListViewModel>(); // TODO: същото като в другия клас CarFormViewModel
         }
     }
 }
