@@ -47,7 +47,9 @@
 
         protected override CarFormViewModel SendFormData(Car item, CarFormViewModel viewModel)
         {
-            throw new System.NotImplementedException();
+            // TODO: Send all the models of cars to the view.
+
+            return null;
         }
     }
 }

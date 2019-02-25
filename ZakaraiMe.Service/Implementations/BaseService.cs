@@ -21,7 +21,7 @@
 
         public abstract bool IsItemDuplicate(TEntity item);
 
-        public abstract Task<bool> IsUserAuthorized(TEntity item, User currentUser);
+        public abstract Task<bool> IsUserAuthorizedAsync(TEntity item, User currentUser);
 
         public abstract Task<bool> ForeignPropertiesExistAsync(TEntity item);
 

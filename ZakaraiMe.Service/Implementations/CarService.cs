@@ -46,7 +46,7 @@
                     .Any();
         }
 
-        public override async Task<bool> IsUserAuthorized(Car item, User currentUser)
+        public override async Task<bool> IsUserAuthorizedAsync(Car item, User currentUser)
         {
             if (await userManager.IsInRoleAsync(currentUser, CommonConstants.AdministratorRole))
                 return true;

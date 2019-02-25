@@ -106,7 +106,7 @@
                 return RedirectToIndex();
             }
 
-            if (!service.IsUserAuthorized(item, await GetCurrentUserAsync()))
+            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
                 return RedirectToIndex();
@@ -132,7 +132,7 @@
                 return View(viewModel);
             }
 
-            if (!service.IsUserAuthorized(item, await GetCurrentUserAsync()))
+            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
                 return RedirectToIndex();
@@ -164,7 +164,7 @@
                 return RedirectToIndex();
             }
 
-            if (!service.IsUserAuthorized(item, await GetCurrentUserAsync()))
+            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
                 return RedirectToIndex();
