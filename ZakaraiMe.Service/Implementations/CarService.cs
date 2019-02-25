@@ -1,35 +1,57 @@
 ﻿namespace ZakaraiMe.Service.Implementations
 {
+    using Common;
     using Contracts;
     using Data.Entities.Implementations;
     using Data.Repositories.Contracts;
+    using Microsoft.AspNetCore.Identity;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class CarService : BaseService<Car>, ICarService
     {
-        public CarService(IBaseRepository<Car> repository) : base(repository)
+        private readonly UserManager<User> userManager;
+        private new readonly ICarRepository repository;
+
+        public CarService(ICarRepository repository, UserManager<User> userManager) : base(repository)
         {
+            this.userManager = userManager;
+            this.repository = repository;
         }
 
-        public override Task<bool> ForeignPropertiesExistAsync(Car item)
+        public override async Task<bool> ForeignPropertiesExistAsync(Car item)
         {
-            throw new System.NotImplementedException();
+            Model carModel = await repository.GetModelAsync(item.Id);
+
+            if (carModel == null)
+                return false;
+
+            return true;
         }
 
-        public override Task<IEnumerable<Car>> GetFilteredItemsAsync(User currentUser)
+        public override async Task<IEnumerable<Car>> GetFilteredItemsAsync(User currentUser)
         {
-            throw new System.NotImplementedException();
+            if (await userManager.IsInRoleAsync(currentUser, CommonConstants.AdministratorRole))
+                return GetAll();
+
+            return GetAll(c => c.OwnerId == currentUser.Id);
         }
 
         public override bool IsItemDuplicate(Car item)
         {
-            throw new System.NotImplementedException();
+            return GetAll(c => c.OwnerId == item.OwnerId
+                            && c.Colour == item.Colour
+                            && c.ModelId == item.ModelId)
+                    .Any();
         }
 
-        public override bool IsUserAuthorized(Car item, User currentUser)
+        public override async Task<bool> IsUserAuthorized(Car item, User currentUser)
         {
-            throw new System.NotImplementedException();
+            if (await userManager.IsInRoleAsync(currentUser, CommonConstants.AdministratorRole))
+                return true;
+
+            return item.OwnerId == currentUser.Id;
         }        
     }
 }

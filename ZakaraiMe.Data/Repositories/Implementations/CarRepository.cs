@@ -23,6 +23,11 @@ namespace ZakaraiMe.Data.Repositories.Implementations
             this.connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public Task<Model> GetModelAsync(int modelId)
+        {
+            return context.Models.FirstOrDefaultAsync(m => m.Id == modelId);
+        }
+
         public void SeedMakesAndModels()
         {
             if(context.Models.Count() == 0)

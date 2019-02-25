@@ -18,7 +18,7 @@
 
         IEnumerable<TEntity> GetAll(Func<TEntity, bool> where = null);
 
-        bool IsUserAuthorized(TEntity item, User currentUser);
+        Task<bool> IsUserAuthorized(TEntity item, User currentUser);
 
         Task<IEnumerable<TEntity>> GetFilteredItemsAsync(User currentUser);
 

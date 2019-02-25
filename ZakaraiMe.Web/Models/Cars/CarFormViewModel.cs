@@ -12,8 +12,7 @@
         [Display(Name = "Цвят")]
         public string Colour { get; set; }
 
-        [Required]
-        public virtual Model Model { get; set; }
+        public int ModelId { get; set; }
 
         public int OwnerId { get; set; }
 
