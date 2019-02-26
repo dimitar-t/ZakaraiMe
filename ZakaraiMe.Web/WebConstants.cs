@@ -26,5 +26,8 @@
         public const string SuccessfulUpdate = "Успешнo промeнихте {0}";
         public const string SuccessfulCreate = "Успешно създадохте {0}";
         public const string SuccessfulDelete = "Успешно изтрихте {0}";
+
+        public const string CarCreatePageTitle = "Добавяне на кола";
+        public const string CarIndexPageTitle = "Коли";
     }
 }

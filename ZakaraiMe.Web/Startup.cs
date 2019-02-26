@@ -47,22 +47,22 @@
 
             services.AddAuthentication();
 
-            services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.Fields.Add("picture");
-                facebookOptions.Events = new OAuthEvents
-                {
-                    OnCreatingTicket = context =>
-                    {
-                        var identity = (ClaimsIdentity)context.Principal.Identity;
-                        var profileImg = context.User["picture"]["data"].Value<string>("url");
-                        identity.AddClaim(new Claim(CustomClaimTypes.Picture.ToString(), profileImg));
-                        return Task.CompletedTask;
-                    }
-                };
-            });
+            //services.AddAuthentication().AddFacebook(facebookOptions =>
+            //{
+            //    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+            //    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            //    facebookOptions.Fields.Add("picture");
+            //    facebookOptions.Events = new OAuthEvents
+            //    {
+            //        OnCreatingTicket = context =>
+            //        {
+            //            var identity = (ClaimsIdentity)context.Principal.Identity;
+            //            var profileImg = context.User["picture"]["data"].Value<string>("url");
+            //            identity.AddClaim(new Claim(CustomClaimTypes.Picture.ToString(), profileImg));
+            //            return Task.CompletedTask;
+            //        }
+            //    };
+            //});
 
 
             services.Configure<CookiePolicyOptions>(options =>

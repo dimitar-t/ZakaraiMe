@@ -1,0 +1,24 @@
+﻿@model CarFormViewModel
+@{
+    ViewData["Title"] = WebConstants.CarCreatePageTitle;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Cars" asp-action="GetEntityAsync" method="post" enctype="multipart/form-data">
+            <hr />
+            <partial name="../_CarForm" model="Model" />
+
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" required class="form-control" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+
+            <input type="submit" class="btn btn-default" value="Добави" />
+        </form>
+    </div>
+</div>
+
