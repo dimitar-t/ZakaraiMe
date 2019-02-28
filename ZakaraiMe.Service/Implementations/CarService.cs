@@ -52,6 +52,11 @@
                 return true;
 
             return item.OwnerId == currentUser.Id;
-        }        
+        }
+        
+        public async Task<IList<Model>> GetModelsAsync()
+        {
+            return await repository.GetAllModelsAsync();
+        }
     }
 }

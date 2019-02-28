@@ -12,10 +12,12 @@
     public class CarsController : BaseController<Car, CarFormViewModel, CarListViewModel>
     {
         private readonly IPictureService pictureService;
+        private readonly ICarService carService;
 
         public CarsController(ICarService carService, UserManager<User> userManager, IPictureService pictureService, IMapper mapper) : base(carService, userManager, mapper)
         {
             this.pictureService = pictureService;
+            this.carService = carService;
         }
 
         protected override string ItemName { get; set; } = "кола";
@@ -47,7 +49,7 @@
 
         protected override CarFormViewModel SendFormData(Car item, CarFormViewModel viewModel)
         {
-            // TODO: Send all the models of cars to the view.
+            ViewData["Models"] = carService.GetModelsAsync().Result;
 
             return null;
         }

@@ -6,6 +6,7 @@ namespace ZakaraiMe.Data.Repositories.Implementations
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
+    using System.Collections.Generic;
     using System.Data.SqlClient;
     using System.IO;
     using System.Linq;
@@ -23,9 +24,14 @@ namespace ZakaraiMe.Data.Repositories.Implementations
             this.connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public Task<Model> GetModelAsync(int modelId)
+        public async Task<Model> GetModelAsync(int modelId)
         {
-            return context.Models.FirstOrDefaultAsync(m => m.Id == modelId);
+            return await context.Models.FirstOrDefaultAsync(m => m.Id == modelId);
+        }
+
+        public async Task<IList<Model>> GetAllModelsAsync()
+        {
+            return await context.Models.ToListAsync();
         }
 
         public void SeedMakesAndModels()
