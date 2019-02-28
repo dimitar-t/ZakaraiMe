@@ -5,95 +5,380 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ZakaraiMe.Web</title>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    @*<environment include="Development">
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+            <link rel="stylesheet" href="~/css/site.css" />
+        </environment>
+        <environment exclude="Development">
+            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        </environment>*@
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <link href="~/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="~/css/owl.carousel.css" type="text/css" media="all">
+    <link rel="stylesheet" href="~/css/owl.theme.css" type="text/css" media="all">
+    <link href="~/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="~/css/fontawesome-all.css" rel="stylesheet">
+    <link href="~/css/simpleLightbox.css" rel='stylesheet' type='text/css' />
+    <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,900" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+    <!--/banner-->
+    @{
+        var controller = ViewContext.RouteData.Values["Controller"].ToString();
+        var action = ViewContext.RouteData.Values["Action"].ToString();
+    }
+    <div class="banner-inner" id="home">
+        <!-- header -->
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light top-header">
+                <button class="navbar-toggler mx-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ZakaraiMe.Web</a>
+                <!-- search -->
+                <div class="search">
+                    <div class="cd-main-header">
+                        <ul class="cd-header-buttons">
+                            <li>
+                                <a class="cd-search-trigger" href="#cd-search">
+                                    <span></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="cd-search" class="cd-search">
+                        <form action="#" method="post">
+                            <input name="Search" type="search" placeholder="Click enter after typing...">
+                        </form>
+                    </div>
+                </div>
+                <!-- //search -->
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Начало</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="About">За ЗакарайМе</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-center" href="team.html">Team</a>
+                                <a class="dropdown-item text-center" href="404.html">Services</a>
+
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
+                        </li>
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- //header -->
+        <!-- banner-text -->
+        @if (controller == "Home" && action == "Index")
+        {
+            <div id="wrapper">
+                <!-- Slideshow 1 -->
+                <div class="rslides_container">
+                    <ul class="rslides" id="slider1">
+                        <li>
+                            <div class="banner-img">
+                                <div class="banner-info text-center">
+                                    <h3 class="logo">
+                                        @*TODO: change logo to our logo*@
+                                        <a class="navbar-brand" href="index.html">
+                                            <i class="fas fa-car"></i> Закарай Ме
+                                        </a>
+                                    </h3>
+                                    <h4>Пътувайте споделено в града и извън него</h4>
+                                    <div class="banner-form">
+                                        <form action="#" method="post">
+                                            @*TODO: make form suitable for our app*@
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" name="name" placeholder="Name" required="">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-control option">
+                                                        <option>Transport From</option>
+                                                        <option>Albania</option>
+                                                        <option>Belgium</option>
+                                                        <option>Cameroon</option>
+                                                        <option>Dominica</option>
+                                                        <option>France</option>
+                                                        <option>Jersey</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-control option">
+                                                        <option>Transport To</option>
+                                                        <option>Colombia</option>
+                                                        <option>Indonesia</option>
+                                                        <option>Japan</option>
+                                                        <option>Lebanon</option>
+                                                        <option>Luxembourg</option>
+                                                        <option>Montserrat</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button type="submit" class="btn btn-primary submit">Търси</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="banner-img one">
+                                <div class="banner-info text-center">
+                                    <h3 class="logo">
+                                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                                            <i class="fas fa-car"></i> Закарай Ме
+                                        </a>
+                                    </h3>
+                                    <h4>Пътувайте споделено в града и извън него</h4>
+                                    <div class="content">
+                                        <div class="simply-countdown-custom" id="simply-countdown-custom"></div> @*TODO: Add count of users, journeys, etc.*@
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                <ul class="nav navbar-right navbar-nav">
-                    <partial name="_LoginPartial" />
-                </ul>
+        }
+        else
+        {
+            <!-- banner-text -->
+            <div class="wrapper-inner">
+                <h3 class="logo text-center">
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        @*TODO: Add Logo here*@
+                        <i class="fas fa-car"></i> Закарай Ме
+                    </a>
+                </h3>
             </div>
-        </div>
-    </nav>
+        }
+
+    </div>
+    <!-- //banner -->
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
-        @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
-        {
-            //TODO: make errors beautifuller
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <span>@TempData[WebConstants.TempDataSuccessMessageKey]</span>
-            </div>
-        }
-        @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
-        {
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <span>@TempData[WebConstants.TempDataErrorMessageKey]</span>
-            </div>
-        }
-        @if (TempData.ContainsKey(WebConstants.TempDataWarningMessageKey))
-        {
-            <div class="alert alert-warning alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <span>@TempData[WebConstants.TempDataWarningMessageKey]</span>
-            </div>
-        }
+    @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
+    {
+        //TODO: make errors beautifuller
+        <div class="alert alert-success alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <span>@TempData[WebConstants.TempDataSuccessMessageKey]</span>
+        </div>
+    }
+    @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
+    {
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <span>@TempData[WebConstants.TempDataErrorMessageKey]</span>
+        </div>
+    }
+    @if (TempData.ContainsKey(WebConstants.TempDataWarningMessageKey))
+    {
+        <div class="alert alert-warning alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <span>@TempData[WebConstants.TempDataWarningMessageKey]</span>
+        </div>
+    }
 
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2019 - ZakaraiMe.Web</p>
-        </footer>
-    </div>
+    @RenderBody()
+    <!--footer-->
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+    <footer>
+        <div class="container">
+            <div class="footer-top-agileits-w3ls text-center">
+                <h2 class="logo">
+                    <a href="index.html">
+                        <i class="fas fa-car"></i> Закарай Ме
+                    </a>
+                </h2>
+                <p class="para three mt-4">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at placerat ante. Praesent nulla nunc, pretium dapibus
+                    efficitur in, auctor eget elit. Lorem ipsum dolor sit amet consectetur adipiscing elit. Phasellus at placerat ante.
+                    Praesent nulla nunc
+                </p>
+            </div>
+            <div class="row footer-bottom-wthree-agile">
+                <div class="col-lg-6 social-icon footer text-right">
+                    <div class="icon-social">
+                        <a href="#" class="button-footr">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <i class="fab fa-dribbble"></i>
+                        </a>
+                        <a href="#" class="button-footr">
+                            <i class="fab fa-pinterest-p"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+            <!-- //footer -->
+        </div>
+    </footer>
+    <!---->
+    @*<environment include="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>*@
+
+    <!-- js -->
+    <script src="~/js/jquery-2.2.3.min.js"></script>
+    <!-- //js -->
+    <!--slider-->
+    <script src="~/js/responsiveslides.min.js"></script>
+    <script>
+        $(function () {
+
+            // Slideshow 1
+            $("#slider1").responsiveSlides({
+                auto: false,
+                pager: true,
+                nav: true,
+                speed: 500,
+                namespace: "centered-btns"
+            });
+
+
+        });
+    </script>
+    <!--//slider-->
+    <!--search-bar-->
+    <script src="~/js/search.js"></script>
+    <!--//search-bar-->
+    <link href="~/css/simplyCountdown.css" rel='stylesheet' type='text/css' />
+    <!--js-->
+    <!-- carousel -->
+    <script src="~/js/owl.carousel.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true
+                    },
+                    600: {
+                        items: 1,
+                        nav: false
+                    },
+                    900: {
+                        items: 2,
+                        nav: false
+                    },
+                    1000: {
+                        items: 3,
+                        nav: true,
+                        loop: false,
+                        margin: 20
+                    }
+                }
+            })
+        })
+    </script>
+
+    <script>
+        $('a[href="/@controller/@action"]').parent().addClass('active')
+    </script>
+
+    <!-- //carousel -->
+    <!-- simpleLightbox -->
+    <script src="~/js/simpleLightbox.js"></script>
+    <script>
+        $('.proj_gallery_grid a').simpleLightbox();
+    </script>
+    <!-- //simpleLightbox -->
+    <!--search-bar-->
+    <!--/ start-smoth-scrolling -->
+    <script src="~/js/move-top.js"></script>
+    <script src="~/js/easing.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 900);
+            });
+        });
+    </script>
+    <!--// end-smoth-scrolling -->
+
+    <script>
+        $(document).ready(function () {
+            /*
+                                    var defaults = {
+                                            containerID: 'toTop', // fading element id
+                                        containerHoverID: 'toTopHover', // fading element hover id
+                                        scrollSpeed: 1200,
+                                        easingType: 'linear'
+                                        };
+                                    */
+
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
+
+        });
+    </script>
+    <a href="#home" class="scroll" id="toTop" style="display: block;">
+        <span id="toTopHover" style="opacity: 1;"> </span>
+    </a>
+
+    <!-- //Custom-JavaScript-File-Links -->
+    <script src="~/js/bootstrap.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

@@ -26,5 +26,7 @@
         public const string SuccessfulUpdate = "Успешнo промeнихте {0}";
         public const string SuccessfulCreate = "Успешно създадохте {0}";
         public const string SuccessfulDelete = "Успешно изтрихте {0}";
+
+        public const string CyrillicCharacters = "абвгдежзийклмнопрстуфхцчшщьъюяѝАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЪЮЯЍ";
     }
 }

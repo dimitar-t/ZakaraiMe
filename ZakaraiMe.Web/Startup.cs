@@ -41,6 +41,7 @@
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 3;
                 options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = options.User.AllowedUserNameCharacters + WebConstants.CyrillicCharacters;
             })
                 .AddEntityFrameworkStores<ZakaraiMeContext>()
                 .AddDefaultTokenProviders();
