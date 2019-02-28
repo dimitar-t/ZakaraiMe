@@ -28,5 +28,8 @@
         public const string SuccessfulDelete = "Успешно изтрихте {0}";
 
         public const string CyrillicCharacters = "абвгдежзийклмнопрстуфхцчшщьъюяѝАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЪЮЯЍ";
+
+        public const string CarCreatePageTitle = "Добавяне на кола";
+        public const string CarIndexPageTitle = "Коли";
     }
 }

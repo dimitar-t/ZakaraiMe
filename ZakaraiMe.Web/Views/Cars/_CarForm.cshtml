@@ -1,0 +1,7 @@
+﻿@model CarFormViewModel
+
+<div class="form-group">
+    <label asp-for="Colour"></label>
+    <input asp-for="Colour" type="text" minlength="3" maxlength="100" required class="form-control" />
+    <span asp-validation-for="Colour" class="text-danger"></span>
+</div>
