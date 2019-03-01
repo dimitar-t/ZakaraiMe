@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationManifest>Repositories\Implementations\JourneyRepository.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <ItemGroup>
