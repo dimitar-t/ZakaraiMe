@@ -6,7 +6,7 @@
 @if (User.Identity.IsAuthenticated)
 {
     <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Изход</a></li>
-    <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Update" asp-route-id="@currentUser.Id">Здравей, @currentUser.FirstName!</a></li>
+    <li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="Details" asp-route-id="@currentUser.Id">Здравей, @currentUser.FirstName!</a></li>
 }
 else
 {
