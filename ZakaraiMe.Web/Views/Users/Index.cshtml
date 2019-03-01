@@ -4,38 +4,42 @@
     ViewData["Title"] = WebConstants.UserIndexPageTitle;
 }
 
-<h2>@ViewData["Title"]</h2>
+<section class="banner-bottom-agile-w3ls">
+    <div class="container">
+        <h2>@ViewData["Title"]</h2>
 
-<table class="table table-responsive table-bordered">
-    <tr>
-        <th>Id</th>
-        <th>Профилна снимка</th>
-        <th>Име</th>
-        <th>Имейл</th>
-        <th>Тел. номер</th>
-        <th>Роли</th>
-        <th>Действия</th>
-    </tr>
-    @foreach (UserListViewModel user in Model)
-    {
-        <tr>
-            <td>@user.Id</td>
-            <td><img src="~/images/database/@(user.ProfilePictureFileName + ".jpg")" width="50" height="50" /></td>
-            <td>@(user.FirstName + " " + user.LastName)</td>
-            <td>@user.Email</td>
-            <td>@user.PhoneNumber</td>
-            <td>
-                <ul>
-                    @foreach (string role in user.Roles)
-                    {
-                        <li>@role</li>
-                    }
-                </ul>
-            </td>
-            <td>
-                <a class="btn btn-warning" asp-controller="Users" asp-action="Update" asp-route-id="@user.Id">Редактирай</a>
-                <a class="btn btn-danger" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id" onclick="return confirm('Сигурен ли си, че искаш да изтриеш този потребител?')">Изтрий</a>
-            </td>
-        </tr>
-    }
-</table>
+        <table class="table table-responsive table-bordered">
+            <tr>
+                <th>Id</th>
+                <th>Профилна снимка</th>
+                <th>Име</th>
+                <th>Имейл</th>
+                <th>Тел. номер</th>
+                <th>Роли</th>
+                <th>Действия</th>
+            </tr>
+            @foreach (UserListViewModel user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td><img src="~/images/database/@(user.ProfilePictureFileName + ".jpg")" width="50" height="50" /></td>
+                    <td>@(user.FirstName + " " + user.LastName)</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>
+                        <ul>
+                            @foreach (string role in user.Roles)
+                            {
+                                <li>@role</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" asp-controller="Users" asp-action="Update" asp-route-id="@user.Id">Редактирай</a>
+                        <a class="btn btn-danger" asp-controller="Users" asp-action="Delete" asp-route-id="@user.Id" onclick="return confirm('Сигурен ли си, че искаш да изтриеш този потребител?')">Изтрий</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</section>

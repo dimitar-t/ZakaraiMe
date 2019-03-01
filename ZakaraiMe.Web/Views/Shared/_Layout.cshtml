@@ -3,18 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ZakaraiMe.Web</title>
-
-    @*<environment include="Development">
-            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-            <link rel="stylesheet" href="~/css/site.css" />
-        </environment>
-        <environment exclude="Development">
-            <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-        </environment>*@
+    <title>@ViewData["Title"] | ЗакарайМе</title>
     <script>
         addEventListener("load", function () {
             setTimeout(hideURLbar, 0);
@@ -34,6 +23,8 @@
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet">
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script async defer src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=2072239089478904&autoLogAppEvents=1"></script>
     <!--/banner-->
     @{
         var controller = ViewContext.RouteData.Values["Controller"].ToString();
@@ -106,7 +97,7 @@
                                 <div class="banner-info text-center">
                                     <h3 class="logo">
                                         @*TODO: change logo to our logo*@
-                                        <a class="navbar-brand" href="index.html">
+                                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                                             <i class="fas fa-car"></i> Закарай Ме
                                         </a>
                                     </h3>
@@ -116,7 +107,7 @@
                                             @*TODO: make form suitable for our app*@
                                             <div class="row">
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="name" placeholder="Name" required="">
+                                                    <input type="text" class="form-control" name="name" placeholder="Name" required>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <select class="form-control option">
@@ -189,29 +180,29 @@
     @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
     {
         //TODO: make errors beautifuller
-        <div class="alert alert-success alert-dismissable">
+        <div class="alert alert-success alert-dismissable alert-fixed">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <span>@TempData[WebConstants.TempDataSuccessMessageKey]</span>
         </div>
     }
     @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
     {
-        <div class="alert alert-danger alert-dismissable">
+        <div class="alert alert-danger alert-dismissable alert-fixed">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <span>@TempData[WebConstants.TempDataErrorMessageKey]</span>
         </div>
     }
     @if (TempData.ContainsKey(WebConstants.TempDataWarningMessageKey))
     {
-        <div class="alert alert-warning alert-dismissable">
+        <div class="alert alert-warning alert-dismissable alert-fixed">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <span>@TempData[WebConstants.TempDataWarningMessageKey]</span>
         </div>
     }
 
     @RenderBody()
-    <!--footer-->
 
+    <!--footer-->
     <footer>
         <div class="container">
             <div class="footer-top-agileits-w3ls text-center">
@@ -249,27 +240,6 @@
             <!-- //footer -->
         </div>
     </footer>
-    <!---->
-    @*<environment include="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            <script src="~/js/site.js" asp-append-version="true"></script>
-        </environment>
-        <environment exclude="Development">
-            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                    asp-fallback-test="window.jQuery"
-                    crossorigin="anonymous"
-                    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-            </script>
-            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                    crossorigin="anonymous"
-                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-            </script>
-            <script src="~/js/site.min.js" asp-append-version="true"></script>
-        </environment>*@
 
     <!-- js -->
     <script src="~/js/jquery-2.2.3.min.js"></script>
@@ -358,19 +328,13 @@
 
     <script>
         $(document).ready(function () {
-            /*
-                                    var defaults = {
-                                            containerID: 'toTop', // fading element id
-                                        containerHoverID: 'toTopHover', // fading element hover id
-                                        scrollSpeed: 1200,
-                                        easingType: 'linear'
-                                        };
-                                    */
-
             $().UItoTop({
                 easingType: 'easeOutQuart'
             });
 
+            $(".alert-fixed").fadeTo(2000, 500).slideUp(500, function () {
+                $(".alert-fixed").slideUp(500)
+            });
         });
     </script>
     <a href="#home" class="scroll" id="toTop" style="display: block;">

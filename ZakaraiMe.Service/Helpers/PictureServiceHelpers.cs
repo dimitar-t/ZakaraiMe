@@ -41,7 +41,7 @@
         public static Image ConvertIFormFileToImage(IFormFile uploadedImage)
         {
             MemoryStream ms = new MemoryStream();
-            uploadedImage.OpenReadStream().CopyTo(ms);
+            uploadedImage.OpenReadStream().CopyTo(ms); // TODO: Check if the file is an image: https://stackoverflow.com/questions/670546/determine-if-file-is-an-image/31229958
 
             return Image.FromStream(ms);
         }        

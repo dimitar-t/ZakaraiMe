@@ -4,66 +4,56 @@
     ViewData["Title"] = WebConstants.LoginPageTitle;
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-            <hr />
-
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" type="email" required class="form-control" . />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" type="password" required class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <div class="checkbox">
-                    <label asp-for="RememberMe">
-                        <input asp-for="RememberMe" />
-                        @Html.DisplayNameFor(m => m.RememberMe)
-                    </label>
-                </div>
-            </div>
-
-            <input type="submit" class="btn btn-default" value="Вход" />
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to log in.</h4>
-            <hr />
-            @{
-                var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                if (loginProviders.Count == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
+<section class="banner-bottom-agile-w3ls login">
+    <div class="container">
+        <div class="row inner-sec-w3layouts-agileits">
+            <div class="col-lg-6 service-in text-center">
+                <div class="form-signin mg-btm">
+                    <h3 class="heading-desc">
+                        <a class="close pull-right" aria-hidden="true" asp-controller="Home" asp-action="Index">x</a>
+                        Вход в Закарай Ме
+                    </h3>
+                    <div class="social-box">
+                        <div class="row mg-btm">
+                            <div class="col-md-12">
+                                @{
+                                    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                                    <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                                        <div>
+                                            <p>
+                                                @foreach (var provider in loginProviders)
+                                                {
+                                                    <button type="submit" class="btn btn-primary btn-block" name="provider" value="@provider.Name" title="Влезте, като използвате @provider.DisplayName"><i class="icon-facebook"></i>Влезте чрез @provider.Name</button>
+                                                }
+                                            </p>
+                                        </div>
+                                    </form>
+                                }                                
+                            </div>
+                        </div>
                     </div>
-                }
-                else
-                {
-                    <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in loginProviders)
-                                {
-                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
-                                }
-                            </p>
+                    <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                        <div class="main">
+                            <input asp-for="Email" type="text" class="form-control" placeholder="Ел. поща" autofocus>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Парола">
+                            <span class="clearfix"></span>
+                        </div>
+                        <div class="login-footer">
+                            <div class="row">
+                                <div class="col-xs-6 col-md-6">
+                                    <div class="left-section">
+                                        <a asp-controller="Account" asp-action="Register">Регистрирай се</a>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6 col-md-6 pull-right">
+                                    <input type="submit" class="btn btn-large btn-danger pull-right" value="Вход" />
+                                </div>
+                            </div>
+
                         </div>
                     </form>
-                }
-            }
-        </section>
+                </div>
+            </div>           
+        </div>
     </div>
-</div>
+</section>

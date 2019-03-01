@@ -3,22 +3,25 @@
     ViewData["Title"] = WebConstants.RegisterPageTitle;
 }
 
-<h2>@ViewData["Title"]</h2>
+<section class="banner-bottom-agile-w3ls">
+    <div class="container">
+        <h3 class="tittle-w3ls">@ViewData["Title"]</h3>
+        <div class="row inner-sec-w3layouts-agileits">
+            <div class="col-md-4">
+                <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
-            <hr />
-            <partial name="_UserForm" model="Model" />
+                    <partial name="_UserForm" model="Model" />
 
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" required class="form-control" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    <div class="form-group required">
+                        <label asp-for="ImageFile" class="control-label"></label>
+                        <input asp-for="ImageFile" required class="form-control" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+
+                    <input type="submit" class="btn btn-default" value="Регистрация" />
+                </form>
             </div>
-
-            <input type="submit" class="btn btn-default" value="Регистрация" />
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
