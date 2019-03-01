@@ -3,14 +3,15 @@
     using AutoMapper;
     using Common;
     using Data.Entities.Implementations;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Cars;
     using Service.Contracts;
     using Service.Helpers;
-    using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class CarsController : BaseController<Car, CarFormViewModel, CarListViewModel>
@@ -68,11 +69,17 @@
             return car;
         }
 
+        [Authorize(Roles = CommonConstants.AdministratorRole)]
+        public async override Task<IActionResult> Index()
+        {
+            return await base.Index();
+        }
+
         public override async Task<IActionResult> Create(CarFormViewModel viewModel)
         {
             IActionResult result = await base.Create(viewModel);
 
-            if (result == base.RedirectToHome()) // If the create action was successful
+            if (result.GetType() == base.RedirectToHome().GetType()) // If the create action was successful
             {
                 User currentUser = await GetCurrentUserAsync();
                 await userManager.AddToRoleAsync(currentUser, CommonConstants.DriverRole);
@@ -91,6 +98,28 @@
         public override async Task<IActionResult> Update(CarFormViewModel viewModel, int id)
         {
             return NotFound();
+        }
+
+        public override async Task<IActionResult> Delete(int id)
+        {
+            IActionResult result = await base.Delete(id);
+
+            if (result.GetType() == base.RedirectToHome().GetType()) // If the delete action was successful
+            {
+                Car carToDelete = await carService.GetByIdAsync(id);
+                User owner = await userManager.FindByIdAsync(carToDelete.OwnerId.ToString());
+
+                await pictureService.DeleteAsync(carToDelete.Picture);
+
+                if(owner.Cars.Count() == 0) // If the user no longer has cars, remove his driver role
+                {
+                    await userManager.RemoveFromRoleAsync(carToDelete.Owner, CommonConstants.DriverRole);
+                }
+            }
+
+            await service.SaveAsync();
+
+            return result;
         }
 
         protected override CarFormViewModel SendFormData(Car item, CarFormViewModel viewModel)

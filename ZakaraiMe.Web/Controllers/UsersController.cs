@@ -194,7 +194,7 @@
                 return RedirectToAction(nameof(Index));
             }
 
-            Picture profilePictuerToDelete = userToDelete.ProfilePicture;
+            Picture profilePictureToDelete = userToDelete.ProfilePicture;
 
             IdentityResult result = await userManager.DeleteAsync(userToDelete);
 
@@ -205,7 +205,7 @@
             else
             {
                 TempData.AddSuccessMessage(WebConstants.SuccessfulDelete, userToDelete.FirstName);
-                await pictureService.DeleteAsync(profilePictuerToDelete);
+                await pictureService.DeleteAsync(profilePictureToDelete);
             }
 
             return RedirectToAction(nameof(Index));

@@ -36,10 +36,6 @@
 
         protected abstract Task<TEntity> GetEntityAsync(TFormViewModel viewModel, int id);
 
-        protected virtual async Task FillViewModelProps(IEnumerable<TListViewModel> items)
-        {
-        }
-
         protected async Task<User> GetCurrentUserAsync()
             => await userManager.GetUserAsync(User);
 
@@ -49,11 +45,9 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Index()
+        public virtual async Task<IActionResult> Index()
         {
-            IEnumerable<TListViewModel> items = mapper.Map<IEnumerable<TListViewModel>>(await service.GetFilteredItemsAsync(await GetCurrentUserAsync()));
-
-            await FillViewModelProps(items);
+            IEnumerable<TListViewModel> items = mapper.Map<IEnumerable<TListViewModel>>(await service.GetFilteredItemsAsync(await GetCurrentUserAsync()));            
 
             return View(items);
         }
@@ -166,24 +160,23 @@
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Delete(int id)
+        public virtual async Task<IActionResult> Delete(int id)
         {
             TEntity item = await service.GetByIdAsync(id);
 
             if (item == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
-                return RedirectToHome();
+                return NotFound();
             }
 
             if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
-                return RedirectToHome();
+                return Unauthorized();
             }
 
             service.Delete(item);
-            await service.SaveAsync();
 
             return RedirectToHome();
         }
