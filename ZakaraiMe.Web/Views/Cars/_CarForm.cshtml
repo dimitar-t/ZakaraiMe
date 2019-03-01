@@ -8,8 +8,8 @@
 
 <div class="form-group required">
     <label class="control-label">Марка</label>
-    <select required class="form-control" name="Make" id="makes">
-        @foreach (var make in ViewData["Makes"] as IEnumerable<Make>)
+    <select required class="form-control" id="makes">
+        @foreach (Make make in ViewData["Makes"] as IEnumerable<Make>)
         {
             <option id="@(make.Id)">@(make.Title)</option>
         }

@@ -20,7 +20,8 @@
         protected readonly IBaseService<TEntity> service;
         private readonly UserManager<User> userManager;
         protected readonly IMapper mapper;
-        private const string IndexAction = nameof(Index);
+        private const string IndexAction = nameof(HomeController.Index);
+        private const string HomeControllerString = "Home";
 
         public BaseController(IBaseService<TEntity> service, UserManager<User> userManager, IMapper mapper)
         {
@@ -42,9 +43,9 @@
         protected async Task<User> GetCurrentUserAsync()
             => await userManager.GetUserAsync(User);
 
-        private RedirectToActionResult RedirectToIndex()
+        protected RedirectToActionResult RedirectToHome()
         {
-            return RedirectToAction(IndexAction);
+            return RedirectToAction(IndexAction, HomeControllerString, new { area = "" });
         }
 
         [Authorize]
@@ -68,7 +69,7 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Create(TFormViewModel viewModel)
+        public virtual async Task<IActionResult> Create(TFormViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -97,27 +98,29 @@
             }
 
             await service.InsertAsync(item);
+            await service.SaveAsync();
+
             TempData.AddSuccessMessage(WebConstants.SuccessfulCreate, ItemName);
 
-            return RedirectToIndex();
+            return RedirectToHome();
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Update(int id)
+        public virtual async Task<IActionResult> Update(int id)
         {
             TEntity item = await service.GetByIdAsync(id);
 
             if (item == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
-                return RedirectToIndex();
+                return RedirectToHome();
             }
 
             if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
-                return RedirectToIndex();
+                return RedirectToHome();
             }
 
             TFormViewModel viewModel = mapper.Map<TEntity, TFormViewModel>(item);
@@ -128,7 +131,7 @@
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Update(TFormViewModel viewModel, int id)
+        public virtual async Task<IActionResult> Update(TFormViewModel viewModel, int id)
         {
             TEntity item = await GetEntityAsync(viewModel, id);
 
@@ -143,7 +146,7 @@
             if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
-                return RedirectToIndex();
+                return RedirectToHome();
             }
 
             if (service.IsItemDuplicate(item))
@@ -155,9 +158,10 @@
             }
 
             service.Update(item);
+            await service.SaveAsync();
 
             TempData.AddSuccessMessage(WebConstants.SuccessfulUpdate, ItemName);
-            return RedirectToIndex();
+            return RedirectToHome();
         }
 
         [HttpGet]
@@ -169,17 +173,19 @@
             if (item == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
-                return RedirectToIndex();
+                return RedirectToHome();
             }
 
             if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
-                return RedirectToIndex();
+                return RedirectToHome();
             }
 
             service.Delete(item);
-            return RedirectToIndex();
+            await service.SaveAsync();
+
+            return RedirectToHome();
         }
 
         [HttpGet]
@@ -191,7 +197,7 @@
             if (item == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
-                return RedirectToIndex();
+                return RedirectToHome();
             }
 
             TListViewModel viewModel = mapper.Map<TEntity, TListViewModel>(item);

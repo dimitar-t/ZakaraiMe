@@ -268,7 +268,7 @@
     <link href="~/css/simplyCountdown.css" rel='stylesheet' type='text/css' />
     <!--js-->
     <!-- carousel -->
-    <script src="~/js/owl.carousel.js"></script>    
+    <script src="~/js/owl.carousel.js"></script>
     <script>
         $(document).ready(function () {
             $('.owl-carousel').owlCarousel({
@@ -334,9 +334,8 @@
                 url: '@Url.Action("GetModels", "Cars")',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                data: { "makeId": $(this).children(":selected").attr("id") },
+                data: { "makeId": $("#makes").children(":selected").attr("id") },
                 success: function (result) {
-                    console.log($(this));
                     $("#models").empty();
                     $.each(result, function () {
                         $("#models").append(new Option(this.title, this.id));

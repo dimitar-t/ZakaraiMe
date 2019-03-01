@@ -1,5 +1,6 @@
 ﻿namespace ZakaraiMe.Web.Models.Cars
 {
+    using AutoMapper;
     using Common.Mapping;
     using Data.Entities.Implementations;
     using Microsoft.AspNetCore.Http;
@@ -13,8 +14,6 @@
 
         [Display(Name = "Модел")]
         public int ModelId { get; set; }
-
-        public int OwnerId { get; set; }
 
         [Display(Name = "Снимка на колата")]
         public IFormFile ImageFile { get; set; }

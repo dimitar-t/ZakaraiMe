@@ -10,6 +10,9 @@
         public const string AccessDeniedPageTitle = "Без достъп";
         public const string ErrorPageTitle = "Грешка";
         public const string HomePageTitle = "Начало";
+        public const string CarCreatePageTitle = "Добавяне на кола";
+        public const string CarUpdatePageTitle = "Редакция на кола";
+        public const string CarIndexPageTitle = "Коли";
 
         public const string TempDataSuccessMessageKey = "SuccessNotification";
         public const string TempDataErrorMessageKey = "ErrorNotification";
@@ -29,8 +32,5 @@
         public const string SuccessfulDelete = "Успешно изтрихте {0}";
 
         public const string CyrillicCharacters = "абвгдежзийклмнопрстуфхцчшщьъюяѝАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЬЪЮЯЍ";
-
-        public const string CarCreatePageTitle = "Добавяне на кола";
-        public const string CarIndexPageTitle = "Коли";
     }
 }
