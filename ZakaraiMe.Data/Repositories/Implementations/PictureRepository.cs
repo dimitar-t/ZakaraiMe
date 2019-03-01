@@ -2,13 +2,12 @@
 {
     using Contracts;
     using Entities.Implementations;
+    using Helpers;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using System.Drawing;
-    using System.Drawing.Imaging;
     using System.IO;
     using System.Threading.Tasks;
-    using ZakaraiMe.Data.Helpers;
 
     public class PictureRepository : IPictureRepository
     {

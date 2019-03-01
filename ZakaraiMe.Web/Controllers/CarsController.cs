@@ -1,13 +1,13 @@
 ﻿namespace ZakaraiMe.Web.Controllers
 {
     using AutoMapper;
+    using Data.Entities.Implementations;
     using Microsoft.AspNetCore.Identity;
+    using Models.Cars;
+    using Service.Contracts;
+    using Service.Helpers;
     using System.Drawing;
     using System.Threading.Tasks;
-    using ZakaraiMe.Data.Entities.Implementations;
-    using ZakaraiMe.Service.Contracts;
-    using ZakaraiMe.Service.Helpers;
-    using ZakaraiMe.Web.Models.Cars;
 
     public class CarsController : BaseController<Car, CarFormViewModel, CarListViewModel>
     {

@@ -1,10 +1,9 @@
 ﻿namespace ZakaraiMe.Web.Models.Cars
 {
-    using AutoMapper;
+    using Common.Mapping;
+    using Data.Entities.Implementations;
     using Microsoft.AspNetCore.Http;
     using System.ComponentModel.DataAnnotations;
-    using ZakaraiMe.Common.Mapping;
-    using ZakaraiMe.Data.Entities.Implementations;
 
     public class CarFormViewModel : FormViewModel, IMapFrom<Car>
     {

@@ -1,8 +1,7 @@
 ﻿namespace ZakaraiMe.Web.Models.Cars
 {
-    using AutoMapper;
-    using ZakaraiMe.Common.Mapping;
-    using ZakaraiMe.Data.Entities.Implementations;
+    using Common.Mapping;
+    using Data.Entities.Implementations;
 
     public class CarListViewModel : ListViewModel, IMapFrom<Car>
     {

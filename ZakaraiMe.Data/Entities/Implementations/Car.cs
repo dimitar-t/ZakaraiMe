@@ -1,8 +1,7 @@
 ﻿namespace ZakaraiMe.Data.Entities.Implementations
 {
+    using Contracts;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using Entities.Contracts;
 
     public class Car : IBaseEntity
     {
