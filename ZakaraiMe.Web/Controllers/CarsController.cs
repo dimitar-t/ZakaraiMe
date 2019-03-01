@@ -5,10 +5,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Cars;
+    using Newtonsoft.Json;
     using Service.Contracts;
     using Service.Helpers;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class CarsController : BaseController<Car, CarFormViewModel, CarListViewModel>
@@ -62,9 +64,11 @@
             return null;
         }
 
-        public async Task<JsonResult> GetModelsAsync(int makeId)
+        public async Task<JsonResult> GetModels(int makeId)
         {
-            IList<Model> models = await carService.GetModelsAsync(makeId);
+            IList<CarModelListViewModel> models = mapper.Map<IList<Model>, IList<CarModelListViewModel>>(await carService.GetModelsAsync(makeId));
+
+            string json = JsonConvert.SerializeObject(models);
 
             return Json(models);
         }

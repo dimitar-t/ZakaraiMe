@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="~/css/owl.theme.css" type="text/css" media="all">
     <link href="~/css/style.css" rel='stylesheet' type='text/css' />
     <link href="~/css/fontawesome-all.css" rel="stylesheet">
-    <link href="~/css/simpleLightbox.css" rel='stylesheet' type='text/css' />
+    @*<link href="~/css/simpleLightbox.css" rel='stylesheet' type='text/css' />*@
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,900" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet">
 </head>
@@ -315,7 +315,7 @@
     <script src="~/js/move-top.js"></script>
     <script src="~/js/easing.js"></script>
     <script>
-        jQuery(document).ready(function ($) {
+        $(document).ready(function () {
             $(".scroll").click(function (event) {
                 event.preventDefault();
                 $('html,body').animate({
@@ -325,6 +325,30 @@
         });
     </script>
     <!--// end-smoth-scrolling -->
+
+    <script>
+        $(document).ready(function () {
+            $("#makes").change(function (e) {
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetModels", "Cars")',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: { "makeId": $(this).children(":selected").attr("id") },
+                success: function (result) {
+                    console.log($(this));
+                    $("#models").empty();
+                    $.each(result, function () {
+                        $("#models").append(new Option(this.title, this.id));
+                    });
+                },
+                error: function (ex) {
+                    alert('Съжаляваме, възникна грешка.');
+                }
+            });
+        });
+        })        
+    </script>
 
     <script>
         $(document).ready(function () {

@@ -20,31 +20,3 @@
     <label asp-for="ModelId" class="control-label"></label>
     <select asp-for="ModelId" required class="form-control" id="models"></select>
 </div>
-
-@section Scripts{
-    <script>
-    $(document).ready(function () {
-        $("#makes").change(function (e) {
-            $.ajax({
-                type: 'get',
-                url: '@Url.Action("GetModelsAsync")',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: { "makeId": $(this).children(":selected").attr("id") },
-                success: function (result) {
-                    console.log($(this));
-                    $("#models").empty();
-                    $.each(result, function () {
-                        $("#models").append($("<option />").val(this.Id).text(this.Title));
-                    });
-                },
-                error: function (ex) {
-                    console.log(ex);
-                    alert('Error');
-                }
-            });
-        });
-
-    });
-    </script>
-}
