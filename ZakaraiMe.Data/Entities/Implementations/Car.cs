@@ -1,6 +1,7 @@
 ﻿namespace ZakaraiMe.Data.Entities.Implementations
 {
     using Contracts;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Car : IBaseEntity
@@ -22,5 +23,7 @@
 
         [Required]
         public string PictureFileName { get; set; }
+
+        public virtual IEnumerable<Journey> Journeys { get; set; } = new List<Journey>();
     }
 }

@@ -23,5 +23,9 @@
         public string ProfilePictureFileName { get; set; }
 
         public virtual IEnumerable<Car> Cars { get; set; } = new List<Car>();
+
+        public virtual IEnumerable<UserJourney> PassengerJourneys { get; set; } = new List<UserJourney>();
+
+        public virtual IEnumerable<Journey> DriverJourneys { get; set; } = new List<Journey>();
     }
 }

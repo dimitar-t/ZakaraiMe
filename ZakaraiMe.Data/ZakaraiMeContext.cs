@@ -15,6 +15,7 @@
         public DbSet<Car> Cars { get; set; }
         public DbSet<Make> Makes { get; set; }
         public DbSet<Model> Models { get; set; }
+        public DbSet<Journey> Journeys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,6 +49,34 @@
                 .HasOne(c => c.Model)
                 .WithMany(model => model.Cars)
                 .HasForeignKey(c => c.ModelId);
+
+            modelBuilder
+                .Entity<UserJourney>()
+                .HasKey(uj => new { uj.UserId, uj.JourneyId });
+
+            modelBuilder
+                .Entity<UserJourney>()
+                .HasOne(uj => uj.User)
+                .WithMany(u => u.PassengerJourneys)
+                .HasForeignKey(uj => uj.UserId);
+
+            modelBuilder
+                .Entity<UserJourney>()
+                .HasOne(uj => uj.Journey)
+                .WithMany(j => j.Passengers)
+                .HasForeignKey(uj => uj.JourneyId);
+
+            modelBuilder
+                .Entity<User>()
+                .HasMany(u => u.DriverJourneys)
+                .WithOne(j => j.Driver)
+                .HasForeignKey(j => j.DriverId);
+
+            modelBuilder
+                .Entity<Journey>()
+                .HasOne(j => j.Car)
+                .WithMany(c => c.Journeys)
+                .HasForeignKey(j => j.CarId);
             
             base.OnModelCreating(modelBuilder);
         }

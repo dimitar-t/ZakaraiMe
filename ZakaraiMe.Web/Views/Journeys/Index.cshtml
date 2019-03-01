@@ -1,0 +1,49 @@
+﻿
+
+<section class="banner-bottom-agile-w3ls">
+    <div class="container">
+        <div id="map"></div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/leaflet.js"></script>
+    <script src="~/js/leaflet-routing-machine.js"></script>
+    <script src="~/js/map.js"></script>
+    <script>
+        $(document).ready(function () {
+            var map = createMap('map', 42.8399177, 23.7607794, 6);
+            // map is the id of our div element and the other options are
+            // lattitude, longitude and zoom
+
+            var control = L.Routing.control({
+                waypoints: [
+                    L.latLng(57.74, 11.94),
+                    L.latLng(57.6792, 11.949)
+                ],
+                routeWhileDragging: true
+            }).addTo(map);
+
+            map.on('click', function (e) {
+                var container = L.DomUtil.create('div'),
+                    startBtn = createButton('Използвай за начална точка', container),
+                    destBtn = createButton('Използвай за крайна точка', container);
+
+                L.popup()
+                    .setContent(container)
+                    .setLatLng(e.latlng)
+                    .openOn(map);
+
+                L.DomEvent.on(startBtn, 'click', function () {
+                    control.spliceWaypoints(0, 1, e.latlng);
+                    map.closePopup();
+                });
+
+                L.DomEvent.on(destBtn, 'click', function () {
+                    control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+                    map.closePopup();
+                });
+            });
+        })
+    </script>
+}
