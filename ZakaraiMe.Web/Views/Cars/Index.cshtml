@@ -21,10 +21,10 @@
             <td><img src="~/images/database/@(car.PictureFileName + ".jpg")" width="50" height="50" /></td>
             <td>@(car.Model)</td>
             <td>@car.Colour</td>
-            @*<td>
+            <td>
                 <a class="btn btn-warning" asp-controller="Cars" asp-action="Update" asp-route-id="@car.Id">Редактирай</a>
-                <a class="btn btn-danger" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" onclick="return confirm('Сигурен ли си, че искаш да изтриеш този потребител?')">Изтрий</a>
-            </td>*@
+                <a class="btn btn-danger" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" onclick="return confirm('Сигурен ли си, че искаш да изтриеш тази кола?')">Изтрий</a>
+            </td>
         </tr>
     }
 </table>
