@@ -1,5 +1,6 @@
 ﻿namespace ZakaraiMe.Service.Helpers
 {
+    using Extensions;
     using Microsoft.AspNetCore.Http;
     using System.Drawing;
     using System.Drawing.Drawing2D;
@@ -42,6 +43,9 @@
         {
             MemoryStream ms = new MemoryStream();
             uploadedImage.OpenReadStream().CopyTo(ms); // TODO: Check if the file is an image: https://stackoverflow.com/questions/670546/determine-if-file-is-an-image/31229958
+
+            if (!ms.IsImage())
+                return null;
 
             return Image.FromStream(ms);
         }        

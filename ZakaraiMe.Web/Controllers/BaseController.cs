@@ -80,6 +80,14 @@
 
             TEntity item = await GetEntityAsync(viewModel, 0);
 
+            if (item == null) // The viewmodel didn't pass a validation
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+
+                SendFormData(null, viewModel);
+                return View(viewModel);
+            }
+
             if (service.IsItemDuplicate(item))
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);

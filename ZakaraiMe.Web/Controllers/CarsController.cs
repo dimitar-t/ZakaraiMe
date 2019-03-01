@@ -30,6 +30,12 @@
 
                 Picture carPicture = new Picture(); // Creates instance of Picture entity
                 Image carPictureImage = PictureServiceHelpers.ConvertIFormFileToImage(viewModel.ImageFile); // Converts the uploaded image to System.Drawing.Image
+
+                if (carPictureImage == null) // The uploaded file is not a picture
+                {
+                    return null;
+                }
+
                 bool imageInsertSuccess = await pictureService.InsertAsync(carPicture, carPictureImage); // inserts image into database and file system
 
                 if (imageInsertSuccess) 

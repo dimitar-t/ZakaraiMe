@@ -68,6 +68,13 @@
 
             Picture profilePicture = new Picture(); // Creates instance of Picture entity
             Image profilePictureImage = PictureServiceHelpers.ConvertIFormFileToImage(model.ImageFile); // Converts the uploaded image to System.Drawing.Image
+
+            if(profilePictureImage == null) // The uploaded file is not a picture
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return View(model);
+            }
+
             bool imageInsertSuccess = await pictureService.InsertAsync(profilePicture, profilePictureImage); // inserts image into database and file system
 
             if (!imageInsertSuccess) // if something with the image goes wrong return error
