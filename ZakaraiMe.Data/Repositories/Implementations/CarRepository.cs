@@ -7,7 +7,6 @@ namespace ZakaraiMe.Data.Repositories.Implementations
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using System.Collections.Generic;
-    using System.Data.SqlClient;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -29,9 +28,14 @@ namespace ZakaraiMe.Data.Repositories.Implementations
             return await context.Models.FirstOrDefaultAsync(m => m.Id == modelId);
         }
 
-        public async Task<IList<Model>> GetAllModelsAsync()
+        public async Task<IList<Make>> GetAllMakesAsync()
         {
-            return await context.Models.ToListAsync();
+            return await context.Makes.ToListAsync();
+        }
+
+        public async Task<IList<Model>> GetAllModelsAsync(int makeId)
+        {
+            return await context.Models.Where(m => m.MakeId == makeId).ToListAsync();
         }
 
         public void SeedMakesAndModels()

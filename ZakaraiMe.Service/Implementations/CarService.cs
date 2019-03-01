@@ -53,10 +53,15 @@
 
             return item.OwnerId == currentUser.Id;
         }
-        
-        public async Task<IList<Model>> GetModelsAsync()
+
+        public async Task<IList<Make>> GetMakesAsync()
         {
-            return await repository.GetAllModelsAsync();
+            return await repository.GetAllMakesAsync();
+        }
+
+        public async Task<IList<Model>> GetModelsAsync(int makeId)
+        {
+            return await repository.GetAllModelsAsync(makeId);
         }
     }
 }

@@ -11,6 +11,7 @@
         [Display(Name = "Цвят")]
         public string Colour { get; set; }
 
+        [Display(Name = "Модел")]
         public int ModelId { get; set; }
 
         public int OwnerId { get; set; }

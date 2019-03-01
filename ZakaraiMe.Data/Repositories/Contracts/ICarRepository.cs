@@ -10,6 +10,8 @@
 
         Task<Model> GetModelAsync(int modelId);
 
-        Task<IList<Model>> GetAllModelsAsync();
+        Task<IList<Make>> GetAllMakesAsync();
+
+        Task<IList<Model>> GetAllModelsAsync(int makeId);
     }
 }

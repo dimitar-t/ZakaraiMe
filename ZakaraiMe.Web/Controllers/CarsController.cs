@@ -3,9 +3,11 @@
     using AutoMapper;
     using Data.Entities.Implementations;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Models.Cars;
     using Service.Contracts;
     using Service.Helpers;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Threading.Tasks;
 
@@ -55,9 +57,16 @@
 
         protected override CarFormViewModel SendFormData(Car item, CarFormViewModel viewModel)
         {
-            ViewData["Models"] = carService.GetModelsAsync().Result;
+            ViewData["Makes"] = carService.GetMakesAsync().Result;
 
             return null;
+        }
+
+        public async Task<JsonResult> GetModelsAsync(int makeId)
+        {
+            IList<Model> models = await carService.GetModelsAsync(makeId);
+
+            return Json(models);
         }
     }
 }
