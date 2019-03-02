@@ -26,3 +26,4 @@ function initMap(lat, lng) {
     console.log(Object.getOwnPropertyNames(obj));
 }
 
+

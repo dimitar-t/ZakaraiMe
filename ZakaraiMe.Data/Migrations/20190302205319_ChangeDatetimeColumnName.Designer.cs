@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZakaraiMe.Data;
 
 namespace ZakaraiMe.Data.Migrations
 {
     [DbContext(typeof(ZakaraiMeContext))]
-    partial class ZakaraiMeContextModelSnapshot : ModelSnapshot
+    [Migration("20190302205319_ChangeDatetimeColumnName")]
+    partial class ChangeDatetimeColumnName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,11 +166,9 @@ namespace ZakaraiMe.Data.Migrations
 
                     b.Property<int>("DriverId");
 
-                    b.Property<decimal>("EndPointX")
-                        .HasColumnType("decimal(18, 6)");
+                    b.Property<decimal>("EndPointX");
 
-                    b.Property<decimal>("EndPointY")
-                        .HasColumnType("decimal(18, 6)");
+                    b.Property<decimal>("EndPointY");
 
                     b.Property<decimal>("Price");
 
@@ -176,11 +176,9 @@ namespace ZakaraiMe.Data.Migrations
 
                     b.Property<DateTime>("SetOffTime");
 
-                    b.Property<decimal>("StartPointX")
-                        .HasColumnType("decimal(18, 6)");
+                    b.Property<decimal>("StartPointX");
 
-                    b.Property<decimal>("StartPointY")
-                        .HasColumnType("decimal(18, 6)");
+                    b.Property<decimal>("StartPointY");
 
                     b.HasKey("Id");
 

@@ -22,13 +22,13 @@
     <select asp-for="CarId" required class="form-control">
         @foreach (CarListViewModel car in Model.DriverCars)
         {
-            <option id="@(car.Id)">@car.Model.Make.Title @car.Model.Title</option>
+            <option value="@(car.Id)">@car.Model.Make.Title @car.Model.Title</option>
         }
     </select>
 </div>
 
-<div class="form-group">
-    <label asp-for="SetOffTime"></label>
+<div class="form-group required">
+    <label asp-for="SetOffTime" class="control-label"></label>
     <input asp-for="SetOffTime" type="text" required id="datetimePicker" class="form-control" />
     <span asp-validation-for="SetOffTime" class="text-danger"></span>
 </div>

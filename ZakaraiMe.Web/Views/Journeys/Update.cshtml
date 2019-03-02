@@ -1,7 +1,7 @@
 ﻿@model JourneyFormViewModel
 
 @{
-    ViewData["Title"] = WebConstants.JourneyCreatePageTitle;
+    ViewData["Title"] = WebConstants.JourneyUpdatePageTitle;
 }
 
 <section class="banner-bottom-agile-w3ls">
@@ -10,11 +10,11 @@
         <div class="row inner-sec-w3layouts-agileits">
             <p>Ако пътувате извънградско, въведете имената на желаните градове. Ако пък желаете по-голяма точност, когато примерно пътувате в града, въведете името на града и плъзнете точките до желаните места.</p>
             <div class="col-md-4">
-                <form asp-controller="Journeys" asp-action="Create" id="journeyForm" method="post">
+                <form asp-controller="Journeys" asp-action="Update" id="journeyForm" method="post">
                     <hr />
                     <partial name="_JourneyForm" model="Model" />
 
-                    <input type="submit" class="btn btn-default" value="Публикувай" />
+                    <input type="submit" class="btn btn-default" value="Промени" />
                 </form>
             </div>
             <div class="col-md-8 mapper-wrapper">
@@ -41,13 +41,8 @@
         $(document).ready(function () {
             let startPointX = $("#startPointX").val();
             let startPointY = $("#startPointY").val();
-            let endPointX = $("#endPointX").val();
-            let endPointY = $("#endPointY").val();
 
             initMap(startPointX, startPointY);
-
-            mapboxDirections.setOrigin([startPointX, startPointY]);
-            mapboxDirections.setDestination([endPointX, endPointY]);
 
             $("#journeyForm").on('submit', function (e) {
                 $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])

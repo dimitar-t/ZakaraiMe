@@ -4,17 +4,22 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Journey : IBaseEntity
     {
         public int Id { get; set; }
-        
+
+        [Column(TypeName = "decimal(18, 6)")]
         public decimal StartPointX { get; set; }
-        
+
+        [Column(TypeName = "decimal(18, 6)")]
         public decimal StartPointY { get; set; }
-        
+
+        [Column(TypeName = "decimal(18, 6)")]
         public decimal EndPointX { get; set; }
-        
+
+        [Column(TypeName = "decimal(18, 6)")]
         public decimal EndPointY { get; set; }
 
         public decimal Price { get; set; }
