@@ -15,7 +15,6 @@
     public abstract class BaseController<TEntity, TFormViewModel, TListViewModel> : Controller where TEntity : class, IBaseEntity
                                                                                                where TFormViewModel : FormViewModel
                                                                                                where TListViewModel : ListViewModel
-
     {
         protected readonly IBaseService<TEntity> service;
         private readonly UserManager<User> userManager;
@@ -42,6 +41,14 @@
         protected RedirectToActionResult RedirectToHome()
         {
             return RedirectToAction(IndexAction, HomeControllerString, new { area = "" });
+        }
+
+        private IActionResult ViewWithError(TFormViewModel viewModel)
+        {
+            TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+
+            SendFormData(null, viewModel);
+            return View(viewModel);
         }
 
         [Authorize]
@@ -83,12 +90,14 @@
                 return View(viewModel);
             }
 
-            if (service.IsItemDuplicate(item))
+            if (!await service.ForeignPropertiesExistAsync(item, await GetCurrentUserAsync())) // Some of the navigation properties don't exist
             {
-                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return ViewWithError(viewModel);
+            }
 
-                SendFormData(null, viewModel);
-                return View(viewModel);
+            if (service.IsItemDuplicate(item)) // If the same item already exists return error
+            {
+                return ViewWithError(viewModel);
             }
 
             await service.InsertAsync(item);
@@ -97,7 +106,7 @@
             TempData.AddSuccessMessage(WebConstants.SuccessfulCreate, ItemName);
 
             return RedirectToHome();
-        }
+        }        
 
         [HttpGet]
         [Authorize]
@@ -105,16 +114,16 @@
         {
             TEntity item = await service.GetByIdAsync(id);
 
-            if (item == null)
+            if (item == null) 
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
-                return RedirectToHome();
+                return NotFound();
             }
 
-            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
+            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync())) // If the logged in user isn't authorized for this request
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
-                return RedirectToHome();
+                return Unauthorized();
             }
 
             TFormViewModel viewModel = mapper.Map<TEntity, TFormViewModel>(item);
@@ -129,6 +138,12 @@
         {
             TEntity item = await GetEntityAsync(viewModel, id);
 
+            if (item == null)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return NotFound();
+            }
+
             if (!ModelState.IsValid)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
@@ -137,13 +152,18 @@
                 return View(viewModel);
             }
 
-            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
+            if (!await service.ForeignPropertiesExistAsync(item, await GetCurrentUserAsync())) // Some of the navigation properties don't exist
             {
-                TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
-                return RedirectToHome();
+                return ViewWithError(viewModel);
             }
 
-            if (service.IsItemDuplicate(item))
+            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync())) // If the logged in user isn't authorized for this request
+            {
+                TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
+                return Unauthorized();
+            }
+
+            if (service.IsItemDuplicate(item)) // If the same item already exists return error
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
 
@@ -164,13 +184,13 @@
         {
             TEntity item = await service.GetByIdAsync(id);
 
-            if (item == null)
+            if (item == null) 
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
                 return NotFound();
             }
 
-            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync()))
+            if (!await service.IsUserAuthorizedAsync(item, await GetCurrentUserAsync())) // If the logged in user isn't authorized for this request
             {
                 TempData.AddWarningMessage(WebConstants.Unauthorized, ItemName);
                 return Unauthorized();

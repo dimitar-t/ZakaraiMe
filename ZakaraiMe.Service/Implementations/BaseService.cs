@@ -23,7 +23,7 @@
 
         public abstract Task<bool> IsUserAuthorizedAsync(TEntity item, User currentUser);
 
-        public abstract Task<bool> ForeignPropertiesExistAsync(TEntity item);
+        public abstract Task<bool> ForeignPropertiesExistAsync(TEntity item, User currentUser);
 
         public virtual void Delete(TEntity item)
         {

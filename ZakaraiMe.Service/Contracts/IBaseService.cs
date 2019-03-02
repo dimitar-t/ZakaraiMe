@@ -22,7 +22,7 @@
 
         Task<IEnumerable<TEntity>> GetFilteredItemsAsync(User currentUser);
 
-        Task<bool> ForeignPropertiesExistAsync(TEntity item);
+        Task<bool> ForeignPropertiesExistAsync(TEntity item, User currentUser);
 
         Task SaveAsync();
 

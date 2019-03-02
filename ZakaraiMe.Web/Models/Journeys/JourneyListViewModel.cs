@@ -1,35 +1,35 @@
-﻿namespace ZakaraiMe.Data.Entities.Implementations
+﻿namespace ZakaraiMe.Web.Models.Journeys
 {
-    using Contracts;
+    using Cars;
+    using Common.Mapping;
+    using Data.Entities.Implementations;
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
+    using Users;
 
-    public class Journey : IBaseEntity
+    public class JourneyListViewModel : ListViewModel, IMapFrom<Journey>
     {
-        public int Id { get; set; }
-        
         public decimal StartPointX { get; set; }
-        
+
         public decimal StartPointY { get; set; }
-        
+
         public decimal EndPointX { get; set; }
-        
+
         public decimal EndPointY { get; set; }
 
         public decimal Price { get; set; }
 
         public int Seats { get; set; }
 
-        public virtual Car Car { get; set; }
+        public CarListViewModel Car { get; set; }
 
         public int CarId { get; set; }
 
-        public virtual User Driver { get; set; }
+        public UserListViewModel Driver { get; set; }
 
         public int DriverId { get; set; }
 
-        public virtual IEnumerable<UserJourney> Passengers { get; set; } = new List<UserJourney>();
+        public IEnumerable<UserJourney> Passengers { get; set; } = new List<UserJourney>();
 
         public DateTime SetOffTime { get; set; }
     }

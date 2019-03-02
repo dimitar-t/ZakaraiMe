@@ -1,5 +1,6 @@
 ﻿namespace ZakaraiMe.Service.Implementations
 {
+    using Common;
     using Contracts;
     using Data.Entities.Implementations;
     using Data.Repositories.Contracts;
@@ -7,7 +8,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using ZakaraiMe.Common;
 
     public class JourneyService : BaseService<Journey>, IJourneyService
     {
@@ -20,11 +20,14 @@
             this.userManager = userManager;
         }
 
-        public override async Task<bool> ForeignPropertiesExistAsync(Journey item)
-        {
+        public override async Task<bool> ForeignPropertiesExistAsync(Journey item, User currentUser)
+        {            
             Car car = await carService.GetByIdAsync(item.CarId);
 
             if (car == null)
+                return false;
+
+            if (item.DriverId != car.OwnerId) // returns false if the driver doesn't own the car (i.e. the user changed the <select> tag)
                 return false;
 
             return true;
@@ -42,7 +45,7 @@
         {
             return GetAll(j => j.CarId == item.CarId
                             && j.DriverId == item.DriverId
-                            && j.DateTime == item.DateTime)
+                            && j.SetOffTime == item.SetOffTime)
                     .Any();
         }
 

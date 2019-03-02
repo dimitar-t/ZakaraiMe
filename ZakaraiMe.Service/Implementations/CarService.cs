@@ -20,9 +20,9 @@
             this.repository = repository;
         }
 
-        public override async Task<bool> ForeignPropertiesExistAsync(Car item)
+        public override async Task<bool> ForeignPropertiesExistAsync(Car item, User currentUser)
         {
-            Model carModel = await repository.GetModelAsync(item.Id);
+            Model carModel = await repository.GetModelAsync(item.ModelId);
 
             if (carModel == null)
                 return false;

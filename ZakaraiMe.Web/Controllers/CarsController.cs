@@ -16,14 +16,14 @@
 
     public class CarsController : BaseController<Car, CarFormViewModel, CarListViewModel>
     {
-        private readonly UserManager<User> userManager;
         private readonly IPictureService pictureService;
         private readonly ICarService carService;
+        private readonly UserManager<User> userManager;
 
         public CarsController(ICarService carService, UserManager<User> userManager, IPictureService pictureService, IMapper mapper) : base(carService, userManager, mapper)
         {
-            this.userManager = userManager;
             this.pictureService = pictureService;
+            this.userManager = userManager;
             this.carService = carService;
         }
 
@@ -57,7 +57,7 @@
                     return null;
                 }
 
-                // Properties which should never be updated
+                // Properties which can't be updated
                 car.PictureFileName = carPicture.FileName;
                 car.OwnerId = GetCurrentUserAsync().Result.Id;
             }
