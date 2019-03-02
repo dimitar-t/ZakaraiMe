@@ -1,18 +1,23 @@
 ﻿namespace ZakaraiMe.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using AutoMapper;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Journeys;
-    using ZakaraiMe.Data.Entities.Implementations;
-    using ZakaraiMe.Service.Contracts;
+    using Data.Entities.Implementations;
+    using Service.Contracts;
+    using Models.Cars;
 
     public class JourneysController : BaseController<Journey, JourneyFormViewModel, JourneyListViewModel>
     {
-        public JourneysController(IJourneyService journeyService, UserManager<User> userManager, IMapper mapper) : base(journeyService, userManager, mapper)
+        private readonly ICarService carService;
+
+        public JourneysController(IJourneyService journeyService, UserManager<User> userManager, ICarService carService, IMapper mapper) : base(journeyService, userManager, mapper)
         {
+            this.carService = carService;
         }
 
         protected override string ItemName { get; set; } = "пътуване";
@@ -34,7 +39,7 @@
                 journey.DriverId = GetCurrentUserAsync().Result.Id;
             }
 
-            journey.StartPointX = viewModel.StartingPointX;
+            journey.StartPointX = viewModel.StartPointX;
             journey.StartPointY = viewModel.StartPointY;
             journey.EndPointX = viewModel.EndPointX;
             journey.EndPointY = viewModel.EndPointY;
@@ -50,7 +55,19 @@
 
         protected override JourneyFormViewModel SendFormData(Journey item, JourneyFormViewModel viewModel)
         {
-            throw new System.NotImplementedException();
+            int driverId;
+
+            if (item == null) // This means that the journey is to be created            
+                driverId = GetCurrentUserAsync().Result.Id;
+            else
+                driverId = item.DriverId;
+            
+            viewModel = viewModel ?? new JourneyFormViewModel();
+
+            if (viewModel.DriverCars.Count() == 0)
+                viewModel.DriverCars = mapper.Map<IEnumerable<Car>, IEnumerable<CarListViewModel>>(carService.GetAll(c => c.OwnerId == driverId));
+
+            return viewModel;
         }
     }
 }

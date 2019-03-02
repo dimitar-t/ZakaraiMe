@@ -20,6 +20,7 @@
     <link href="~/css/fontawesome-all.css" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,900" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet">
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     <div id="fb-root"></div>
@@ -345,7 +346,7 @@
                 }
             });
         });
-        })        
+        })
     </script>
 
     <script>
@@ -364,7 +365,7 @@
     </a>
 
     <!-- //Custom-JavaScript-File-Links -->
-    <script src="~/js/bootstrap.js"></script>
+    <script src="~/js/bootstrap.js"></script>        
 
     @RenderSection("Scripts", required: false)
 </body>

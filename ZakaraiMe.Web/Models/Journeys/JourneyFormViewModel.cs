@@ -2,14 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using AutoMapper;
     using Common.Mapping;
     using Data.Entities.Implementations;
     using Models.Cars;
 
-    public class JourneyFormViewModel : FormViewModel, IMapFrom<Journey>, IHaveCustomMapping
+    public class JourneyFormViewModel : FormViewModel, IValidatableObject, IMapFrom<Journey>, IHaveCustomMapping
     {
-        public decimal StartingPointX { get; set; }
+        public decimal StartPointX { get; set; }
 
         public decimal StartPointY { get; set; }
 
@@ -17,12 +18,17 @@
 
         public decimal EndPointY { get; set; }
 
+        [Display(Name = "Цена")]
+        [Range(0, 100), DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
+        [Display(Name = "Места")]
+        [Range(0, 6)]
         public int Seats { get; set; }
 
         public int CarId { get; set; }
 
+        [Display(Name = "Дата и час")]
         public DateTime SetOffTime { get; set; }
 
         public IEnumerable<CarListViewModel> DriverCars { get; set; } = new List<CarListViewModel>();
@@ -32,6 +38,14 @@
             profile
                 .CreateMap<Journey, JourneyFormViewModel>()
                 .ForMember(j => j.DriverCars, cfg => cfg.Ignore());
+        }
+
+        public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
+        {
+            if (SetOffTime < DateTime.UtcNow)
+            {
+                yield return new ValidationResult(WebConstants.PastDateError);
+            }
         }
     }
 }

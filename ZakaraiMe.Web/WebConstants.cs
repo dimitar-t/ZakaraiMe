@@ -13,6 +13,7 @@
         public const string CarCreatePageTitle = "Добавяне на кола";
         public const string CarUpdatePageTitle = "Редакция на кола";
         public const string CarIndexPageTitle = "Коли";
+        public const string JourneyCreatePageTitle = "Ново пътуване";
 
         public const string TempDataSuccessMessageKey = "SuccessNotification";
         public const string TempDataErrorMessageKey = "ErrorNotification";
@@ -24,6 +25,7 @@
         public const string RequiredField = "Полето е задължително";
         public const string UserNotExist = "Не съществува потребител с ел.поща {0}";
         public const string Unauthorized = "Нямате права върху {0}";
+        public const string PastDateError = "Датата е минала";
     
         public const string SuccessfulRegistration = "Успешна регистрация в zakaraime.com";
         public const string WelcomeMessage = "Добре дошъл! Приятно пътуване";

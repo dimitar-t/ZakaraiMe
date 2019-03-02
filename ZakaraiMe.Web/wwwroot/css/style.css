@@ -2266,3 +2266,14 @@ li {
     background-color: #428bca;
     padding: 5px 15px;
 }
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 90%;
+}
+
+.mapper-wrapper {
+    height: 500px;
+}

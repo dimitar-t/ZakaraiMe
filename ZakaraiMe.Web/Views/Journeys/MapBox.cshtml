@@ -3,7 +3,24 @@
 
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
-<div id='map'></div>
+
+<style>
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<section class="banner-bottom-agile-w3ls">
+    <div class="container">
+        <div class="col-md-8" style="height:800px;">
+            <div id='map'></div>
+        </div>
+    </div>
+</section>
 
 <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiZHVuZHVybHVua2EiLCJhIjoiY2pzcWd6OGR6MTQ3NTQ5cjJmMDd5eTJmbyJ9.TXbTIkJ-3Sp4t7kvj94idA';
@@ -14,13 +31,7 @@
         zoom: 13
     });
 
-    var mapboxDirections = new MapboxDirections({
+    map.addControl(new MapboxDirections({
         accessToken: mapboxgl.accessToken
-    });
-
-    map.addControl(mapboxDirections, 'top-left');
-
-    var obj = mapboxDirections.getDestination();
-
-    console.log(Object.getOwnPropertyNames(obj));
+    }), 'top-left');
 </script>
