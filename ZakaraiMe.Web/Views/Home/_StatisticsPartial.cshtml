@@ -1,0 +1,14 @@
+﻿@inject UserManager<User> userManager;
+@inject IJourneyService journeyService;
+
+@{
+    int usersCount = userManager.Users.ToList().Count;
+    int journeysCount = journeyService.GetAll().Count();
+}
+
+<div class="simply-countdown-custom">
+    <h4>
+        <i class="fas fa-user"></i> @usersCount
+        <i class="fas fa-road"></i> @journeysCount
+    </h4>
+</div>
