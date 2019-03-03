@@ -19,12 +19,14 @@
         private readonly IPictureService pictureService;
         private readonly ICarService carService;
         private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
-        public CarsController(ICarService carService, UserManager<User> userManager, IPictureService pictureService, IMapper mapper) : base(carService, userManager, mapper)
+        public CarsController(ICarService carService, UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IMapper mapper) : base(carService, userManager, mapper)
         {
             this.pictureService = pictureService;
             this.userManager = userManager;
             this.carService = carService;
+            this.signInManager = signInManager;
         }
 
         protected override string ItemName { get; set; } = "кола";
@@ -83,6 +85,7 @@
             {
                 User currentUser = await GetCurrentUserAsync();
                 await userManager.AddToRoleAsync(currentUser, CommonConstants.DriverRole);
+                await signInManager.RefreshSignInAsync(currentUser);
             }
 
             return result;
@@ -114,6 +117,7 @@
                 if(owner.Cars.Count() == 0) // If the user no longer has cars, remove his driver role
                 {
                     await userManager.RemoveFromRoleAsync(carToDelete.Owner, CommonConstants.DriverRole);
+                    await signInManager.RefreshSignInAsync(owner);
                 }
             }
 
