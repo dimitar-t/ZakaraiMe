@@ -1,10 +1,6 @@
 ﻿function parseDatePicker() {
     let startDate = $("#datetimePicker").val();
-<<<<<<< HEAD
-    console.log(startDate);
 
-=======
->>>>>>> e8f936fd30706c48cd7a0850875b9f95a3dc81bb
     initDatepicker();
 
     let date = new Date(startDate);
