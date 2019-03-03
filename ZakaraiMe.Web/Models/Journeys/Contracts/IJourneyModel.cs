@@ -12,7 +12,5 @@
         decimal EndPointX { get; set; }
 
         decimal EndPointY { get; set; }
-
-        IEnumerable<ValidationResult> Validate(ValidationContext validationContext);
     }
 }

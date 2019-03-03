@@ -115,22 +115,15 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header text-center">
-                            <h5 class="modal-title text-center" id="exampleModalLongTitle">Title Here</h5>
+                            <h5 class="modal-title text-center" id="exampleModalLongTitle">Избиране на маршрут</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
-                            <img src="images/banner3.jpg" class="img-fluid rounded" alt="">
-                            <h4>Sub title here</h4>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit sedc dnmo eiusmod tempor incididunt ut labore et dolore magna
-                                aliqua uta enim ad minim ven iam quis nostrud exercitation ullamco.
-                            </p>
+                        <div class="modal-body" style="height: 500px">
+                                <div id='map'></div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
@@ -348,25 +341,25 @@
     @RenderSection("Scripts", required: false)
 
     <!--Search engine js-->
-        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
-        <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script type="text/javascript" src="~/js/datetimePickerInit.js"></script>
-        <script type="text/javascript" src="~/js/mapBox.js"></script>
-        <script>
-            $(document).ready(function () {
-                parseDatePicker();
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="~/js/datetimePickerInit.js"></script>
+    <script type="text/javascript" src="~/js/mapBox.js"></script>
+    <script>
+        $(document).ready(function () {
+            parseDatePicker();
 
-                let mapboxDirections = mapOptions.getMapboxDirections();
+            let mapboxDirections = mapOptions.getMapboxDirections();
 
-                $("#journeyForm").on('submit', function (e) {
-                    $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
-                    $('#startPointY').val(mapboxDirections.getOrigin().geometry.coordinates[1])
-                    $('#endPointX').val(mapboxDirections.getDestination().geometry.coordinates[0])
-                    $('#endPointY').val(mapboxDirections.getDestination().geometry.coordinates[1])
-                });
-            })
-        </script>
+            $("#journeyForm").on('submit', function (e) {
+                $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
+                $('#startPointY').val(mapboxDirections.getOrigin().geometry.coordinates[1])
+                $('#endPointX').val(mapboxDirections.getDestination().geometry.coordinates[0])
+                $('#endPointY').val(mapboxDirections.getDestination().geometry.coordinates[1])
+            });
+        })
+    </script>
 </body>
 </html>

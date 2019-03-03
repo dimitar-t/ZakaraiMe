@@ -1,11 +1,11 @@
 ﻿@model JourneySearchViewModel
 
-<input asp-for="StartPointX" id="startPointX" type="hidden" />
-<input asp-for="StartPointY" id="startPointY" type="hidden" />
-<input asp-for="EndPointX" id="endPointX" type="hidden" />
-<input asp-for="EndPointY" id="endPointY" type="hidden" />
-
 <form asp-controller="Journeys" asp-action="Search" class="journeyForm" method="post">
+    <input asp-for="StartPointX" id="startPointX" type="hidden" />
+    <input asp-for="StartPointY" id="startPointY" type="hidden" />
+    <input asp-for="EndPointX" id="endPointX" type="hidden" />
+    <input asp-for="EndPointY" id="endPointY" type="hidden" />
+
     <div class="row">
         <div class="col-md-4">
             <button type="button" class="btn btn-primary submit" data-toggle="modal" data-target="#exampleModalCenter">Изберете маршрут</button>
@@ -13,6 +13,15 @@
         <div class="form-group required">
             <input asp-for="SetOffTime" type="text" required id="datetimePicker" class="form-control" />
             <span asp-validation-for="SetOffTime" class="text-danger"></span>
+        </div>
+        <div class="form-group required">
+            <select class="form-control">
+                <option value="500" selected>500 м</option>
+                <option value="1000">1 км</option>
+                <option value="2000">2 км</option>
+                <option value="5000">5 км</option>
+                <option value="10000">10 км</option>
+            </select>
         </div>
         <div class="col-md-4">
             <button type="submit" class="btn btn-primary submit">Търси</button>
