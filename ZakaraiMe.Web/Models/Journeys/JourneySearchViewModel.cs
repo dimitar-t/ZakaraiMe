@@ -7,7 +7,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class JourneySearchViewModel : IJourneyModel, IMapFrom<Journey>
+    public class JourneySearchViewModel : IJourneyModel, IValidatableObject, IMapFrom<Journey>
     {
         public decimal StartPointX { get; set; }
 

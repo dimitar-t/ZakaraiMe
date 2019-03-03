@@ -7,7 +7,6 @@
     using System;
     using System.Collections.Generic;
     using Users;
-    using System.ComponentModel.DataAnnotations;
 
     public class JourneyListViewModel : ListViewModel, IJourneyModel, IMapFrom<Journey>
     {
@@ -34,10 +33,5 @@
         public IEnumerable<UserJourney> Passengers { get; set; } = new List<UserJourney>();
 
         public DateTime SetOffTime { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            return null;
-        }
     }
 }
