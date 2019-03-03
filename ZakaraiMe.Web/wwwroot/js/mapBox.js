@@ -4,8 +4,7 @@
     lng: $("#startPointY").val()
 };
 
-(function (context) { 
-    console.log(context);
+(function (context) {
     if (context.lat == 0 || context.lng == 0) {
         context.lat = 25.5;
         context.lng = 42.75;
@@ -34,7 +33,5 @@
     context.getMap = function () {
         return map;
     };
-
-    console.log(context);
 })(mapOptions);
 

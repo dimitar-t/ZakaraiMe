@@ -1,13 +1,15 @@
-﻿$(document).ready(function () {
+﻿function parseDatePicker() {
     let startDate = $("#datetimePicker").val();
 
     initDatepicker();
 
-    if (startDate != '01-Jan-01 12:00:00 AM') {
+    let date = new Date(startDate);
+
+    if (date.toDateString() != 'Mon Jan 01 2001') {
         let parsedStartDate = new Date(Date.parse(startDate));
         $('#datetimePicker').data('daterangepicker').setStartDate(parsedStartDate);
     }
-});
+}
 
 function initDatepicker() {
     $("#datetimePicker").daterangepicker({
@@ -17,7 +19,7 @@ function initDatepicker() {
         timePicker24Hour: true,
         opens: 'left',
         "locale": {
-            "format": "DD/MM/YYYY HH:mm",
+            "format": "DD-MM-YYYY HH:mm",
             "separator": " - ",
             "applyLabel": "Запази",
             "cancelLabel": "Откажи",

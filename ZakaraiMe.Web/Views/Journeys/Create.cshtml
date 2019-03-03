@@ -39,10 +39,9 @@
     <script type="text/javascript" src="~/js/mapBox.js"></script>
     <script>
         $(document).ready(function () {
-            let startPointX = $("#startPointX").val();
-            let startPointY = $("#startPointY").val();            
-
-            initMap(startPointX, startPointY);            
+            parseDatePicker();
+            
+            let mapboxDirections = mapOptions.getMapboxDirections();
 
             $("#journeyForm").on('submit', function (e) {
                 $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
