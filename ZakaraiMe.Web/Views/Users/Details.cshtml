@@ -13,7 +13,14 @@
                 </div>
                 <div class="col-md-8 col-xs-12 col-sm-6 col-lg-8">
                     <div class="container" style="border-bottom:1px solid black">
-                        <h2>@Model.FirstName @Model.LastName</h2>
+                        @if (Model.UserName == User.Identity.Name)
+                        {
+                            <a asp-controller="Users" asp-action="Update" asp-route-id="@Model.Id"><h2>@Model.FirstName @Model.LastName</h2></a>
+                        }
+                        else
+                        {
+                            <h2>@Model.FirstName @Model.LastName</h2>
+                        }
                     </div>
                     <ul class="container details">
                         <li><p><span class="fa fa-mobile" style="width:50px;"></span>@Model.PhoneNumber</p></li>

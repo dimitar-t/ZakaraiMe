@@ -1,6 +1,5 @@
 ﻿namespace ZakaraiMe.Web.Models.Cars
 {
-    using AutoMapper;
     using Common.Mapping;
     using Data.Entities.Implementations;
     using Microsoft.AspNetCore.Http;

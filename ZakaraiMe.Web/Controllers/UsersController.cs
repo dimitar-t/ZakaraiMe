@@ -215,7 +215,7 @@
         [Authorize]
         public async Task<IActionResult> Details(int id)
         {
-            User userToDisplay = await userManager.FindByIdAsync(id.ToString()); // TODO: add proper viewModel with journeys and cars
+            User userToDisplay = await userManager.FindByIdAsync(id.ToString());
             if (userToDisplay == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);

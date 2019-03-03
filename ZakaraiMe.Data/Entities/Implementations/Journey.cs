@@ -34,7 +34,7 @@
 
         public int DriverId { get; set; }
 
-        public virtual IEnumerable<UserJourney> Passengers { get; set; } = new List<UserJourney>();
+        public virtual IList<UserJourney> Passengers { get; set; } = new List<UserJourney>();
 
         public DateTime SetOffTime { get; set; }
     }

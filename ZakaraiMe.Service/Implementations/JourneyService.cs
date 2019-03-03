@@ -21,7 +21,7 @@
         }
 
         public override async Task<bool> ForeignPropertiesExistAsync(Journey item, User currentUser)
-        {            
+        {
             Car car = await carService.GetByIdAsync(item.CarId);
 
             if (car == null)
@@ -56,6 +56,23 @@
                 return true;
             
             return item.DriverId == currentUser.Id;
+        }
+
+        public void JoinJourney(Journey journey, int currentUserId)
+        {
+            journey.Passengers
+                .Add(new UserJourney
+            {
+                UserId = currentUserId
+            });
+        }
+
+        public void LeaveJourney(Journey journey, int currentUserId)
+        {
+            UserJourney userJourneyToDelete = journey.Passengers.FirstOrDefault(p => p.UserId == currentUserId);
+
+            journey.Passengers
+                .Remove(userJourneyToDelete);
         }
     }
 }
