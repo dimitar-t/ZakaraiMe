@@ -1,5 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
+
+@{
+    var controller = ViewContext.RouteData.Values["Controller"].ToString();
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+}
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,19 +26,12 @@
     <link href="~/css/fontawesome-all.css" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,900" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet">
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
     <div id="fb-root"></div>
     <script async defer src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=2072239089478904&autoLogAppEvents=1"></script>
     <!--/banner-->
-    @{
-        var controller = ViewContext.RouteData.Values["Controller"].ToString();
-        var action = ViewContext.RouteData.Values["Action"].ToString();
-    }
     <div class="banner-inner" id="home">
         <!-- header -->
         <header>
@@ -157,7 +156,6 @@
 
     @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
     {
-        //TODO: make errors beautifuller
         <div class="alert alert-success alert-dismissable alert-fixed">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <span>@TempData[WebConstants.TempDataSuccessMessageKey]</span>
@@ -246,48 +244,11 @@
     <link href="~/css/simplyCountdown.css" rel='stylesheet' type='text/css' />
     <!--js-->
     <!-- carousel -->
-    <script src="~/js/owl.carousel.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.owl-carousel').owlCarousel({
-                loop: true,
-                margin: 10,
-                responsiveClass: true,
-                responsive: {
-                    0: {
-                        items: 1,
-                        nav: true
-                    },
-                    600: {
-                        items: 1,
-                        nav: false
-                    },
-                    900: {
-                        items: 2,
-                        nav: false
-                    },
-                    1000: {
-                        items: 3,
-                        nav: true,
-                        loop: false,
-                        margin: 20
-                    }
-                }
-            })
-        })
-    </script>
-
+    
     <script>
         $('a[href="/@controller/@action"]').parent().addClass('active')
     </script>
 
-    <!-- //carousel -->
-    <!-- simpleLightbox -->
-    <script src="~/js/simpleLightbox.js"></script>
-    <script>
-        $('.proj_gallery_grid a').simpleLightbox();
-    </script>
-    <!-- //simpleLightbox -->
     <!--search-bar-->
     <!--/ start-smoth-scrolling -->
     <script src="~/js/move-top.js"></script>
@@ -302,30 +263,7 @@
             });
         });
     </script>
-    <!--// end-smoth-scrolling -->
-
-    <script>
-        $(document).ready(function () {
-            $("#makes").change(function (e) {
-            $.ajax({
-                type: 'get',
-                url: '@Url.Action("GetModels", "Cars")',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: { "makeId": $("#makes").children(":selected").attr("id") },
-                success: function (result) {
-                    $("#models").empty();
-                    $.each(result, function () {
-                        $("#models").append(new Option(this.title, this.id));
-                    });
-                },
-                error: function (ex) {
-                    alert('Съжаляваме, възникна грешка.');
-                }
-            });
-        });
-        })
-    </script>
+    <!--// end-smoth-scrolling -->    
 
     <script>
         $(document).ready(function () {
@@ -346,27 +284,5 @@
     <script src="~/js/bootstrap.js"></script>
 
     @RenderSection("Scripts", required: false)
-
-    <!--Search engine js-->
-        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
-        <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script type="text/javascript" src="~/js/datetimePickerInit.js"></script>
-        <script type="text/javascript" src="~/js/mapBox.js"></script>
-        <script>
-            $(document).ready(function () {
-                parseDatePicker();
-
-                let mapboxDirections = mapOptions.getMapboxDirections();
-
-                $("#journeyForm").on('submit', function (e) {
-                    $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
-                    $('#startPointY').val(mapboxDirections.getOrigin().geometry.coordinates[1])
-                    $('#endPointX').val(mapboxDirections.getDestination().geometry.coordinates[0])
-                    $('#endPointY').val(mapboxDirections.getDestination().geometry.coordinates[1])
-                });
-            })
-        </script>
 </body>
 </html>

@@ -24,3 +24,28 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#makes").change(function (e) {
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("GetModels", "Cars")',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: { "makeId": $("#makes").children(":selected").attr("id") },
+                success: function (result) {
+                    $("#models").empty();
+                    $.each(result, function () {
+                        $("#models").append(new Option(this.title, this.id));
+                    });
+                },
+                error: function (ex) {
+                    alert('Съжаляваме, възникна грешка.');
+                }
+            });
+        });
+        })
+    </script>
+}
