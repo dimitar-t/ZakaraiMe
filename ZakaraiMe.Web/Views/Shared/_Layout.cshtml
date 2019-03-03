@@ -38,24 +38,6 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <!-- search -->
-                <div class="search">
-                    <div class="cd-main-header">
-                        <ul class="cd-header-buttons">
-                            <li>
-                                <a class="cd-search-trigger" href="#cd-search">
-                                    <span></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="cd-search" class="cd-search">
-                        <form action="#" method="post">
-                            <input name="Search" type="search" placeholder="Click enter after typing...">
-                        </form>
-                    </div>
-                </div>
-                <!-- //search -->
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">
@@ -103,35 +85,10 @@
                                     </h3>
                                     <h4>Пътувайте споделено в града и извън него</h4>
                                     <div class="banner-form">
-                                        <form action="#" method="post">
-                                            @*TODO: make form suitable for our app*@
+                                        <form asp-controller="Journeys" asp-action="Search" method="post">
                                             <div class="row">
-                                                <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="name" placeholder="Name" required>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <select class="form-control option">
-                                                        <option>Transport From</option>
-                                                        <option>Albania</option>
-                                                        <option>Belgium</option>
-                                                        <option>Cameroon</option>
-                                                        <option>Dominica</option>
-                                                        <option>France</option>
-                                                        <option>Jersey</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <select class="form-control option">
-                                                        <option>Transport To</option>
-                                                        <option>Colombia</option>
-                                                        <option>Indonesia</option>
-                                                        <option>Japan</option>
-                                                        <option>Lebanon</option>
-                                                        <option>Luxembourg</option>
-                                                        <option>Montserrat</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
+                                                    <partial name="../Journeys/_Search" model="Model" />
                                                     <button type="submit" class="btn btn-primary submit">Търси</button>
                                                 </div>
                                             </div>
@@ -365,7 +322,7 @@
     </a>
 
     <!-- //Custom-JavaScript-File-Links -->
-    <script src="~/js/bootstrap.js"></script>        
+    <script src="~/js/bootstrap.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

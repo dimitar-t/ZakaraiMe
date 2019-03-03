@@ -1,14 +1,15 @@
 ﻿namespace ZakaraiMe.Web.Models.Journeys
 {
+    using AutoMapper;
+    using Cars;
+    using Contracts;
+    using Common.Mapping;
+    using Data.Entities.Implementations;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using AutoMapper;
-    using Common.Mapping;
-    using Data.Entities.Implementations;
-    using Models.Cars;
 
-    public class JourneyFormViewModel : FormViewModel, IValidatableObject, IMapFrom<Journey>, IHaveCustomMapping
+    public class JourneyFormViewModel : FormViewModel, IJourneyModel, IValidatableObject, IMapFrom<Journey>, IHaveCustomMapping
     {
         public decimal StartPointX { get; set; }
         

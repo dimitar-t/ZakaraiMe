@@ -1,0 +1,65 @@
+﻿@model JourneySearchViewModel
+
+<input asp-for="StartPointX" id="startPointX" type="hidden" />
+<input asp-for="StartPointY" id="startPointY" type="hidden" />
+<input asp-for="EndPointX" id="endPointX" type="hidden" />
+<input asp-for="EndPointY" id="endPointY" type="hidden" />
+
+<div class="col-md-3">
+    <button type="button" data-toggle="modal" data-target="#mapModal">
+        Изберете маршрут
+    </button>
+</div>
+
+<!--Map Modal-->
+<div class="modal" id="#mapModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-8 mapper-wrapper">
+                    <div id='map'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group required">
+    <input asp-for="SetOffTime" type="text" required id="datetimePicker" class="form-control" />
+    <span asp-validation-for="SetOffTime" class="text-danger"></span>
+</div>
+
+<!--Search engine js-->
+@section Styles{
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+}
+
+@section Scripts{
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="~/js/datetimePickerInit.js"></script>
+    <script type="text/javascript" src="~/js/mapBox.js"></script>
+    <script>
+        $(document).ready(function () {
+            parseDatePicker();
+
+            let mapboxDirections = mapOptions.getMapboxDirections();
+
+            $("#journeyForm").on('submit', function (e) {
+                $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
+                $('#startPointY').val(mapboxDirections.getOrigin().geometry.coordinates[1])
+                $('#endPointX').val(mapboxDirections.getDestination().geometry.coordinates[0])
+                $('#endPointY').val(mapboxDirections.getDestination().geometry.coordinates[1])
+            });
+        })
+    </script>
+}

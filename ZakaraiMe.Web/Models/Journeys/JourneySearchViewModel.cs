@@ -1,15 +1,13 @@
 ﻿namespace ZakaraiMe.Web.Models.Journeys
 {
-    using Cars;
     using Contracts;
     using Common.Mapping;
     using Data.Entities.Implementations;
     using System;
     using System.Collections.Generic;
-    using Users;
     using System.ComponentModel.DataAnnotations;
 
-    public class JourneyListViewModel : ListViewModel, IJourneyModel, IMapFrom<Journey>
+    public class JourneySearchViewModel : IJourneyModel, IMapFrom<Journey>
     {
         public decimal StartPointX { get; set; }
 
@@ -19,25 +17,19 @@
 
         public decimal EndPointY { get; set; }
 
-        public decimal Price { get; set; }
-
-        public int Seats { get; set; }
-
-        public CarListViewModel Car { get; set; }
-
-        public int CarId { get; set; }
-
-        public UserListViewModel Driver { get; set; }
-
-        public int DriverId { get; set; }
-
-        public IEnumerable<UserJourney> Passengers { get; set; } = new List<UserJourney>();
-
         public DateTime SetOffTime { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            return null;
+            if (SetOffTime < DateTime.UtcNow)
+            {
+                yield return new ValidationResult(WebConstants.PastDateError);
+            }
+
+            if (StartPointX == 0 || StartPointY == 0 || EndPointX == 0 || EndPointY == 0)
+            {
+                yield return new ValidationResult(WebConstants.WaypointsNotSelected);
+            }
         }
     }
 }
