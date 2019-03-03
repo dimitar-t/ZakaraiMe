@@ -26,7 +26,8 @@
                         <li><p><span class="fa fa-mobile" style="width:50px;"></span>@Model.PhoneNumber</p></li>
                         <li><p><span class="fa fa-envelope" style="width:50px;"></span>@Model.Email</p></li>
                         <li><p><span class="fa fa-car" style="width:50px;"></span>@Model.Cars.Count()</p></li>
-                        <li><p><span class="fa fa-road" style="width:50px;"></span>Number of journeys</p></li>
+                        <li><p><span class="fa fa-road" style="width:50px;"></span>@Model.DriverJourneys.Count() пътувания като шофьор</p></li>
+                        <li><p><span class="fa fa-road" style="width:50px;"></span>@Model.PassengerJourneys.Count() пътувания като пътник</p></li>
                     </ul>
                 </div>
             </div>
