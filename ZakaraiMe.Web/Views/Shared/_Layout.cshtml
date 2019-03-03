@@ -1,5 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
+
+@{
+    var controller = ViewContext.RouteData.Values["Controller"].ToString();
+    var action = ViewContext.RouteData.Values["Action"].ToString();
+}
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,19 +26,12 @@
     <link href="~/css/fontawesome-all.css" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,900" rel="stylesheet">
     <link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700" rel="stylesheet">
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
     <div id="fb-root"></div>
     <script async defer src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2&appId=2072239089478904&autoLogAppEvents=1"></script>
     <!--/banner-->
-    @{
-        var controller = ViewContext.RouteData.Values["Controller"].ToString();
-        var action = ViewContext.RouteData.Values["Action"].ToString();
-    }
     <div class="banner-inner" id="home">
         <!-- header -->
         <header>
@@ -50,20 +49,30 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="About">За ЗакарайМе</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item text-center" href="team.html">Team</a>
-                                <a class="dropdown-item text-center" href="404.html">Services</a>
-
-                            </div>
-                        </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
+                            <a class="nav-link" asp-controller="Cars" asp-action="Create">Добави кола</a>
                         </li>
+                        @if (User.IsInRole(CommonConstants.DriverRole))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Journeys" asp-action="Create">Сподели пътуване</a>
+                            </li>
+                        }
+
+                        @if (User.IsInRole(CommonConstants.AdministratorRole))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    Админ панел
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a asp-controller="Cars" asp-action="Index" class="dropdown-item text-center">Коли</a>
+                                    <a asp-controller="Users" asp-action="Index" class="dropdown-item text-center">Потребители</a>
+
+                                </div>
+                            </li>
+                        }
                         <partial name="_LoginPartial" />
                     </ul>
                 </div>
@@ -81,14 +90,24 @@
                             <div class="banner-img">
                                 <div class="banner-info text-center">
                                     <h3 class="logo">
-                                        @*TODO: change logo to our logo*@
                                         <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                                             <i class="fas fa-car"></i> Закарай Ме
                                         </a>
                                     </h3>
                                     <h4>Пътувайте споделено в града и извън него</h4>
                                     <div class="banner-form">
-                                        <partial name="../Journeys/_Search" model="Model" />
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <partial name="../Journeys/_Search"/>
+                                        }
+                                        else
+                                        {
+                                            <div class="text-center">
+                                                <p class="text-light transparent-bg-dark">За да използвате услугите на zakaraime.com трябва да влезете в своя акаунт. Можете да влезете чрез Facebook, като кликнете на бутона вход.</p>
+                                                <a asp-controller="Account" asp-action="Login" class="b-home btn">Вход</a>
+                                                <a asp-controller="Account" asp-action="Register" class="b-home btn">Регистрация</a>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +122,7 @@
                                     </h3>
                                     <h4>Пътувайте споделено в града и извън него</h4>
                                     <div class="content">
-                                        <div class="simply-countdown-custom" id="simply-countdown-custom"></div> @*TODO: Add count of users, journeys, etc.*@
+                                        <partial name="_StatisticsPartial" />
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +169,6 @@
 
     @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
     {
-        //TODO: make errors beautifuller
         <div class="alert alert-success alert-dismissable alert-fixed">
             <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
             <span>@TempData[WebConstants.TempDataSuccessMessageKey]</span>
@@ -183,9 +201,7 @@
                     </a>
                 </h2>
                 <p class="para three mt-4">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus at placerat ante. Praesent nulla nunc, pretium dapibus
-                    efficitur in, auctor eget elit. Lorem ipsum dolor sit amet consectetur adipiscing elit. Phasellus at placerat ante.
-                    Praesent nulla nunc
+                    С непрестанното развитие на българската икономика и градове напливът на автомобили със съпътстващите го натоварен трафик и замърсяване са проблеми, които намират все по-голям отзвук в нашето общество. Никой не е доволен от всекидневното чакане в задръствания, пониженото качество на въздуха и шума, който се образува вследствие на завишения брой автомобили. Оставете своя автомобил и пътувайте заедно с други хора!
                 </p>
             </div>
             <div class="row footer-bottom-wthree-agile">
@@ -239,48 +255,11 @@
     <link href="~/css/simplyCountdown.css" rel='stylesheet' type='text/css' />
     <!--js-->
     <!-- carousel -->
-    <script src="~/js/owl.carousel.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.owl-carousel').owlCarousel({
-                loop: true,
-                margin: 10,
-                responsiveClass: true,
-                responsive: {
-                    0: {
-                        items: 1,
-                        nav: true
-                    },
-                    600: {
-                        items: 1,
-                        nav: false
-                    },
-                    900: {
-                        items: 2,
-                        nav: false
-                    },
-                    1000: {
-                        items: 3,
-                        nav: true,
-                        loop: false,
-                        margin: 20
-                    }
-                }
-            })
-        })
-    </script>
 
     <script>
         $('a[href="/@controller/@action"]').parent().addClass('active')
     </script>
 
-    <!-- //carousel -->
-    <!-- simpleLightbox -->
-    <script src="~/js/simpleLightbox.js"></script>
-    <script>
-        $('.proj_gallery_grid a').simpleLightbox();
-    </script>
-    <!-- //simpleLightbox -->
     <!--search-bar-->
     <!--/ start-smoth-scrolling -->
     <script src="~/js/move-top.js"></script>
@@ -296,29 +275,6 @@
         });
     </script>
     <!--// end-smoth-scrolling -->
-
-    <script>
-        $(document).ready(function () {
-            $("#makes").change(function (e) {
-            $.ajax({
-                type: 'get',
-                url: '@Url.Action("GetModels", "Cars")',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: { "makeId": $("#makes").children(":selected").attr("id") },
-                success: function (result) {
-                    $("#models").empty();
-                    $.each(result, function () {
-                        $("#models").append(new Option(this.title, this.id));
-                    });
-                },
-                error: function (ex) {
-                    alert('Съжаляваме, възникна грешка.');
-                }
-            });
-        });
-        })
-    </script>
 
     <script>
         $(document).ready(function () {
@@ -339,6 +295,7 @@
     <script src="~/js/bootstrap.js"></script>
 
     @RenderSection("Scripts", required: false)
+<<<<<<< HEAD
 
     <!--Search engine js-->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
@@ -361,5 +318,7 @@
             });
         })
     </script>
+=======
+>>>>>>> 26ee705b44c4a396d8fc9c1ef29c696363e55a0c
 </body>
 </html>

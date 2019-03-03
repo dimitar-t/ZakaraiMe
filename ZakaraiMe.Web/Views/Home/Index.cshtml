@@ -65,3 +65,36 @@
     </div>
 </section>
 <!--//services-->
+
+@if (User.Identity.IsAuthenticated)
+{   
+    @section Styles{
+        <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+        <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    }
+
+    @section Scripts{
+        <!--Search engine js-->
+        <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+        <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="~/js/datetimePickerInit.js"></script>
+        <script type="text/javascript" src="~/js/mapBox.js"></script>
+        <script>
+            $(document).ready(function () {
+                parseDatePicker();
+
+                let mapboxDirections = mapOptions.getMapboxDirections();
+
+                $("#journeyForm").on('submit', function (e) {
+                    $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
+                    $('#startPointY').val(mapboxDirections.getOrigin().geometry.coordinates[1])
+                    $('#endPointX').val(mapboxDirections.getDestination().geometry.coordinates[0])
+                    $('#endPointY').val(mapboxDirections.getDestination().geometry.coordinates[1])
+                });
+            })
+        </script>
+    }
+}
