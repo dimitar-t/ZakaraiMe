@@ -42,7 +42,8 @@
         {
             return GetAll(c => c.OwnerId == item.OwnerId
                             && c.Colour == item.Colour
-                            && c.ModelId == item.ModelId)
+                            && c.ModelId == item.ModelId
+                            && c.Id != item.Id)
                     .Any();
         }
 

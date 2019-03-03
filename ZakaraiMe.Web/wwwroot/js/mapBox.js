@@ -1,29 +1,40 @@
-﻿mapboxgl.accessToken = 'pk.eyJ1IjoiZHVuZHVybHVua2EiLCJhIjoiY2pzcWd6OGR6MTQ3NTQ5cjJmMDd5eTJmbyJ9.TXbTIkJ-3Sp4t7kvj94idA';
-var mapboxDirections = new MapboxDirections({
-    accessToken: mapboxgl.accessToken
-});
+﻿var mapOptions = {
+    zoom: 9,
+    lat: $("#startPointX").val(),
+    lng: $("#startPointY").val()
+};
 
-function initMap(lat, lng) {
-    let zoom = 9;
-
-    if (lat == 0 || lng == 0) {
-        lat = 25.5; 
-        lng = 42.75;
-        zoom = 6;
+(function (context) { 
+    console.log(context);
+    if (context.lat == 0 || context.lng == 0) {
+        context.lat = 25.5;
+        context.lng = 42.75;
+        context.zoom = 6;
     }
-    
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZHVuZHVybHVua2EiLCJhIjoiY2pzcWd6OGR6MTQ3NTQ5cjJmMDd5eTJmbyJ9.TXbTIkJ-3Sp4t7kvj94idA';
+
     var map = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v9',
-        center: [lat, lng],
-        zoom: zoom
+        center: [context.lat, context.lng],
+        zoom: context.zoom
     });
     
-    map.addControl(mapboxDirections, 'top-left');
+    var mapboxDirectionsControl = new MapboxDirections({
+        accessToken: mapboxgl.accessToken
+    });
 
-    var obj = mapboxDirections.getDestination();
+    map.addControl(mapboxDirectionsControl, 'top-left');
 
-    console.log(Object.getOwnPropertyNames(obj));
-}
+    context.getMapboxDirections = function () {
+        return mapboxDirectionsControl;
+    };
 
+    context.getMap = function () {
+        return map;
+    };
+
+    console.log(context);
+})(mapOptions);
 

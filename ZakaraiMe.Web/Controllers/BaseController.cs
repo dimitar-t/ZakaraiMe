@@ -61,7 +61,7 @@
 
         [HttpGet]
         [Authorize]
-        public IActionResult Create()
+        public virtual IActionResult Create()
         {
             TFormViewModel viewModel = SendFormData(null, null);
 

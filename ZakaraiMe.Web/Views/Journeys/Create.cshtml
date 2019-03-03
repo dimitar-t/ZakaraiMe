@@ -40,14 +40,9 @@
     <script>
         $(document).ready(function () {
             let startPointX = $("#startPointX").val();
-            let startPointY = $("#startPointY").val();
-            let endPointX = $("#endPointX").val();
-            let endPointY = $("#endPointY").val();
+            let startPointY = $("#startPointY").val();            
 
-            initMap(startPointX, startPointY);
-
-            mapboxDirections.setOrigin([startPointX, startPointY]);
-            mapboxDirections.setDestination([endPointX, endPointY]);
+            initMap(startPointX, startPointY);            
 
             $("#journeyForm").on('submit', function (e) {
                 $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])

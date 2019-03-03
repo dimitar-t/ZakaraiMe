@@ -45,7 +45,8 @@
         {
             return GetAll(j => j.CarId == item.CarId
                             && j.DriverId == item.DriverId
-                            && j.SetOffTime == item.SetOffTime)
+                            && j.SetOffTime == item.SetOffTime
+                            && j.Id != item.Id)
                     .Any();
         }
 

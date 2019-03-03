@@ -41,8 +41,16 @@
         $(document).ready(function () {
             let startPointX = $("#startPointX").val();
             let startPointY = $("#startPointY").val();
+            let endPointX = $("#endPointX").val();
+            let endPointY = $("#endPointY").val();
 
-            initMap(startPointX, startPointY);
+            let map = mapOptions.getMap();
+            let mapboxDirections = mapOptions.getMapboxDirections();
+
+            map.on('load', function () {
+                mapboxDirections.setOrigin([startPointX, startPointY]);
+                mapboxDirections.setDestination([endPointX, endPointY]);
+            })            
 
             $("#journeyForm").on('submit', function (e) {
                 $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])

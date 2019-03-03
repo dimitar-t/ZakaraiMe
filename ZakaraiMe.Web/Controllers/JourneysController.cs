@@ -10,6 +10,8 @@
     using Data.Entities.Implementations;
     using Service.Contracts;
     using Models.Cars;
+    using Microsoft.AspNetCore.Authorization;
+    using Common;
 
     public class JourneysController : BaseController<Journey, JourneyFormViewModel, JourneyListViewModel>
     {
@@ -68,6 +70,18 @@
                 viewModel.DriverCars = mapper.Map<IEnumerable<Car>, IEnumerable<CarListViewModel>>(carService.GetAll(c => c.OwnerId == driverId));
 
             return viewModel;
+        }
+
+        [Authorize(Roles = CommonConstants.DriverRole)]
+        public override async Task<IActionResult> Create(JourneyFormViewModel viewModel)
+        {
+            return await base.Create(viewModel);
+        }
+
+        [Authorize(Roles = CommonConstants.DriverRole)]
+        public override IActionResult Create()
+        {
+            return base.Create();
         }
     }
 }
