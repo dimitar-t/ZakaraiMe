@@ -1,12 +1,16 @@
 ﻿function parseDatePicker() {
     let startDate = $("#datetimePicker").val();
+<<<<<<< HEAD
     console.log(startDate);
 
+=======
+>>>>>>> e8f936fd30706c48cd7a0850875b9f95a3dc81bb
     initDatepicker();
 
     let date = new Date(startDate);
+    let year = date.getFullYear();
 
-    if (date.toDateString() != 'Mon Jan 01 2001') {
+    if (year >= '2019') {
         let parsedStartDate = new Date(Date.parse(startDate));
         $('#datetimePicker').data('daterangepicker').setStartDate(parsedStartDate);
     }
