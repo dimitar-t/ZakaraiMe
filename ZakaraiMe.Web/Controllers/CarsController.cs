@@ -3,6 +3,7 @@
     using AutoMapper;
     using Common;
     using Data.Entities.Implementations;
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -110,11 +111,19 @@
             if (result.GetType() == base.RedirectToHome().GetType()) // If the delete action was successful
             {
                 Car carToDelete = await carService.GetByIdAsync(id);
+
+                if (carToDelete.Journeys.Count() != 0)
+                {
+                    TempData.AddErrorMessage(WebConstants.CarHasJourney);
+
+                    return RedirectToHome();
+                }
+
                 User owner = await userManager.FindByIdAsync(carToDelete.OwnerId.ToString());
 
                 await pictureService.DeleteAsync(carToDelete.Picture);
 
-                if(owner.Cars.Count() == 0) // If the user no longer has cars, remove his driver role
+                if (owner.Cars.Count() == 0) // If the user no longer has cars, remove his driver role
                 {
                     await userManager.RemoveFromRoleAsync(carToDelete.Owner, CommonConstants.DriverRole);
                     await signInManager.RefreshSignInAsync(owner);

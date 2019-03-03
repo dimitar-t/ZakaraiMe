@@ -33,6 +33,8 @@
         public const string FullCar = "Колата е пълна. Потърси друг превоз.";
         public const string WarningLeaveJourney = "Вие се отказахте от това пътуване";
         public const string JourneyInThePast = "Пътуването вече е минало";
+        public const string CarHasJourney = "Не можете да изтриете кола, която се използва за пътуване.";
+        public const string UserHasJourneys = "Не можете да изтриете потребител, който има пътуване.";
 
 
         public const string SuccessfulRegistration = "Успешна регистрация в zakaraime.com";
