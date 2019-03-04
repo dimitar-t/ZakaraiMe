@@ -28,11 +28,6 @@
 
         protected override string ItemName { get; set; } = "пътуване";
 
-        public IActionResult MapBox()
-        {
-            return View();
-        }
-
         protected override async Task<Journey> GetEntityAsync(JourneyFormViewModel viewModel, int id)
         {
             Journey journey = await service.GetByIdAsync(id);
@@ -186,7 +181,13 @@
         }
 
         public async Task<IActionResult> Search(JourneySearchViewModel searchParams)
-        {  
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return RedirectToHome();
+            }
+
             if (searchParams == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);

@@ -2287,7 +2287,16 @@ li {
 }
 
 .journeyOption{
+    padding-bottom: 10px;
+}
 
+.journeyOption-data{
+    background-color: lightgray;
+    padding: 10px;
+}
+
+.journeyOption-active{
+    background-color: papayawhip;
 }
 
 .search-datetimepicker{

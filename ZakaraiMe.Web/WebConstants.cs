@@ -2,6 +2,7 @@
 {
     public class WebConstants
     {
+        public const string AboutPageTitle = "За ЗакарайМе";
         public const string RegisterPageTitle = "Регистрация";
         public const string LoginPageTitle = "Вход";
         public const string CreateUserPageTitle = "Нов потребител";

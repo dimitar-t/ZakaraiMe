@@ -79,21 +79,21 @@
                     <div class="card-body">
                         <div class="row">
                             <p>За да видите точния маршрут на някое пътуване, кликнете върху сивото поле около него.</p>
-                            <div class="col-md-8 col-sm-12 mapper-wrapper">
+                            <div class="col-md-7 col-sm-12 mapper-wrapper">
                                 <div id='map'></div>
                             </div>
-                            <div class="col-md-4 col-sm-12" style="overflow: auto; height:500px">
+                            <div class="col-md-5 col-sm-12" style="overflow: auto; height:500px">
                                 @foreach (UserJourney userJourney in Model.PassengerJourneys.OrderBy(pj => pj.Journey.SetOffTime).ToList())
                                 {
-                                    <div class="journeyOption" style="padding-bottom:10px">
-                                        <div class="row" style="background-color:lightgray">
+                                    <div class="journeyOption">
+                                        <div class="row journeyOption-data">
                                             <input value="@userJourney.Journey.StartPointX" class="startPointX" type="hidden" />
                                             <input value="@userJourney.Journey.StartPointY" class="startPointY" type="hidden" />
                                             <input value="@userJourney.Journey.EndPointX" class="endPointX" type="hidden" />
                                             <input value="@userJourney.Journey.EndPointY" class="endPointY" type="hidden" />
                                             <div class="col-md-4">
                                                 <img src="~/images/database/@(userJourney.Journey.Driver.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
-                                                <span>
+                                                <span class="d-block">
                                                     <a asp-controller="Users" asp-action="Details" asp-route-id="@(userJourney.Journey.DriverId)">@userJourney.Journey.Driver.FirstName @userJourney.Journey.Driver.LastName</a>
                                                 </span>
                                                 @if (User.Identity.Name == userJourney.User.UserName)
@@ -112,20 +112,21 @@
 
                                 @foreach (Journey journey in Model.DriverJourneys)
                                 {
-                                    <div class="journeyOption" style="padding-bottom:10px">
-                                        <div class="row" style="background-color:lightgray">
+                                    <div class="journeyOption">
+                                        <div class="row journeyOption-data">
                                             <input value="@journey.StartPointX" class="startPointX" type="hidden" />
                                             <input value="@journey.StartPointY" class="startPointY" type="hidden" />
                                             <input value="@journey.EndPointX" class="endPointX" type="hidden" />
                                             <input value="@journey.EndPointY" class="endPointY" type="hidden" />
                                             <div class="col-md-4">
                                                 <img src="~/images/database/@(Model.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
-                                                <span>
+                                                <span class="d-block">
                                                     <a asp-controller="Users" asp-action="Details" asp-route-id="@(Model.Id)">@Model.FirstName @Model.LastName</a>
                                                 </span>
                                                 @if (journey.Passengers.Count == 0 && journey.Driver.UserName == User.Identity.Name)
                                                 {
-                                                    <a asp-controller="Journeys" asp-action="Join" asp-route-id="@journey.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                                                    <a asp-controller="Journeys" asp-action="Delete" asp-route-id="@journey.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                                                    <a asp-controller="Journeys" asp-action="Update" asp-route-id="@journey.Id" class="btn btn-sm btn-warning">Промени</a>
                                                 }
                                             </div>
                                             <div class="col-md-6">
@@ -156,18 +157,22 @@
     <script type="text/javascript" src="~/js/mapBox.js"></script>
     <script>
         $(document).ready(function () {
-            let mapboxDirections = mapOptions.getMapboxDirections();            
+            let mapboxDirections = mapOptions.getMapboxDirections();                        
 
-            $('#accordion').on('show.bs.collapse', function () {
-                let map = mapOptions.getMap();
-                map.resize();
+            $('#accordion').on('show.bs.collapse', function () {                
+                setTimeout(function () {
+                    mapOptions.getMap().resize();
+                }, 1000);                
             });
 
             $('.journeyOption').on('click', function () {
-                startPointX = $('.journeyOption').find('.startPointX').val();
-                startPointY = $('.journeyOption').find('.startPointY').val();
-                endPointX = $('.journeyOption').find('.endPointX').val();
-                endPointY = $('.journeyOption').find('.endPointY').val();
+                $('.journeyOption-data').removeClass('journeyOption-active');
+                $(this).children('.journeyOption-data').addClass('journeyOption-active');
+
+                startPointX = $(this).find('.startPointX').val();
+                startPointY = $(this).find('.startPointY').val();
+                endPointX = $(this).find('.endPointX').val();
+                endPointY = $(this).find('.endPointY').val();
                 mapboxDirections.setOrigin([startPointX, startPointY]);
                 mapboxDirections.setDestination([endPointX, endPointY]);
             });

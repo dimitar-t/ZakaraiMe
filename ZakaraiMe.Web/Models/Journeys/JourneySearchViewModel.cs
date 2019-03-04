@@ -20,12 +20,8 @@
 
         public DateTime SetOffTime { get; set; }
 
+        [Range(0, 10000)]
         public int Radius { get; set; }
-
-        public void ConfigureMapping(Profile profile)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {

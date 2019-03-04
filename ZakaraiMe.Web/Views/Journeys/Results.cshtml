@@ -8,21 +8,21 @@
     <div class="container">
         <div class="row">
             <p>За да видите точния маршрут на някое пътуване, кликнете върху сивото поле около него.</p>
-            <div class="col-md-8 mapper-wrapper">
+            <div class="col-md-6 mapper-wrapper">
                 <div id='map'></div>
             </div>
-            <div class="col-md-4" style="overflow: auto; height:500px">
+            <div class="col-md-6" style="overflow: auto; height:500px">
                 @foreach (JourneyListViewModel journey in Model)
                 {
-                    <div class="journeyOption" style="padding-bottom:10px">
-                        <div class="row" style="background-color:lightgray">
+                    <div class="journeyOption">
+                        <div class="row journeyOption-data">
                             <input value="@journey.StartPointX" class="startPointX" type="hidden" />
                             <input value="@journey.StartPointY" class="startPointY" type="hidden" />
                             <input value="@journey.EndPointX" class="endPointX" type="hidden" />
                             <input value="@journey.EndPointY" class="endPointY" type="hidden" />
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <img src="~/images/database/@(journey.Driver.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
-                                <span>
+                                <span class="d-block">
                                     <a asp-controller="Users" asp-action="Details" asp-route-id="@(journey.DriverId)">@journey.Driver.FirstName @journey.Driver.LastName</a>
                                 </span>
                                 <a asp-controller="Journeys" asp-action="Join" asp-route-id="@journey.Id" class="btn btn-success">Присъединяване</a>
@@ -55,10 +55,13 @@
             let mapboxDirections = mapOptions.getMapboxDirections();
             
             $('.journeyOption').on('click', function () {
-                startPointX = $('.journeyOption').find('.startPointX').val();
-                startPointY = $('.journeyOption').find('.startPointY').val();
-                endPointX = $('.journeyOption').find('.endPointX').val();
-                endPointY = $('.journeyOption').find('.endPointY').val();
+                $('.journeyOption-data').removeClass('journeyOption-active');
+                $(this).children('.journeyOption-data').addClass('journeyOption-active');
+
+                startPointX = $(this).find('.startPointX').val();
+                startPointY = $(this).find('.startPointY').val();
+                endPointX = $(this).find('.endPointX').val();
+                endPointY = $(this).find('.endPointY').val();
                 mapboxDirections.setOrigin([startPointX, startPointY]);
                 mapboxDirections.setDestination([endPointX, endPointY]);
             });
