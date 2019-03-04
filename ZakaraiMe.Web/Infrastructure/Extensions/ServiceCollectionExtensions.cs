@@ -9,6 +9,11 @@
 
     public static class ServiceCollcetionExtensions
     {
+        /// <summary>
+        /// Gets .Data and .Service projects and registers the services in them.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {
             Assembly dataAssembly = Assembly.GetAssembly(typeof(IBaseRepository<User>));

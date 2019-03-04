@@ -2,6 +2,9 @@
 {
     using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
+    /// <summary>
+    /// Extension methods for errors, warnings and success messages. Uses tempData to store the message.
+    /// </summary>
     public static class TempDataDictionaryExtensions
     {
         public static void AddSuccessMessage(this ITempDataDictionary tempData, string message, params string[] args)
