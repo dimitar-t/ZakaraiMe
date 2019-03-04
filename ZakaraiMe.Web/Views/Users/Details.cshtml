@@ -58,7 +58,6 @@
                                         <h5 class="card-title">@car.Model.Make.Title @car.Model.Title</h5>
                                         @if (User.Identity.Name == car.Owner.UserName)
                                         {
-                                            <a class="btn btn-warning" asp-controller="Cars" asp-action="Update" asp-route-id="@car.Id">Редактирай</a>
                                             <a class="btn btn-danger" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" onclick="return confirm('Сигурен ли си, че искаш да изтриеш тази кола?')">Изтрий</a>
                                         }
                                     </div>
