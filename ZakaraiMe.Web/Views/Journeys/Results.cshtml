@@ -7,6 +7,7 @@
 <section class="inner-sec-w3layouts-agileits">
     <div class="container">
         <div class="row">
+            <p>За да видите точния маршрут на някое пътуване, кликнете върху сивото поле около него.</p>
             <div class="col-md-8 mapper-wrapper">
                 <div id='map'></div>
             </div>
@@ -39,18 +40,31 @@
     </div>
 </section>
 
+
+@section Styles{
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+}
+
 @section Scripts{
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script type="text/javascript" src="~/js/mapBox.js"></script>
     <script>
         $(document).ready(function () {
             let mapboxDirections = mapOptions.getMapboxDirections();
 
+            let startPointX = 4;
+            let startPointY = 5;
+            let endPointX = 6;
+            let endPointY = 7;
             $('.journeyOption').on('click', function () {
-                alert('maikati')
+                startPointX = $('.journeyOption').find('.startPointX').val();
+                startPointY = $('.journeyOption').find('.startPointY').val();
+                endPointX = $('.journeyOption').find('.endPointX').val();
+                endPointY = $('.journeyOption').find('.endPointY').val();
+                mapboxDirections.setOrigin([startPointX, startPointY]);
+                mapboxDirections.setDestination([endPointX, endPointY]);
             });
         })
     </script>
