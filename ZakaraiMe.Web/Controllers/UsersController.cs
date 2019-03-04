@@ -194,11 +194,17 @@
                 return RedirectToAction(nameof(Index));
             }
 
+            if (userToDelete.UserName == User.Identity.Name)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return RedirectToHome();
+            }
+
             if (userToDelete.DriverJourneys.Count() != 0 || userToDelete.PassengerJourneys.Count() != 0)
             {
                 TempData.AddErrorMessage(WebConstants.UserHasJourneys);
                 return RedirectToHome();
-            }
+            }            
 
             Picture profilePictureToDelete = userToDelete.ProfilePicture;
 
