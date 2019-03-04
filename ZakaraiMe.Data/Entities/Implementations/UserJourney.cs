@@ -1,5 +1,8 @@
 ﻿namespace ZakaraiMe.Data.Entities.Implementations
 {
+    /// <summary>
+    /// Entity which represents the join table between users and journeys.
+    /// </summary>
     public class UserJourney
     {
         public virtual User User { get; set; }

@@ -60,7 +60,7 @@
         [HttpPost]
         [Authorize(Roles = CommonConstants.AdministratorRole)]
         public async Task<IActionResult> Create(UserFormViewModel model)
-        {
+        {            
             if (!ModelState.IsValid || model.ImageFile == null)
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);

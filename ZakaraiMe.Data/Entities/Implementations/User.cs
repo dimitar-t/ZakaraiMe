@@ -5,6 +5,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// Entity with properties for users. It inherits IdentityUser.
+    /// </summary>
     public class User : IdentityUser<int>, IBaseEntity
     {
         public override int Id { get; set; }

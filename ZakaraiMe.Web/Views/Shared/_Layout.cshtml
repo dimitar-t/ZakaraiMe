@@ -152,6 +152,7 @@
                                 <div id='map'></div>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Запази</button>
                         </div>
                     </div>
                 </div>
@@ -302,33 +303,7 @@
 
     <!-- //Custom-JavaScript-File-Links -->
     <script src="~/js/bootstrap.js"></script>
-
-<<<<<<< HEAD
+    
     @RenderSection("Scripts", required: false)
-
-    <!--Search engine js-->
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script type="text/javascript" src="~/js/datetimePickerInit.js"></script>
-    <script type="text/javascript" src="~/js/mapBox.js"></script>
-    <script>
-        $(document).ready(function () {
-            parseDatePicker();
-
-            let mapboxDirections = mapOptions.getMapboxDirections();
-
-            $("#journeyForm").on('submit', function (e) {
-                $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
-                $('#startPointY').val(mapboxDirections.getOrigin().geometry.coordinates[1])
-                $('#endPointX').val(mapboxDirections.getDestination().geometry.coordinates[0])
-                $('#endPointY').val(mapboxDirections.getDestination().geometry.coordinates[1])
-            });
-        })
-    </script>
-=======
-    @RenderSection("Scripts", required: false)    
->>>>>>> ee3051009fe81daddbab2ecdccda23c1ff4e6f5d
 </body>
 </html>

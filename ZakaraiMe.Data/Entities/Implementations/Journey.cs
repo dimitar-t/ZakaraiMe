@@ -5,6 +5,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
 
+    /// <summary>
+    /// Entity with properties for coordinates and users involved in a journey.
+    /// </summary>
     public class Journey : IBaseEntity
     {
         public int Id { get; set; }

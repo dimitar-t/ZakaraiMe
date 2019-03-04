@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// Entity with properties for vehicles of users.
+    /// </summary>
     public class Car : IBaseEntity
     {
         public int Id { get; set; }

@@ -19,6 +19,12 @@
             dbSet = context.Set<TEntity>();
         }
 
+        /// <summary>
+        /// Gets all entries from the database which match the filter.
+        /// </summary>
+        /// <param name="filter">Function used for getting only the needed data. It is the same as in .Where method in System.Linq</param>
+        /// <returns>Collection of entities</returns>
+        /// <example>Usage: <code>IEnumerable<Car> cars = repository.GetAll(c => c.Id > 10)</code></example>
         public virtual IEnumerable<TEntity> GetAll(Func<TEntity, bool> filter = null)
         {
             if (filter == null)

@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// Entity with properties for car makes (i.e Mercedes, BMW).
+    /// </summary>
     public class Make : IBaseEntity
     {
         public int Id { get; set; }

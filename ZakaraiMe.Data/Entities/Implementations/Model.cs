@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    /// <summary>
+    /// Entity with properties for car model (i.e. E-Class, 316i)
+    /// </summary>
     public class Model : IBaseEntity
     {
         public int Id { get; set; }

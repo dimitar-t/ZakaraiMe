@@ -9,6 +9,13 @@
 
     public static class PictureServiceHelpers
     {
+        /// <summary>
+        /// Resizes the picture to the given 
+        /// </summary>
+        /// <param name="image">The picture converted in System.Drawing.Image</param>
+        /// <param name="width">The new width of the picture</param>
+        /// <param name="height">The new height of the picture</param>
+        /// <returns></returns>
         public static Bitmap ResizePicture(Image image, int width, int height)
         {
             if (image.Width <= width)
@@ -39,6 +46,11 @@
             return destImage;
         }
 
+        /// <summary>
+        /// Converts the uploaded image to System.Drawing.Image
+        /// </summary>
+        /// <param name="uploadedImage">The image uploaded from the front end.</param>
+        /// <returns></returns>
         public static Image ConvertIFormFileToImage(IFormFile uploadedImage)
         {
             MemoryStream ms = new MemoryStream();

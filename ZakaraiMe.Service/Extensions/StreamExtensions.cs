@@ -46,6 +46,12 @@
             return stream.IsImage(out imageType);
         }
 
+        /// <summary>
+        /// Checks wether the stream is of an image file
+        /// </summary>
+        /// <param name="stream">The stream which is checked</param>
+        /// <param name="imageType"></param>
+        /// <returns></returns>
         public static bool IsImage(this Stream stream, out string imageType)
         {
             stream.Seek(0, SeekOrigin.Begin);
