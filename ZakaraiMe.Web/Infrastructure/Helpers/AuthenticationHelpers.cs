@@ -1,4 +1,4 @@
-﻿namespace ZakaraiMe.Web.Infrastructure.Helpers
+﻿    namespace ZakaraiMe.Web.Infrastructure.Helpers
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,12 @@
 
     public static class AuthenticationHelpers
     {
-        public static string[] GetNamesFromExternalLogin(string username) // Extract the person's names from his username
+        /// <summary>
+        /// Extracts facebook user's first and last names
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public static string[] GetNamesFromExternalLogin(string username)
         {
             string[] names = new string[2];
             names = username.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
@@ -20,6 +25,12 @@
             return names;
         }
 
+        /// <summary>
+        /// Generates unique username for each user based on his first and last names
+        /// </summary>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <returns></returns>
         public static string GenerateUniqueUsername(string firstName, string lastName)
         {
             DateTime centuryBegin = new DateTime(2001, 1, 1);
