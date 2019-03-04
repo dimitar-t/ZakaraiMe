@@ -3,6 +3,7 @@
     using AutoMapper;
     using Common;
     using Data.Entities.Implementations;
+    using Infrastructure.Extensions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -19,12 +20,14 @@
         private readonly IPictureService pictureService;
         private readonly ICarService carService;
         private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
 
-        public CarsController(ICarService carService, UserManager<User> userManager, IPictureService pictureService, IMapper mapper) : base(carService, userManager, mapper)
+        public CarsController(ICarService carService, UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IMapper mapper) : base(carService, userManager, mapper)
         {
             this.pictureService = pictureService;
             this.userManager = userManager;
             this.carService = carService;
+            this.signInManager = signInManager;
         }
 
         protected override string ItemName { get; set; } = "кола";
@@ -83,6 +86,7 @@
             {
                 User currentUser = await GetCurrentUserAsync();
                 await userManager.AddToRoleAsync(currentUser, CommonConstants.DriverRole);
+                await signInManager.RefreshSignInAsync(currentUser);
             }
 
             return result;
@@ -107,13 +111,22 @@
             if (result.GetType() == base.RedirectToHome().GetType()) // If the delete action was successful
             {
                 Car carToDelete = await carService.GetByIdAsync(id);
+
+                if (carToDelete.Journeys.Count() != 0)
+                {
+                    TempData.AddErrorMessage(WebConstants.CarHasJourney);
+
+                    return RedirectToHome();
+                }
+
                 User owner = await userManager.FindByIdAsync(carToDelete.OwnerId.ToString());
 
                 await pictureService.DeleteAsync(carToDelete.Picture);
 
-                if(owner.Cars.Count() == 0) // If the user no longer has cars, remove his driver role
+                if (owner.Cars.Count() == 0) // If the user no longer has cars, remove his driver role
                 {
                     await userManager.RemoveFromRoleAsync(carToDelete.Owner, CommonConstants.DriverRole);
+                    await signInManager.RefreshSignInAsync(owner);
                 }
             }
 

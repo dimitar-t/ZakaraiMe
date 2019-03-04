@@ -108,6 +108,7 @@
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Join(int id)
         {
             Journey journey = await journeyService.GetByIdAsync(id);
@@ -154,6 +155,7 @@
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Leave(int id)
         {
             Journey journey = await journeyService.GetByIdAsync(id);

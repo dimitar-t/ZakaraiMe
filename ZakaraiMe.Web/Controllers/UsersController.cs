@@ -194,6 +194,12 @@
                 return RedirectToAction(nameof(Index));
             }
 
+            if (userToDelete.DriverJourneys.Count() != 0 || userToDelete.PassengerJourneys.Count() != 0)
+            {
+                TempData.AddErrorMessage(WebConstants.UserHasJourneys);
+                return RedirectToHome();
+            }
+
             Picture profilePictureToDelete = userToDelete.ProfilePicture;
 
             IdentityResult result = await userManager.DeleteAsync(userToDelete);

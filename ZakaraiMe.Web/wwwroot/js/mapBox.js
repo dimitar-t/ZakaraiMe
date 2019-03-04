@@ -21,7 +21,11 @@
     });
     
     var mapboxDirectionsControl = new MapboxDirections({
-        accessToken: mapboxgl.accessToken
+        accessToken: mapboxgl.accessToken,
+        unit: 'metric',
+        controls: {
+            instructions: false
+        }
     });
 
     map.addControl(mapboxDirectionsControl, 'top-left');

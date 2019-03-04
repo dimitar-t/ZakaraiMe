@@ -87,6 +87,12 @@
                 parseDatePicker();
 
                 let mapboxDirections = mapOptions.getMapboxDirections();
+                let map = mapOptions.getMap();
+
+                $('#exampleModalCenter').on('shown.bs.modal', function ()
+                {
+                    map.resize();
+                })
 
                 $("#journeyForm").on('submit', function (e) {
                     $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
