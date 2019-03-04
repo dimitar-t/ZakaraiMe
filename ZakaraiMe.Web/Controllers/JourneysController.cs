@@ -184,5 +184,10 @@
             TempData.AddWarningMessage(WebConstants.WarningLeaveJourney);
             return RedirectToHome();
         }
+
+        public async Task<IEnumerable<JourneyListViewModel>> Search(JourneySearchViewModel searchParams)
+        {
+            return null;
+        }
     }
 }

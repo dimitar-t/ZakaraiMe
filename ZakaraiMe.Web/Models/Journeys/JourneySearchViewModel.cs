@@ -6,6 +6,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using AutoMapper;
 
     public class JourneySearchViewModel : IJourneyModel, IValidatableObject, IMapFrom<Journey>
     {
@@ -19,7 +20,14 @@
 
         public DateTime SetOffTime { get; set; }
 
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        public int Radius { get; set; }
+
+        public void ConfigureMapping(Profile profile)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<ValidationResult> Validate(System.ComponentModel.DataAnnotations.ValidationContext validationContext)
         {
             if (SetOffTime < DateTime.UtcNow)
             {
