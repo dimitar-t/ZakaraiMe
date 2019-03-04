@@ -2289,3 +2289,9 @@ li {
 .journeyOption{
 
 }
+
+.search-datetimepicker{
+    padding: 1em 1em 1em 1em;
+    font-size: 0.9em;
+    height: inherit !important;
+}

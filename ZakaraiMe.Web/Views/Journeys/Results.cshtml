@@ -53,11 +53,7 @@
     <script>
         $(document).ready(function () {
             let mapboxDirections = mapOptions.getMapboxDirections();
-
-            let startPointX = 4;
-            let startPointY = 5;
-            let endPointX = 6;
-            let endPointY = 7;
+            
             $('.journeyOption').on('click', function () {
                 startPointX = $('.journeyOption').find('.startPointX').val();
                 startPointY = $('.journeyOption').find('.startPointY').val();

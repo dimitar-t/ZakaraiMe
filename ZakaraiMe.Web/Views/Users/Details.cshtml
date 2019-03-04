@@ -77,24 +77,100 @@
                 </div>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                     <div class="card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header" id="headingThree">
-                    <h5 class="mb-0">
-                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            <span class="fa fa-comments"></span> Коментари (Under construction)
-                        </button>
-                    </h5>
-                </div>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                    <div class="card-body">
-                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                        <div class="row">
+                            <p>За да видите точния маршрут на някое пътуване, кликнете върху сивото поле около него.</p>
+                            <div class="col-md-8 col-sm-12 mapper-wrapper">
+                                <div id='map'></div>
+                            </div>
+                            <div class="col-md-4 col-sm-12" style="overflow: auto; height:500px">
+                                @foreach (UserJourney userJourney in Model.PassengerJourneys.OrderBy(pj => pj.Journey.SetOffTime).ToList())
+                                {
+                                    <div class="journeyOption" style="padding-bottom:10px">
+                                        <div class="row" style="background-color:lightgray">
+                                            <input value="@userJourney.Journey.StartPointX" class="startPointX" type="hidden" />
+                                            <input value="@userJourney.Journey.StartPointY" class="startPointY" type="hidden" />
+                                            <input value="@userJourney.Journey.EndPointX" class="endPointX" type="hidden" />
+                                            <input value="@userJourney.Journey.EndPointY" class="endPointY" type="hidden" />
+                                            <div class="col-md-4">
+                                                <img src="~/images/database/@(userJourney.Journey.Driver.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
+                                                <span>
+                                                    <a asp-controller="Users" asp-action="Details" asp-route-id="@(userJourney.Journey.DriverId)">@userJourney.Journey.Driver.FirstName @userJourney.Journey.Driver.LastName</a>
+                                                </span>
+                                                @if (User.Identity.Name == userJourney.User.UserName)
+                                                {
+                                                    <a asp-controller="Journeys" asp-action="Leave" asp-route-id="@userJourney.JourneyId" class="btn btn-success">Отказ</a>
+                                                }
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><span class="fa fa-money-bill-alt" style="width:25px;"></span>@userJourney.Journey.Price лв.</p>
+                                                <p><span class="fa fa-users" style="width:25px;"></span>Места: @(userJourney.Journey.Seats - userJourney.Journey.Passengers.Count()) от @userJourney.Journey.Seats</p>
+                                                <p><span class="fa fa-car" style="width:25px;"></span>@userJourney.Journey.Car.Model.Make.Title @userJourney.Journey.Car.Model.Title</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @foreach (Journey journey in Model.DriverJourneys)
+                                {
+                                    <div class="journeyOption" style="padding-bottom:10px">
+                                        <div class="row" style="background-color:lightgray">
+                                            <input value="@journey.StartPointX" class="startPointX" type="hidden" />
+                                            <input value="@journey.StartPointY" class="startPointY" type="hidden" />
+                                            <input value="@journey.EndPointX" class="endPointX" type="hidden" />
+                                            <input value="@journey.EndPointY" class="endPointY" type="hidden" />
+                                            <div class="col-md-4">
+                                                <img src="~/images/database/@(Model.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
+                                                <span>
+                                                    <a asp-controller="Users" asp-action="Details" asp-route-id="@(Model.Id)">@Model.FirstName @Model.LastName</a>
+                                                </span>
+                                                @if (journey.Passengers.Count == 0 && journey.Driver.UserName == User.Identity.Name)
+                                                {
+                                                    <a asp-controller="Journeys" asp-action="Join" asp-route-id="@journey.Id" class="btn btn-sm btn-danger">Изтрий</a>
+                                                }
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><span class="fa fa-money-bill-alt" style="width:25px;"></span>@journey.Price лв.</p>
+                                                <p><span class="fa fa-users" style="width:25px;"></span>Места: @(journey.Seats - journey.Passengers.Count()) от @journey.Seats</p>
+                                                <p><span class="fa fa-car" style="width:25px;"></span>@journey.Car.Model.Make.Title @journey.Car.Model.Title</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+@section Styles{
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.css' type='text/css' />
+}
+
+@section Scripts{
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.0/mapbox-gl-directions.js'></script>
+    <script type="text/javascript" src="~/js/mapBox.js"></script>
+    <script>
+        $(document).ready(function () {
+            let mapboxDirections = mapOptions.getMapboxDirections();            
+
+            $('#accordion').on('show.bs.collapse', function () {
+                let map = mapOptions.getMap();
+                map.resize();
+            });
+
+            $('.journeyOption').on('click', function () {
+                startPointX = $('.journeyOption').find('.startPointX').val();
+                startPointY = $('.journeyOption').find('.startPointY').val();
+                endPointX = $('.journeyOption').find('.endPointX').val();
+                endPointY = $('.journeyOption').find('.endPointY').val();
+                mapboxDirections.setOrigin([startPointX, startPointY]);
+                mapboxDirections.setDestination([endPointX, endPointY]);
+            });
+        })
+    </script>
+}

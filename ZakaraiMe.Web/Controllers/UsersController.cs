@@ -228,6 +228,9 @@
                 return RedirectToHome();
             }
 
+            userToDisplay.DriverJourneys.OrderByDescending(dj => dj.SetOffTime);
+            userToDisplay.PassengerJourneys.OrderByDescending(pj => pj.Journey.SetOffTime);
+
             return View(userToDisplay);
         }
 
