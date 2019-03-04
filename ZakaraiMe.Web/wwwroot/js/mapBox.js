@@ -1,7 +1,15 @@
-﻿var mapOptions = {
+﻿var initialLat = 0;
+var initialLon = 0;
+
+if ($('#startPointX').length != 0) {
+    initialLat = $("#startPointX").val();
+    initialLon = $("#startPointY").val();
+}
+
+var mapOptions = {
     zoom: 9,
-    lat: $("#startPointX").val(),
-    lng: $("#startPointY").val()
+    lat: initialLat,
+    lng: initialLon
 };
 
 (function (context) {
