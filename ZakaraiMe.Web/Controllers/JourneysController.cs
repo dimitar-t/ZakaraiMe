@@ -122,8 +122,7 @@
             if (journey.Passengers.Count() == journey.Seats) // Check if there are available seats
             {
                 TempData.AddErrorMessage(WebConstants.FullCar);
-                string lastSearch = Request.Headers["Referer"].ToString();
-                return Redirect(lastSearch);
+                return RedirectToHome();
             }
 
             if (journey.SetOffTime < DateTime.UtcNow)
@@ -143,8 +142,7 @@
             if (journey.DriverId == currentUserId) // Check if the user isn't the driver of the journey
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
-                string lastSearch = Request.Headers["Referer"].ToString();
-                return Redirect(lastSearch);
+                return RedirectToHome();
             }
 
             journeyService.JoinJourney(journey, currentUserId);
@@ -174,9 +172,9 @@
 
             int currentUserId = GetCurrentUserAsync().Result.Id;
 
-            if (!journey.Passengers.Any(p => p.UserId == currentUserId)) // Check if the user part of the journey
+            if (!journey.Passengers.Any(p => p.UserId == currentUserId)) // Check if the user is part of the journey
             {
-                TempData.AddErrorMessage(WebConstants.AlreadyJoined);
+                TempData.AddErrorMessage(WebConstants.NotPartOfTheJourney);
                 return RedirectToHome();
             }
 
@@ -187,9 +185,52 @@
             return RedirectToHome();
         }
 
-        public async Task<IEnumerable<JourneyListViewModel>> Search(JourneySearchViewModel searchParams)
+        public async Task<IActionResult> Search(JourneySearchViewModel searchParams)
+        {  
+            if (searchParams == null)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return RedirectToHome();
+            }
+
+            if (searchParams.StartPointX == 0 || searchParams.StartPointY == 0 || searchParams.EndPointX == 0 || searchParams.EndPointY == 0)
+            {
+                TempData.AddErrorMessage(WebConstants.MissingJourney);
+                return RedirectToHome();
+            }
+
+            if(searchParams.SetOffTime < DateTime.Now)
+            {
+                TempData.AddErrorMessage(WebConstants.JourneyInThePast);
+                return RedirectToHome();
+            }
+
+            List<JourneyListViewModel> result = new List<JourneyListViewModel>();
+            FindMatches(searchParams, ref result);
+
+            return View("Results", result);
+        }
+
+        private void FindMatches(JourneySearchViewModel searchParams, ref List<JourneyListViewModel> result)
         {
-            return null;
+            //Set the search parameters
+            double startSearchLat = (double)searchParams.StartPointX;
+            double startSearchLon = (double)searchParams.StartPointY;
+            double endSearchLat = (double)searchParams.EndPointX;
+            double endSearchLon = (double)searchParams.EndPointY;
+            DateTime searchDate = searchParams.SetOffTime;
+            int searchRadius = searchParams.Radius;
+            int currentUserId = GetCurrentUserAsync().Result.Id;
+
+            IEnumerable<Journey> journeys = service.GetAll(j => j.SetOffTime.Date == searchDate.Date && j.Seats > j.Passengers.Count && j.DriverId != currentUserId);
+
+            foreach (Journey journey in journeys)
+            {
+                if (journeyService.IsMatch(startSearchLat, startSearchLon, endSearchLat, endSearchLon, searchRadius, searchDate, journey))
+                {
+                    result.Add(mapper.Map<Journey, JourneyListViewModel>(journey));
+                }
+            }
         }
     }
 }
