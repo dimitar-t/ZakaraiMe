@@ -15,6 +15,7 @@
         public const string CarIndexPageTitle = "Коли";
         public const string JourneyCreatePageTitle = "Ново пътуване";
         public const string JourneyUpdatePageTitle = "Редакция на пътуване";
+        public const string JourneySearchResultsPageTitle = "Резултати от търсенето";
 
         public const string TempDataSuccessMessageKey = "SuccessNotification";
         public const string TempDataErrorMessageKey = "ErrorNotification";
@@ -35,6 +36,8 @@
         public const string JourneyInThePast = "Пътуването вече е минало";
         public const string CarHasJourney = "Не можете да изтриете кола, която се използва за пътуване.";
         public const string UserHasJourneys = "Не можете да изтриете потребител, който има пътуване.";
+        public const string MissingJourney = "Моля добавете координати на пътуването си.";
+        public const string NotPartOfTheJourney = "Вие не сте част от това пътуване.";
 
 
         public const string SuccessfulRegistration = "Успешна регистрация в zakaraime.com";

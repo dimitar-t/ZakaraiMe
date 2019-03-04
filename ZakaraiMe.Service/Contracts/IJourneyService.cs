@@ -1,6 +1,7 @@
 ﻿namespace ZakaraiMe.Service.Contracts
 {
     using Data.Entities.Implementations;
+    using System;
 
     public interface IJourneyService : IBaseService<Journey>
     {
@@ -17,5 +18,7 @@
         /// <param name="journey">Entry of the journey</param>
         /// <param name="currentUserId">Id of the user</param>
         void LeaveJourney(Journey journey, int currentUserId);
+
+        bool IsMatch(double startSearchLat, double startSearchLon, double endSearchLat, double endSearchLon, int radius, DateTime date, Journey journey);
     }
 }
