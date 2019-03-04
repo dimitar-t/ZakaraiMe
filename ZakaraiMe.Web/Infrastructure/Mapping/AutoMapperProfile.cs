@@ -6,6 +6,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Custom automapper profile which automatically registers all mappings and their custom settings.
+    /// </summary>
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
