@@ -6,37 +6,48 @@
 
 <section class="inner-sec-w3layouts-agileits">
     <div class="container">
-        <div class="row">
-            <p>За да видите точния маршрут на някое пътуване, кликнете върху сивото поле около него.</p>
-            <div class="col-md-8 mapper-wrapper">
-                <div id='map'></div>
+        @if (Model == null || Model.Count() == 0)
+        {
+            <div style="padding-bottom:30px">
+                <div class="transparent-bg-dark">
+                    <h3>Няма намерени подходящи пътувания. Опитайте отново по-късно или създайте свое собствено, за да споделите с други хора, пътуващи в същата посока.</h3>
+                </div>
             </div>
-            <div class="col-md-4" style="overflow: auto; height:500px">
-                @foreach (JourneyListViewModel journey in Model)
-                {
-                    <div class="journeyOption" style="padding-bottom:10px">
-                        <div class="row" style="background-color:lightgray">
-                            <input value="@journey.StartPointX" class="startPointX" type="hidden" />
-                            <input value="@journey.StartPointY" class="startPointY" type="hidden" />
-                            <input value="@journey.EndPointX" class="endPointX" type="hidden" />
-                            <input value="@journey.EndPointY" class="endPointY" type="hidden" />
-                            <div class="col-md-4">
-                                <img src="~/images/database/@(journey.Driver.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
-                                <span>
-                                    <a asp-controller="Users" asp-action="Details" asp-route-id="@(journey.DriverId)">@journey.Driver.FirstName @journey.Driver.LastName</a>
-                                </span>
-                                <a asp-controller="Journeys" asp-action="Join" asp-route-id="@journey.Id" class="btn btn-success">Присъединяване</a>
-                            </div>
-                            <div class="col-md-6">
-                                <p><span class="fa fa-money-bill-alt" style="width:25px;"></span>@journey.Price лв.</p>
-                                <p><span class="fa fa-users" style="width:25px;"></span>Места: @(journey.Seats - journey.Passengers.Count()) от @journey.Seats</p>
-                                <p><span class="fa fa-car" style="width:25px;"></span>@journey.Car.Model.Make.Title @journey.Car.Model.Title</p>
+        }
+        else
+        {
+            <div class="row">
+                <p>За да видите точния маршрут на някое пътуване, кликнете върху сивото поле около него.</p>
+                <div class="col-md-8 mapper-wrapper">
+                    <div id='map'></div>
+                </div>
+                <div class="col-md-4" style="overflow: auto; height:500px">
+                    @foreach (JourneyListViewModel journey in Model)
+                    {
+                        <div class="journeyOption" style="padding-bottom:10px">
+                            <div class="row" style="background-color:lightgray">
+                                <input value="@journey.StartPointX" class="startPointX" type="hidden" />
+                                <input value="@journey.StartPointY" class="startPointY" type="hidden" />
+                                <input value="@journey.EndPointX" class="endPointX" type="hidden" />
+                                <input value="@journey.EndPointY" class="endPointY" type="hidden" />
+                                <div class="col-md-4">
+                                    <img src="~/images/database/@(journey.Driver.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
+                                    <span>
+                                        <a asp-controller="Users" asp-action="Details" asp-route-id="@(journey.DriverId)">@journey.Driver.FirstName @journey.Driver.LastName</a>
+                                    </span>
+                                    <a asp-controller="Journeys" asp-action="Join" asp-route-id="@journey.Id" class="btn btn-success">Присъединяване</a>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><span class="fa fa-money-bill-alt" style="width:25px;"></span>@journey.Price лв.</p>
+                                    <p><span class="fa fa-users" style="width:25px;"></span>Места: @(journey.Seats - journey.Passengers.Count()) от @journey.Seats</p>
+                                    <p><span class="fa fa-car" style="width:25px;"></span>@journey.Car.Model.Make.Title @journey.Car.Model.Title</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
-        </div>
+        }
     </div>
 </section>
 
@@ -53,7 +64,7 @@
     <script>
         $(document).ready(function () {
             let mapboxDirections = mapOptions.getMapboxDirections();
-            
+
             $('.journeyOption').on('click', function () {
                 startPointX = $('.journeyOption').find('.startPointX').val();
                 startPointY = $('.journeyOption').find('.startPointY').val();
