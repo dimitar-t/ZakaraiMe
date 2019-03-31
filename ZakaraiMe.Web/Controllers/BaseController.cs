@@ -197,6 +197,7 @@
             }
 
             service.Delete(item);
+            await service.SaveAsync();
 
             return RedirectToHome();
         }

@@ -13,10 +13,10 @@
     <meta name="description" content="Намерете вашите спътници до желаната дестинация, като пътувате споделено. Помислете за околната среда и намалете броя на колите в града." />
     <meta name="author" content="Dimitar Tachev and Daniel Georgiev" />
     <meta property="og:title" content="ЗакарайМе - сайтът, който ви помага да намерите споделено пътуване до желаната дестинация" />
-    <meta property="og:description" content="Използвайте нашата карта, за да изберете най-удобния за вас маршрут. Свържете се с други като вас и заедно допринесете към опазването на природата, като намалите използването на коли"/>
+    <meta property="og:description" content="Използвайте нашата карта, за да изберете най-удобния за вас маршрут. Свържете се с други като вас и заедно допринесете към опазването на природата, като намалите използването на коли" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://zakaraime.com" />
-    <meta property="og:image" content="~/images/banner1.png"/>
+    <meta property="og:image" content="~/images/banner1.png" />
 
     <title>@ViewData["Title"] | ЗакарайМе</title>
     <script>
@@ -58,13 +58,17 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="About">За ЗакарайМе</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Cars" asp-action="Create">Добави кола</a>
-                        </li>
                         @if (User.IsInRole(CommonConstants.DriverRole))
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Journeys" asp-action="Create">Сподели пътуване</a>
+                            </li>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Cars" asp-action="Create">Добави кола</a>
                             </li>
                         }
 
@@ -107,7 +111,7 @@
                                     <div class="banner-form">
                                         @if (User.Identity.IsAuthenticated)
                                         {
-                                            <partial name="../Journeys/_Search"/>
+                                            <partial name="../Journeys/_Search" />
                                         }
                                         else
                                         {
@@ -149,7 +153,7 @@
                             </button>
                         </div>
                         <div class="modal-body map-modal">
-                                <div id='map'></div>
+                            <div id='map'></div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Запази</button>
@@ -175,7 +179,7 @@
     </div>
     <!-- //banner -->
 
-    <partial name="_CookieConsentPartial" />
+    @*<partial name="_CookieConsentPartial" />*@
 
     @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
     {
@@ -303,7 +307,7 @@
 
     <!-- //Custom-JavaScript-File-Links -->
     <script src="~/js/bootstrap.js"></script>
-    
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
