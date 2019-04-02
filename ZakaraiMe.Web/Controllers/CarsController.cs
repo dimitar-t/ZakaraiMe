@@ -106,22 +106,28 @@
 
         public override async Task<IActionResult> Delete(int id)
         {
+            Car carToDelete = await carService.GetByIdAsync(id);
+            Picture pictureOfCar = carToDelete.Picture;
+
+            if (carToDelete == null)
+            {
+                TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
+                return NotFound();
+            }
+
+            if (carToDelete.Journeys.Count() != 0)
+            {
+                TempData.AddErrorMessage(WebConstants.CarHasJourney);
+                return RedirectToHome();
+            }
+
             IActionResult result = await base.Delete(id);
 
             if (result.GetType() == base.RedirectToHome().GetType()) // If the delete action was successful
             {
-                Car carToDelete = await carService.GetByIdAsync(id);
-
-                if (carToDelete.Journeys.Count() != 0)
-                {
-                    TempData.AddErrorMessage(WebConstants.CarHasJourney);
-
-                    return RedirectToHome();
-                }
+                await pictureService.DeleteAsync(pictureOfCar);
 
                 User owner = await userManager.FindByIdAsync(carToDelete.OwnerId.ToString());
-
-                await pictureService.DeleteAsync(carToDelete.Picture);
 
                 if (owner.Cars.Count() == 0) // If the user no longer has cars, remove his driver role
                 {
