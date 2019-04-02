@@ -11,6 +11,7 @@
     using Service.Contracts;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Service.Contracts;
 
     public abstract class BaseController<TEntity, TFormViewModel, TListViewModel> : Controller where TEntity : class, IBaseEntity
                                                                                                where TFormViewModel : FormViewModel
@@ -19,14 +20,16 @@
         protected readonly IBaseService<TEntity> service;
         private readonly UserManager<User> userManager;
         protected readonly IMapper mapper;
+        protected readonly IEmailSender emailSender;
         private const string IndexAction = nameof(HomeController.Index);
         private const string HomeControllerString = "Home";
 
-        public BaseController(IBaseService<TEntity> service, UserManager<User> userManager, IMapper mapper)
+        public BaseController(IBaseService<TEntity> service, UserManager<User> userManager, IMapper mapper, IEmailSender emailSender)
         {
             this.service = service;
             this.userManager = userManager;
             this.mapper = mapper;
+            this.emailSender = emailSender;
         }
 
         protected abstract string ItemName { get; set; }

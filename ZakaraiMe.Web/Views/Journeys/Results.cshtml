@@ -41,6 +41,7 @@
                                     <p><span class="fa fa-money-bill-alt" style="width:25px;"></span>@journey.Price лв.</p>
                                     <p><span class="fa fa-users" style="width:25px;"></span>Места: @(journey.Seats - journey.Passengers.Count()) от @journey.Seats</p>
                                     <p><span class="fa fa-car" style="width:25px;"></span>@journey.Car.Model.Make.Title @journey.Car.Model.Title</p>
+                                    <p><span class="fa fa-calendar-times" style="width: 25px;"></span>@journey.SetOffTime.ToShortDateString() @journey.SetOffTime.ToShortTimeString()</p>
                                 </div>
                             </div>
                         </div>

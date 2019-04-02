@@ -22,7 +22,7 @@
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
 
-        public CarsController(ICarService carService, UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IMapper mapper) : base(carService, userManager, mapper)
+        public CarsController(ICarService carService, UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IMapper mapper, IEmailSender emailSender) : base(carService, userManager, mapper, emailSender)
         {
             this.pictureService = pictureService;
             this.userManager = userManager;

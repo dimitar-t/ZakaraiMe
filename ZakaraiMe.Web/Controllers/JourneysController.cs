@@ -20,7 +20,7 @@
         private readonly ICarService carService;
         private readonly IJourneyService journeyService;
 
-        public JourneysController(IJourneyService journeyService, UserManager<User> userManager, ICarService carService, IMapper mapper) : base(journeyService, userManager, mapper)
+        public JourneysController(IJourneyService journeyService, UserManager<User> userManager, ICarService carService, IMapper mapper, IEmailSender emailSender) : base(journeyService, userManager, mapper, emailSender)
         {
             this.carService = carService;
             this.journeyService = journeyService;
@@ -143,6 +143,8 @@
             journeyService.JoinJourney(journey, currentUserId);
             await service.SaveAsync();
 
+            this.SendEmail(journey, EmailConstants.JoinSubject, EmailConstants.JoinBody);
+
             TempData.AddSuccessMessage(WebConstants.SuccessfulJoin);
             return RedirectToHome();
         }
@@ -176,6 +178,8 @@
             journeyService.LeaveJourney(journey, currentUserId);
             await service.SaveAsync();
 
+            this.SendEmail(journey, EmailConstants.LeaveSubject, EmailConstants.LeaveBody);
+
             TempData.AddWarningMessage(WebConstants.WarningLeaveJourney);
             return RedirectToHome();
         }
@@ -200,7 +204,7 @@
                 return RedirectToHome();
             }
 
-            if(searchParams.SetOffTime < DateTime.Now)
+            if (searchParams.SetOffTime < DateTime.Now)
             {
                 TempData.AddErrorMessage(WebConstants.JourneyInThePast);
                 return RedirectToHome();
@@ -232,6 +236,17 @@
                     result.Add(mapper.Map<Journey, JourneyListViewModel>(journey));
                 }
             }
+        }
+
+        private async void SendEmail(Journey journey, string subject, string body)
+        {
+            string receiver = journey.Driver.Email;
+            string journeyDate = journey.SetOffTime.ToShortDateString();
+            string journeyTime = journey.SetOffTime.ToShortTimeString();
+            int freeSpots = journey.Seats - journey.Passengers.Count;
+            int allSpots = journey.Seats;
+
+            await this.emailSender.SendEmailAsync(receiver, subject, String.Format(body, journeyDate, journeyTime, freeSpots, allSpots, EmailConstants.Regards));
         }
     }
 }
