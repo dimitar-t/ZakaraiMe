@@ -190,6 +190,7 @@
             Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
+                TempData.AddSuccessMessage(WebConstants.WelcomeMessage);
                 return RedirectToLocal(returnUrl);
             }
 

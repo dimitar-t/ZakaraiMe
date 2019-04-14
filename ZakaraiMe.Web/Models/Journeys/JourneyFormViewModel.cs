@@ -12,7 +12,7 @@
     public class JourneyFormViewModel : FormViewModel, IJourneyModel, IValidatableObject, IMapFrom<Journey>, IHaveCustomMapping
     {
         public decimal StartPointX { get; set; }
-        
+
         public decimal StartPointY { get; set; }
 
         public decimal EndPointX { get; set; }
@@ -48,7 +48,7 @@
                 yield return new ValidationResult(WebConstants.PastDateError);
             }
 
-            if(StartPointX == 0 || StartPointY == 0 || EndPointX == 0 || EndPointY == 0)
+            if (StartPointX == 0 || StartPointY == 0 || EndPointX == 0 || EndPointY == 0)
             {
                 yield return new ValidationResult(WebConstants.WaypointsNotSelected);
             }

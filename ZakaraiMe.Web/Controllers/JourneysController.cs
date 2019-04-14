@@ -184,7 +184,7 @@
             return RedirectToHome();
         }
 
-        public async Task<IActionResult> Search(JourneySearchViewModel searchParams)
+        public IActionResult Search(JourneySearchViewModel searchParams)
         {
             if (!ModelState.IsValid)
             {

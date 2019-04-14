@@ -10,10 +10,12 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Localization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using System.Globalization;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -69,7 +71,7 @@
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true; // TODO: set this to false in order to use tempData
+                options.CheckConsentNeeded = context => false; // TODO: set this to false in order to use tempData
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
@@ -77,7 +79,7 @@
 
             services.AddAutoMapper();
 
-            services.AddMvc(options => 
+            services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -86,6 +88,13 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-GB"),
+                SupportedCultures = new[] { new CultureInfo("en-GB") },
+                SupportedUICultures = new[] { new CultureInfo("en-GB") }
+            });
+
             app.UseDatabaseMigrations<ZakaraiMeContext>();
 
             if (env.IsDevelopment())

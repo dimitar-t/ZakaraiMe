@@ -11,7 +11,6 @@
     using Service.Contracts;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Service.Contracts;
 
     public abstract class BaseController<TEntity, TFormViewModel, TListViewModel> : Controller where TEntity : class, IBaseEntity
                                                                                                where TFormViewModel : FormViewModel

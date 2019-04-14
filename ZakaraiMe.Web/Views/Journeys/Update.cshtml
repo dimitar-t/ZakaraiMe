@@ -52,13 +52,13 @@
             map.on('load', function () {
                 mapboxDirections.setOrigin([startPointX, startPointY]);
                 mapboxDirections.setDestination([endPointX, endPointY]);
-            })            
+            });          
 
             $("#journeyForm").on('submit', function (e) {
-                $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0])
-                $('#startPointY').val(mapboxDirections.getOrigin().geometry.coordinates[1])
-                $('#endPointX').val(mapboxDirections.getDestination().geometry.coordinates[0])
-                $('#endPointY').val(mapboxDirections.getDestination().geometry.coordinates[1])
+                $('#startPointX').val(mapboxDirections.getOrigin().geometry.coordinates[0]);
+                $('#startPointY').val(mapboxDirections.getOrigin().geometry.coordinates[1]);
+                $('#endPointX').val(mapboxDirections.getDestination().geometry.coordinates[0]);
+                $('#endPointY').val(mapboxDirections.getDestination().geometry.coordinates[1]);
             });
         })
     </script>
