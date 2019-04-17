@@ -15,6 +15,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Service.Hubs;
     using System.Globalization;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -83,6 +84,8 @@
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -114,6 +117,11 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
+            });
 
             app.UseMvc(routes =>
             {
