@@ -24,7 +24,7 @@
                 <div class="col-md-6 journey-scroller">
                     @foreach (JourneyListViewModel journey in Model)
                     {
-                        <div class="journeyOption">
+                        <div class="journeyOption" data-id="@journey.Id">
                             <div class="row journeyOption-data">
                                 <input value="@journey.StartPointX" class="startPointX" type="hidden" />
                                 <input value="@journey.StartPointY" class="startPointY" type="hidden" />

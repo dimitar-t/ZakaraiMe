@@ -242,22 +242,7 @@
 
             return View(userToDisplay);
         }
-
-        [HttpGet]
-        [Authorize]
-        public IActionResult Chat()
-        {
-            string currentUsername = User.Identity.Name;
-
-            IList<Journey> journeys = journeyService.GetAll(j => j.Driver.UserName == currentUsername || j.Passengers.Any(p => p.User.UserName == currentUsername))
-                                                    .OrderByDescending(j => j.SetOffTime)
-                                                    .ToList();
-
-            IList<JourneyChatViewModel> mappedJourneys = mapper.Map<IList<Journey>, IList<JourneyChatViewModel>>(journeys);
-
-            return View(mappedJourneys);
-        }
-
+        
         private void AddErrors(IdentityResult result)
         {
             foreach (var error in result.Errors)
@@ -267,7 +252,7 @@
         }
 
         private RedirectToActionResult RedirectToHome()
-        {
+        {            
             return RedirectToAction(IndexAction, HomeControllerString, new { area = "" });
         }
     }

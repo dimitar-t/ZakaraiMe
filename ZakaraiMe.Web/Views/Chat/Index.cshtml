@@ -23,7 +23,7 @@
                 <div class="col-md-4 journey-scroller">
                     @foreach (JourneyChatViewModel journey in Model)
                     {
-                        <div class="journeyOption">
+                        <div class="journeyOption" data-id="@journey.Id">
                             <div class="row journeyOption-data">
                                 <div class="col-md-6">
                                     <img src="~/images/database/@(journey.Driver.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
