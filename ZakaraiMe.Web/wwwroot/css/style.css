@@ -2304,3 +2304,8 @@ li {
     font-size: 0.9em;
     height: inherit !important;
 }
+
+.journey-scroller {
+    overflow: auto;
+    height: 500px;
+}

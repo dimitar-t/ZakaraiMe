@@ -1,0 +1,56 @@
+﻿@model IEnumerable<JourneyChatViewModel>
+
+@{
+    ViewData["Title"] = WebConstants.ChatPageTitle;
+}
+
+<section class="inner-sec-w3layouts-agileits">
+    <div class="container">
+        @if (Model == null || Model.Count() == 0)
+        {
+            <div class="banner-bottom-agile-w3ls">
+                <div class="transparent-bg-dark p-4">
+                    <h3>Нямате контакти за чат, защото не участвате в никое пътуване.</h3>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-md-8">
+                    <partial name="_ChatBox" />
+                </div>
+                <div class="col-md-4 journey-scroller">
+                    @foreach (JourneyChatViewModel journey in Model)
+                    {
+                        <div class="journeyOption">
+                            <div class="row journeyOption-data">
+                                <div class="col-md-6">
+                                    <img src="~/images/database/@(journey.Driver.ProfilePictureFileName + ".jpg")" alt="Driver picture" height="50">
+                                    <span class="d-block">
+                                        <a asp-controller="Users" asp-action="Details" asp-route-id="@(journey.DriverId)">@journey.Driver.FirstName @journey.Driver.LastName</a>
+                                    </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><span class="fa fa-money-bill-alt" style="width:25px;"></span>@journey.Price лв.</p>
+                                    <p><span class="fa fa-users" style="width:25px;"></span>Места: @(journey.Seats - journey.PassengersCount) от @journey.Seats</p>
+                                    <p><span class="fa fa-car" style="width:25px;"></span>@journey.Car.Model.Make.Title @journey.Car.Model.Title</p>
+                                    <p><span class="fa fa-calendar-times" style="width: 25px;"></span>@journey.SetOffTime.ToShortDateString() @journey.SetOffTime.ToShortTimeString()</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="~/css/chat.css" />
+}
+
+@section Scripts{
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+}

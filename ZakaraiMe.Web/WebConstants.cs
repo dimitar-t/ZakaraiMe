@@ -17,6 +17,7 @@
         public const string JourneyCreatePageTitle = "Ново пътуване";
         public const string JourneyUpdatePageTitle = "Редакция на пътуване";
         public const string JourneySearchResultsPageTitle = "Резултати от търсенето";
+        public const string ChatPageTitle = "Чат";
 
         public const string TempDataSuccessMessageKey = "SuccessNotification";
         public const string TempDataErrorMessageKey = "ErrorNotification";

@@ -1,12 +1,11 @@
 ﻿namespace ZakaraiMe.Web.Models.Journeys
 {
-    using Contracts;
     using Common.Mapping;
+    using Contracts;
     using Data.Entities.Implementations;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using AutoMapper;
 
     public class JourneySearchViewModel : IJourneyModel, IValidatableObject, IMapFrom<Journey>
     {

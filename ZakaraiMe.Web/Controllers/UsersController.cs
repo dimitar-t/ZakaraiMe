@@ -15,22 +15,25 @@
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
+    using Web.Models.Journeys;
 
     public class UsersController : Controller
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly IPictureService pictureService;
+        private readonly IJourneyService journeyService;
         private readonly IMapper mapper;
         private const string IndexAction = nameof(HomeController.Index);
         private const string HomeControllerString = "Home";
         private const string UserString = "потребител";
 
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IMapper mapper)
+        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IJourneyService journeyService, IMapper mapper)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.pictureService = pictureService;
+            this.journeyService = journeyService;
             this.mapper = mapper;
         }
 
@@ -238,6 +241,21 @@
             userToDisplay.PassengerJourneys.OrderByDescending(pj => pj.Journey.SetOffTime);
 
             return View(userToDisplay);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Chat()
+        {
+            string currentUsername = User.Identity.Name;
+
+            IList<Journey> journeys = journeyService.GetAll(j => j.Driver.UserName == currentUsername || j.Passengers.Any(p => p.User.UserName == currentUsername))
+                                                    .OrderByDescending(j => j.SetOffTime)
+                                                    .ToList();
+
+            IList<JourneyChatViewModel> mappedJourneys = mapper.Map<IList<Journey>, IList<JourneyChatViewModel>>(journeys);
+
+            return View(mappedJourneys);
         }
 
         private void AddErrors(IdentityResult result)

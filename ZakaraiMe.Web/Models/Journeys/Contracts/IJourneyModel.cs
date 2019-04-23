@@ -1,8 +1,5 @@
 ﻿namespace ZakaraiMe.Web.Models.Journeys.Contracts
 {
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
     public interface IJourneyModel
     {
         decimal StartPointX { get; set; }
