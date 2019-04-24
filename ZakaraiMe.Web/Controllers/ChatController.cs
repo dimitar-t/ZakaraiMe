@@ -1,16 +1,16 @@
 ﻿namespace ZakaraiMe.Web.Controllers
 {
     using AutoMapper;
+    using Data.Entities.Implementations;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Models.Journeys;
+    using Models.Users;
+    using Service.Contracts;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using ZakaraiMe.Data.Entities.Implementations;
-    using ZakaraiMe.Service.Contracts;
-    using ZakaraiMe.Web.Models.Journeys;
-    using ZakaraiMe.Web.Models.Users;
 
     public class ChatController : Controller
     {
@@ -56,13 +56,12 @@
             // return all the passengers if the sender of the message is the driver of the journey
             if (journey.DriverId == currentUser.Id)
             {
-                //TODO: Change the destination model to a suitable one.
                 //TODO: Test the case when there are many people in the journey.
-                return Json(mapper.Map<IEnumerable<User>, IEnumerable<UserListViewModel>>(journey.Passengers.Select(p => p.User)));
+                return Json(mapper.Map<IEnumerable<User>, IEnumerable<UserChatViewModel>>(journey.Passengers.Select(p => p.User)));
             }
             else if (journey.Passengers.Any(p => p.UserId == currentUser.Id)) //return the driver only if the sender is one of the passengers
             {
-                return Json(mapper.Map<User,UserListViewModel>(journey.Driver)); //TODO: Change the destination model to a suitable one.
+                return Json(mapper.Map<User,UserChatViewModel>(journey.Driver));
             }
 
             return null;
