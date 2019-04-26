@@ -1,7 +1,7 @@
 ﻿//var connection = new signalR.HubConnectionBuilder().withUrl("/chat").build();
 
 ////Disable send button until connection is established
-//$("#sendButton").disabled = true;
+//$("#sendMessaegBtn").prop('disabled', true);
 
 //connection.on("ReceiveMessage", function (user, message) {
 //    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -12,7 +12,7 @@
 //});
 
 //connection.start().then(function () {
-//    document.getElementById("sendButton").disabled = false;
+//    $("#sendMessaegBtn").prop('disabled', false);
 //}).catch(function (err) {
 //    return console.error(err.toString());
 //});
@@ -75,13 +75,29 @@ function displayContacts(result, journeyId) {
     }
 
     function createElements(contact) {
+        // create the contact element
         let contactName = $('<h5>' + contact.firstName + ' ' + contact.lastName + '</h5>');
         let chatIb = $('<div>').addClass('chat_ib').append(contactName);
         let chatImg = $('<img>').attr('src', '/images/database/' + contact.profilePictureFileName + '.jpg');
         let chatImgDiv = $('<div>').addClass('chat_img').append(chatImg);
         let chatPeople = $('<div>').addClass('chat_people').append(chatImgDiv).append(chatIb);
-        let chatList = $('<div>').addClass('chat_list').attr('data-journeyid', journeyId).append(chatPeople);
+        let chatList = $('<div>').addClass('chat_list').attr('data-journeyid', journeyId).attr('data-contactid', contact.id).append(chatPeople);     
 
         $('.inbox_chat').append(chatList);
+
+        // create the message box for that contact
+
+        let msgHistory = $('<div>').addClass('msg_history').attr('data-contactid', contact.id).hide();
+        $('.mesgs').prepend(msgHistory);
+
+        $(chatList).on('click', function () {
+            $('.chat_list').removeClass('active_chat');
+            $(this).addClass('active_chat');
+
+            // hide all message boxes
+            $('.msg_history').hide();
+            // show only the clicked contact's box
+            $(msgHistory).show();
+        });
     }
 }
