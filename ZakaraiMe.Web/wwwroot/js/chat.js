@@ -5,7 +5,6 @@ $("#sendMessaegBtn").prop('disabled', true);
 
 connection.on("ReceiveMessage", function (userId, message) {
     let msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    console.log(userId);
     createIncomingMessageHtml(userId, msg);
 });
 
@@ -13,27 +12,20 @@ connection.start().then(function () {
     $("#sendMessageBtn").prop('disabled', false);
 }).catch(function (err) {
     return console.error(err.toString());
+    });
+
+// catch enter button and html button clicked in order to send the message
+$('#messageInput').on('keypress', function (event) {
+    if (event.which === 13) {
+        sendMessage(event);
+    }
 });
 
 $("#sendMessageBtn").on("click", function (event) {
-    let receiverId = $('.msg_history:visible').attr('data-contactid');
-
-    if (receiverId !== undefined) {
-        let message = $("#messageInput").val();
-
-        if (message !== '') {
-            connection.invoke("SendMessage", receiverId, message).catch(function (err) {
-                return console.error(err.toString());
-            });
-
-            createOutgoingMessageHtml(receiverId, message);
-
-            $('#messageInput').val('');
-        }
-    }
-    event.preventDefault();
+    sendMessage(event);
 });
 
+// catch the journey click
 $('.journeyOption').on('click', function () {
     $('.journeyOption-data').removeClass('journeyOption-active');
     $(this).children('.journeyOption-data').addClass('journeyOption-active');
@@ -55,6 +47,25 @@ $('.journeyOption').on('click', function () {
     }
 
 });
+
+function sendMessage(event) {
+    let receiverId = $('.msg_history:visible').attr('data-contactid');
+
+    if (receiverId !== undefined) {
+        let message = $("#messageInput").val();
+
+        if (message !== '') {
+            connection.invoke("SendMessage", receiverId, message).catch(function (err) {
+                return console.error(err.toString());
+            });
+
+            createOutgoingMessageHtml(receiverId, message);
+
+            $('#messageInput').val('');
+        }
+    }
+    event.preventDefault();
+}
 
 function loadContacts(journeyId) {
     $.ajax({
@@ -116,18 +127,18 @@ function displayContacts(result, journeyId) {
 }
 
 function createIncomingMessageHtml(receiverId, message) {
+    // get the message box for that contact
+    let msgHistory = getMsgHistory(receiverId);
+
     let msgText = $('<p>').text(message);
     let msgDiv = $('<div>').addClass('received_withd_msg')
         .append(msgText);
-    let senderImg = $('<img>').attr('src', 'https://ptetutorials.com/images/user-profile.png'); //TODO: Change source; get it from other html elements or from database or send it from signalR
+    let senderImg = $('.chat_list[data-contactid="' + receiverId + '"]').find('img');
     let senderImgDiv = $('<div>').addClass('incoming_msg_img')
         .append(senderImg);
     let wrapperDiv = $('<div>').addClass('incoming_msg')
         .append(senderImgDiv)
-        .append(msgDiv);
-
-    // get the message box for that contact
-    let msgHistory = getMsgHistory(receiverId);
+        .append(msgDiv);    
 
     msgHistory.append(wrapperDiv);
 }
