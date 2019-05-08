@@ -11,16 +11,19 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using ZakaraiMe.Web.Models.Messages;
 
     public class ChatController : Controller
     {
         private readonly UserManager<User> userManager;
+        private readonly IMessageService messageService;
         private readonly IJourneyService journeyService;
         private readonly IMapper mapper;
 
-        public ChatController(UserManager<User> userManager, IJourneyService journeyService, IMapper mapper)
+        public ChatController(UserManager<User> userManager, IMessageService messageService, IJourneyService journeyService, IMapper mapper)
         {
             this.userManager = userManager;
+            this.messageService = messageService;
             this.journeyService = journeyService;
             this.mapper = mapper;
         }
@@ -65,6 +68,24 @@
             }
 
             return null;
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<JsonResult> GetMessages(int receiverId, int lastMessageId)
+        {
+            User currentUser = await userManager.GetUserAsync(User);
+
+            if (lastMessageId == 0)
+                lastMessageId = int.MaxValue;
+
+            IEnumerable<Message> messages = messageService
+                                            .GetAll(m => (m.Id < lastMessageId))
+                                            .Where(m => (m.ReceiverId == receiverId && m.SenderId == currentUser.Id) || (m.ReceiverId == currentUser.Id && m.SenderId == receiverId))
+                                            .OrderByDescending(m => m.Id)
+                                            .Take(10);
+
+            return Json(mapper.Map<IEnumerable<Message>, IEnumerable<MessageViewModel>>(messages));
         }
     }
 }

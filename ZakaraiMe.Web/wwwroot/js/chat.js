@@ -1,11 +1,14 @@
 ﻿var connection = new signalR.HubConnectionBuilder().withUrl("/chat").build();
 
 //Disable send button until connection is established
-$("#sendMessaegBtn").prop('disabled', true);
+$("#sendMessageBtn").prop('disabled', true);
 
-connection.on("ReceiveMessage", function (userId, message) {
-    let msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    createIncomingMessageHtml(userId, msg);
+connection.on("ReceiveMessage", function (userId, message, messageId) {
+    let msg = encodeMessage(message);
+    let messageHtml = createIncomingMessageHtml(userId, msg, messageId);
+
+    let msgHistory = getMsgHistory(userId);
+    msgHistory.append(messageHtml);
 });
 
 connection.start().then(function () {
@@ -59,9 +62,13 @@ function sendMessage(event) {
                 return console.error(err.toString());
             });
 
-            createOutgoingMessageHtml(receiverId, message);
+            let messageHtml = createOutgoingMessageHtml(message, 0);
+            let msgHistory = getMsgHistory(receiverId);
+
+            msgHistory.append(messageHtml);
 
             $('#messageInput').val('');
+            $(msgHistory).scrollTop(function () { return this.scrollHeight; });
         }
     }
     event.preventDefault();
@@ -73,9 +80,25 @@ function loadContacts(journeyId) {
         url: '/Chat/GetContacts',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
-        data: { "journeyId": journeyId },
+        data: { 'journeyId': journeyId },
         success: function (result) {
             displayContacts(result, journeyId);
+        },
+        error: function (ex) {
+            alert('Съжаляваме, възникна грешка.');
+        }
+    });
+}
+
+function loadHistory(contactId, lastMessageId) {
+    $.ajax({
+        type: 'get',
+        url: '/Chat/GetMessages',
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: { 'receiverId': contactId, 'lastMessageId': lastMessageId },
+        success: function (result) {
+            displayHistory(result, contactId);
         },
         error: function (ex) {
             alert('Съжаляваме, възникна грешка.');
@@ -121,51 +144,92 @@ function displayContacts(result, journeyId) {
             // hide all message boxes
             $('.msg_history').hide();
             // show only the clicked contact's box
-            $(msgHistory).show();
+            $(msgHistory).show();            
+
+            let oldestMessageIdInChat = $(msgHistory).find('div[data-messageid]').attr('data-messageid');     
+
+            if (oldestMessageIdInChat === undefined) {
+                oldestMessageIdInChat = 0;
+            }
+
+            loadHistory(contact.id, oldestMessageIdInChat);
+            $(msgHistory).scrollTop(function () { return this.scrollHeight; });
         });
     }
 }
 
-function createIncomingMessageHtml(receiverId, message) {
-    // get the message box for that contact
-    let msgHistory = getMsgHistory(receiverId);
+function displayHistory(result, contactId) {
+    let msgHistory = getMsgHistory(contactId);
 
-    let msgText = $('<p>').text(message);
-    let msgDiv = $('<div>').addClass('received_withd_msg')
-        .append(msgText);
-    let senderImg = $('.chat_list[data-contactid="' + receiverId + '"]').find('img');
-    let senderImgDiv = $('<div>').addClass('incoming_msg_img')
-        .append(senderImg);
-    let wrapperDiv = $('<div>').addClass('incoming_msg')
-        .append(senderImgDiv)
-        .append(msgDiv);    
+    result.forEach(function (message) {
+        message.text = encodeMessage(message.text);     
+        let messageHtml;
 
-    msgHistory.append(wrapperDiv);
+        if (contactId === message.senderId) {
+            messageHtml = createIncomingMessageHtml(contactId, message.text, message.id);
+        }
+        else {
+            messageHtml = createOutgoingMessageHtml(message.text, message.id);
+        }
+        
+        msgHistory.prepend(messageHtml);
+    });
 }
 
-function createOutgoingMessageHtml(receiverId, message) {
+function createIncomingMessageHtml(contactId, message, messageId) {
+    let msgText = $('<p>').text(message);
+    let msgDiv = $('<div>').addClass('received_withd_msg')
+        .attr('data-messageid', messageId)
+        .append(msgText);
+    let contactImg = $('.chat_list[data-contactid="' + contactId + '"]').find('img').clone();
+    let contactImgDiv = $('<div>').addClass('incoming_msg_img')
+        .append(contactImg);
+    let wrapperDiv = $('<div>').addClass('incoming_msg')
+        .append(contactImgDiv)
+        .append(msgDiv);
+
+    return wrapperDiv;
+}
+
+function createOutgoingMessageHtml(message, messageId) {
     let msgText = $('<p>').text(message);
     let msgDiv = $('<div>').addClass('sent_msg')
+        .attr('data-messageid', messageId)
         .append(msgText);
     let wrapperDiv = $('<div>').addClass('outgoing_msg')
         .append(msgDiv);
 
-    let msgHistory = getMsgHistory(receiverId);
-
-    msgHistory.append(wrapperDiv);
+    return wrapperDiv;    
 }
 
-function getMsgHistory(userId) {
+function getMsgHistory(contactId) {
     // get the message box for that contact
-    let msgHistory = $('.msg_history[data-contactid="' + userId + '"]');
+    let msgHistory = $('.msg_history[data-contactid="' + contactId + '"]');
 
     // if the message box with this contact doesn't exist
     if (msgHistory.length === 0) {
         msgHistory = $('<div>').addClass('msg_history')
-            .attr('data-contactid', userId)
+            .attr('data-contactid', contactId)
             .hide();
         $('.mesgs').prepend(msgHistory);
+
+        $(msgHistory).on('scroll', function () {
+            var scrollTop = $(this).scrollTop();
+            if (scrollTop <= 0) {
+                let oldestMessageIdInChat = $(msgHistory).find('div[data-messageid]').attr('data-messageid');
+
+                if (oldestMessageIdInChat === undefined) {
+                    oldestMessageIdInChat = 0;
+                }
+
+                loadHistory(contactId, oldestMessageIdInChat);
+            }
+        });
     }
 
     return msgHistory;
+}
+
+function encodeMessage(message) {
+    return message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }

@@ -30,5 +30,9 @@
         public virtual IEnumerable<UserJourney> PassengerJourneys { get; set; } = new List<UserJourney>();
 
         public virtual IEnumerable<Journey> DriverJourneys { get; set; } = new List<Journey>();
+
+        public virtual IEnumerable<Message> ReceivedMessages { get; set; } = new List<Message>();
+
+        public virtual IEnumerable<Message> SentMessages { get; set; } = new List<Message>();
     }
 }

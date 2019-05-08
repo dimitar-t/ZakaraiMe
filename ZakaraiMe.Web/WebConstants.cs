@@ -39,8 +39,7 @@
         public const string CarHasJourney = "Не можете да изтриете кола, която се използва за пътуване.";
         public const string UserHasJourneys = "Не можете да изтриете потребител, който има пътуване.";
         public const string MissingJourney = "Моля добавете координати на пътуването си.";
-        public const string NotPartOfTheJourney = "Вие не сте част от това пътуване.";
-
+        public const string NotPartOfTheJourney = "Вие не сте част от това пътуване.";        
 
         public const string SuccessfulRegistration = "Успешна регистрация в zakaraime.com";
         public const string WelcomeMessage = "Добре дошъл! Приятно пътуване";

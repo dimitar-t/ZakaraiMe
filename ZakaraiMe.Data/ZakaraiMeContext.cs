@@ -16,6 +16,7 @@
         public DbSet<Make> Makes { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Journey> Journeys { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -77,6 +78,18 @@
                 .HasOne(j => j.Car)
                 .WithMany(c => c.Journeys)
                 .HasForeignKey(j => j.CarId);
+
+            modelBuilder
+                .Entity<Message>()
+                .HasOne(m => m.Receiver)
+                .WithMany(r => r.ReceivedMessages)
+                .HasForeignKey(m => m.ReceiverId);
+
+            modelBuilder
+                .Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany(s => s.SentMessages)
+                .HasForeignKey(m => m.SenderId);
             
             base.OnModelCreating(modelBuilder);
         }
