@@ -24,6 +24,11 @@
             await dbSet.AddAsync(message);
         }
 
+        public void Delete(IEnumerable<Message> messages)
+        {
+            dbSet.RemoveRange(messages);
+        }
+
         public IEnumerable<Message> GetAll(Func<Message, bool> filter = null)
         {
             if (filter == null)

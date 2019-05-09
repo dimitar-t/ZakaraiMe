@@ -13,6 +13,8 @@
 
         Message GetEntity(string text, int senderId, int receiverId);
 
+        void Delete(IEnumerable<Message> messages);
+
         Task SaveAsync();
     }
 }

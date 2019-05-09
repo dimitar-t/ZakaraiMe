@@ -21,6 +21,11 @@
             await repo.CreateAsync(message);
         }
 
+        public void Delete(IEnumerable<Message> messages)
+        {
+            repo.Delete(messages);
+        }
+
         public IEnumerable<Message> GetAll(Func<Message, bool> filter = null)
         {
             return repo.GetAll(filter);

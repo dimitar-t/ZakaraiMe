@@ -11,6 +11,8 @@
 
         IEnumerable<Message> GetAll(Func<Message, bool> filter = null);
 
+        void Delete(IEnumerable<Message> messages);
+
         Task SaveAsync();
     }
 }

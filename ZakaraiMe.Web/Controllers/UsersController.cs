@@ -23,17 +23,19 @@
         private readonly SignInManager<User> signInManager;
         private readonly IPictureService pictureService;
         private readonly IJourneyService journeyService;
+        private readonly IMessageService messageService;
         private readonly IMapper mapper;
         private const string IndexAction = nameof(HomeController.Index);
         private const string HomeControllerString = "Home";
         private const string UserString = "потребител";
 
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IJourneyService journeyService, IMapper mapper)
+        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IJourneyService journeyService, IMessageService messageService, IMapper mapper)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.pictureService = pictureService;
             this.journeyService = journeyService;
+            this.messageService = messageService;
             this.mapper = mapper;
         }
 
@@ -210,6 +212,7 @@
             }            
 
             Picture profilePictureToDelete = userToDelete.ProfilePicture;
+            IEnumerable<Message> messagesToDelete = userToDelete.ReceivedMessages;
 
             IdentityResult result = await userManager.DeleteAsync(userToDelete);
 
@@ -220,7 +223,10 @@
             else
             {
                 TempData.AddSuccessMessage(WebConstants.SuccessfulDelete, userToDelete.FirstName);
-                await pictureService.DeleteAsync(profilePictureToDelete);
+                await pictureService.DeleteAsync(profilePictureToDelete); // Deletes picture from database
+
+                messageService.Delete(messagesToDelete); // Deletes messages from database
+                await messageService.SaveAsync();
             }
 
             return RedirectToAction(nameof(Index));
