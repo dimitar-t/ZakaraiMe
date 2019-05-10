@@ -90,6 +90,16 @@
             return false;
         }
 
+        public override void Delete(Journey item)
+        {
+            foreach (UserJourney passenger in item.Passengers.ToList())
+            {
+                this.LeaveJourney(item, passenger.User.Id);
+            }
+
+            base.Delete(item);
+        }
+
         private double GetDistance(double lat1, double lon1, double lat2, double lon2)
         {
             int R = 6371; // Radius of the earth in km

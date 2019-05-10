@@ -64,5 +64,10 @@
         {
             return await repository.GetAllModelsAsync(makeId);
         }
+
+        public override void Delete(Car item)
+        {
+            base.Delete(item);
+        }
     }
 }
