@@ -12,12 +12,14 @@
     public class CarService : BaseService<Car>, ICarService
     {
         private readonly UserManager<User> userManager;
+        private readonly IJourneyService journeyService;
         private new readonly ICarRepository repository;
 
-        public CarService(ICarRepository repository, UserManager<User> userManager) : base(repository)
+        public CarService(ICarRepository repository, UserManager<User> userManager, IJourneyService journeyService) : base(repository)
         {
             this.userManager = userManager;
             this.repository = repository;
+            this.journeyService = journeyService;
         }
 
         public override async Task<bool> ForeignPropertiesExistAsync(Car item, User currentUser)
@@ -67,6 +69,11 @@
 
         public override void Delete(Car item)
         {
+            foreach (Journey journey in item.Journeys.ToList())
+            {
+                journeyService.Delete(journey);
+            }
+
             base.Delete(item);
         }
     }

@@ -15,7 +15,6 @@
     using System.Drawing;
     using System.Linq;
     using System.Threading.Tasks;
-    using Web.Models.Journeys;
 
     public class UsersController : Controller
     {
@@ -24,18 +23,20 @@
         private readonly IPictureService pictureService;
         private readonly IJourneyService journeyService;
         private readonly IMessageService messageService;
+        private readonly ICarService carService;
         private readonly IMapper mapper;
         private const string IndexAction = nameof(HomeController.Index);
         private const string HomeControllerString = "Home";
         private const string UserString = "потребител";
 
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IJourneyService journeyService, IMessageService messageService, IMapper mapper)
+        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IJourneyService journeyService, IMessageService messageService, ICarService carService, IMapper mapper)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.pictureService = pictureService;
             this.journeyService = journeyService;
             this.messageService = messageService;
+            this.carService = carService;
             this.mapper = mapper;
         }
 
@@ -203,16 +204,19 @@
             {
                 TempData.AddErrorMessage(WebConstants.ErrorTryAgain);
                 return RedirectToHome();
-            }
-
-            if (userToDelete.DriverJourneys.Count() != 0 || userToDelete.PassengerJourneys.Count() != 0)
-            {
-                TempData.AddErrorMessage(WebConstants.UserHasJourneys);
-                return RedirectToHome();
-            }            
+            }    
 
             Picture profilePictureToDelete = userToDelete.ProfilePicture;
             IEnumerable<Message> messagesToDelete = userToDelete.ReceivedMessages;
+
+            messageService.Delete(messagesToDelete); // Deletes messages from database
+
+            foreach (Car car in userToDelete.Cars.ToList()) //Deletes all user's cars
+            {
+                carService.Delete(car);
+            }
+
+            await carService.SaveAsync();
 
             IdentityResult result = await userManager.DeleteAsync(userToDelete);
 
@@ -223,10 +227,9 @@
             else
             {
                 TempData.AddSuccessMessage(WebConstants.SuccessfulDelete, userToDelete.FirstName);
-                await pictureService.DeleteAsync(profilePictureToDelete); // Deletes picture from database
+                await pictureService.DeleteAsync(profilePictureToDelete); // Deletes picture from database                
 
-                messageService.Delete(messagesToDelete); // Deletes messages from database TODO: test this
-                await messageService.SaveAsync();
+                await carService.SaveAsync();
             }
 
             return RedirectToAction(nameof(Index));

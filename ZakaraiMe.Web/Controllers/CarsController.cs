@@ -117,11 +117,6 @@
                 return NotFound();
             }
 
-            foreach (Journey journey in carToDelete.Journeys.ToList())
-            {
-                journeyService.Delete(journey);
-            }
-
             IActionResult result = await base.Delete(id);
 
             if (result.GetType() == base.RedirectToHome().GetType()) // If the delete action was successful

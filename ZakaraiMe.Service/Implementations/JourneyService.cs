@@ -12,18 +12,17 @@
 
     public class JourneyService : BaseService<Journey>, IJourneyService
     {
-        private readonly ICarService carService;
         private readonly UserManager<User> userManager;
 
-        public JourneyService(IJourneyRepository repository, ICarService carService, UserManager<User> userManager) : base(repository)
+        public JourneyService(IJourneyRepository repository, UserManager<User> userManager) : base(repository)
         {
-            this.carService = carService;
             this.userManager = userManager;
         }
 
         public override async Task<bool> ForeignPropertiesExistAsync(Journey item, User currentUser)
         {
-            Car car = await carService.GetByIdAsync(item.CarId);
+            User driver = await userManager.FindByIdAsync(item.DriverId.ToString());
+            Car car = driver.Cars.FirstOrDefault(c => c.Id == item.CarId);
 
             if (car == null)
                 return false;
