@@ -93,10 +93,9 @@
                 return NotFound();
             }
 
-            if (journey.Passengers.Count() > 0)
+            foreach (UserJourney passenger in journey.Passengers)
             {
-                TempData.AddErrorMessage(WebConstants.JourneyHasPassengers);
-                return RedirectToHome();
+                this.SendEmailToPassenger(journey, passenger.User.Email, EmailConstants.RemoveSubject, EmailConstants.RemoveBody);
             }
 
             return await base.Delete(id);
@@ -143,7 +142,7 @@
             journeyService.JoinJourney(journey, currentUserId);
             await service.SaveAsync();
 
-            this.SendEmail(journey, EmailConstants.JoinSubject, EmailConstants.JoinBody);
+            this.SendEmailToDriver(journey, EmailConstants.JoinSubject, EmailConstants.JoinBody);
 
             TempData.AddSuccessMessage(WebConstants.SuccessfulJoin);
             return RedirectToHome();
@@ -178,7 +177,7 @@
             journeyService.LeaveJourney(journey, currentUserId);
             await service.SaveAsync();
 
-            this.SendEmail(journey, EmailConstants.LeaveSubject, EmailConstants.LeaveBody);
+            this.SendEmailToDriver(journey, EmailConstants.LeaveSubject, EmailConstants.LeaveBody);
 
             TempData.AddWarningMessage(WebConstants.WarningLeaveJourney);
             return RedirectToHome();
@@ -238,7 +237,7 @@
             }
         }
 
-        private async void SendEmail(Journey journey, string subject, string body)
+        private async void SendEmailToDriver(Journey journey, string subject, string body)
         {
             string receiver = journey.Driver.Email;
             string journeyDate = journey.SetOffTime.ToShortDateString();
@@ -247,6 +246,14 @@
             int allSpots = journey.Seats;
 
             await this.emailSender.SendEmailAsync(receiver, subject, String.Format(body, journeyDate, journeyTime, freeSpots, allSpots, EmailConstants.Regards));
+        }
+        
+        private async void SendEmailToPassenger(Journey journey, string email, string subject, string body)
+        {
+            string journeyDate = journey.SetOffTime.ToShortDateString();
+            string journeyTime = journey.SetOffTime.ToShortTimeString();
+
+            await this.emailSender.SendEmailAsync(email, subject, String.Format(body, journeyDate, journeyTime, EmailConstants.Regards));
         }
     }
 }

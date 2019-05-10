@@ -19,15 +19,17 @@
     {
         private readonly IPictureService pictureService;
         private readonly ICarService carService;
+        private readonly IJourneyService journeyService;
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
 
-        public CarsController(ICarService carService, UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IMapper mapper, IEmailSender emailSender) : base(carService, userManager, mapper, emailSender)
+        public CarsController(ICarService carService, UserManager<User> userManager, SignInManager<User> signInManager, IPictureService pictureService, IMapper mapper, IEmailSender emailSender, IJourneyService journeyService) : base(carService, userManager, mapper, emailSender)
         {
             this.pictureService = pictureService;
             this.userManager = userManager;
             this.carService = carService;
             this.signInManager = signInManager;
+            this.journeyService = journeyService;
         }
 
         protected override string ItemName { get; set; } = "кола";
@@ -115,10 +117,9 @@
                 return NotFound();
             }
 
-            if (carToDelete.Journeys.Count() != 0)
+            foreach (Journey journey in carToDelete.Journeys.ToList())
             {
-                TempData.AddErrorMessage(WebConstants.CarHasJourney);
-                return RedirectToHome();
+                journeyService.Delete(journey);
             }
 
             IActionResult result = await base.Delete(id);

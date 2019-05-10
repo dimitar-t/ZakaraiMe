@@ -124,7 +124,7 @@
                                                 <span class="d-block">
                                                     <a asp-controller="Users" asp-action="Details" asp-route-id="@(Model.Id)">@Model.FirstName @Model.LastName</a>
                                                 </span>
-                                                @if (journey.Passengers.Count == 0 && journey.Driver.UserName == User.Identity.Name)
+                                                @if (journey.Driver.UserName == User.Identity.Name)
                                                 {
                                                     <a asp-controller="Journeys" asp-action="Delete" asp-route-id="@journey.Id" class="btn btn-sm btn-danger">Изтрий</a>
                                                     <a asp-controller="Journeys" asp-action="Update" asp-route-id="@journey.Id" class="btn btn-sm btn-warning">Промени</a>
