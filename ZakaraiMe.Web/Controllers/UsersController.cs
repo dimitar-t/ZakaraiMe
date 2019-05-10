@@ -225,7 +225,7 @@
                 TempData.AddSuccessMessage(WebConstants.SuccessfulDelete, userToDelete.FirstName);
                 await pictureService.DeleteAsync(profilePictureToDelete); // Deletes picture from database
 
-                messageService.Delete(messagesToDelete); // Deletes messages from database
+                messageService.Delete(messagesToDelete); // Deletes messages from database TODO: test this
                 await messageService.SaveAsync();
             }
 

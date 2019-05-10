@@ -59,7 +59,6 @@
             // return all the passengers if the sender of the message is the driver of the journey
             if (journey.DriverId == currentUser.Id)
             {
-                //TODO: Test the case when there are many people in the journey.
                 return Json(mapper.Map<IEnumerable<User>, IEnumerable<UserChatViewModel>>(journey.Passengers.Select(p => p.User)));
             }
             else if (journey.Passengers.Any(p => p.UserId == currentUser.Id)) //return the driver only if the sender is one of the passengers
